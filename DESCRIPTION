@@ -1,0 +1,43 @@
+Package: dynamicimpact
+Title: Dynamic Impact
+Version: 0.0.0.9000
+Authors@R: 
+    c(
+    person("Carlos", "Perez", , "caaperezag@unal.edu.co", role = c("aut", "cre"),
+           comment = c(ORCID = "https://orcid.org/0000-0003-4937-1163")),
+    person("Johnatan", "Cardona", , "jcardonj@unal.edu.co", role = c("aut", "cre"),
+           comment = c(ORCID = "https://orcid.org/0000-0002-6370-8837"))      
+    )
+Description: This pacakges contains models for the evaluation of the impact in time series models using stan.
+License: `use_mit_license()`
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Biarch: true
+Depends: 
+    R (>= 4.0.5)
+Imports: 
+    methods,
+    Rcpp (>= 0.12.0),
+    RcppParallel (>= 5.0.1),
+    rstan (>= 2.18.1),
+    rstantools (>= 2.1.1),
+    abind (>= 1.4.5),
+    keep (>= 1.0),
+    R6 (>= 2.5.1),
+    ggplot2 (>= 3.3.5),
+    modules (>= 0.10.0),
+    dplyr (>= 1.0.7),
+    tidyr (>= 1.1.4),
+    sf (>= 1.0.5),
+    tmap (>= 3.3.2),
+    MixMatrix (>= 0.2.6),
+    bayestestR (>= 0.11.5)
+LinkingTo: 
+    BH (>= 1.66.0),
+    Rcpp (>= 0.12.0),
+    RcppEigen (>= 0.3.3.3.0),
+    RcppParallel (>= 5.0.1),
+    rstan (>= 2.18.1),
+    StanHeaders (>= 2.18.0)
+SystemRequirements: GNU make
