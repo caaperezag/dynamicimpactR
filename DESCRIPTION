@@ -5,7 +5,7 @@ Authors@R:
     c(
     person("Carlos", "Perez", , "caaperezag@unal.edu.co", role = c("aut", "cre"),
            comment = c(ORCID = "https://orcid.org/0000-0003-4937-1163")),
-    person("Johnatan", "Cardona", , "jcardonj@unal.edu.co", role = c("cre"),
+    person("Johnatan", "Cardona", , "jcardonj@unal.edu.co", role = c("ctb"),
            comment = c(ORCID = "https://orcid.org/0000-0002-6370-8837"))      
     )
 Description: This pacakges contains models for the evaluation of the impact in time series models using stan.
