@@ -88,6 +88,9 @@ generated quantities {
   Y_pred[1:N_before] = Y[1:N_before];
   theta_vec_pred[1:N_before] = theta_vec[1:N_before];
   
+  for (t in (N_before+1):N) {
+    theta_vec_pred[t] = theta_vec[N_before];
+  }
 
   for (t in 1:N) {
     mu[t] = (to_matrix(theta_vec_pred[t], P, K)') * X[t]  ;

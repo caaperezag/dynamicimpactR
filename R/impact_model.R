@@ -204,6 +204,10 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                  event_initial = self$event_initial
                                }
 
+                               if(is.null(event_initial)) {
+                                 stop("if event_initial is no defiend when then object is created, it must be given as parameter for this function.")
+                               }
+
                                stan_data = private$.get_stan_data()
                                stan_data$N_before  <- event_initial
 
@@ -225,12 +229,16 @@ StanModelVector <- R6::R6Class('StanModelVector',
                              #' plot a single variable.
                              #' @param plot_variable name of the variable to plot, the name must be in the vector variables_names.
                              #' @return a ggplot object.
-                             plot_individual = function(plot_variable) {
+                             plot_individual = function(plot_variable, event_initial=NULL) {
+
+                               if(is.null(event_initial)) {
+                                 event_initial = self$event_initial
+                               }
 
                                plot_df_individual  <- PLOT_UTILS$plot_individual(
                                  plot_variable = plot_variable,
                                  plot_df = private$.plot_df,
-                                 event_initial = self$event_initial,
+                                 event_initial = event_initial,
                                  vector_name = self$vector_name)
 
                                return(plot_df_individual)
@@ -241,16 +249,27 @@ StanModelVector <- R6::R6Class('StanModelVector',
                              #' @details
                              #' plot an aggregate of all variables.
                              #' @return a ggplot object.
-                             plot_aggregate = function() {
+                             plot_aggregate = function(event_initial=NULL) {
+
+                               if(is.null(event_initial)) {
+                                 event_initial = self$event_initial
+                               }
 
                                plot_df_aggregate  <- PLOT_UTILS$plot_aggregate(
                                  plot_df_aggregate = private$.plot_df_aggregate,
-                                 event_initial = self$event_initial,
+                                 event_initial = event_initial,
                                  vector_name = self$vector_name)
 
                                return(plot_df_aggregate)
 
                              },
+
+                             #' @details
+                             #' same as plot_aggregate.
+                             #' @return a ggplot object.
+                             plot = function() {
+                              return(plot_aggregate())
+                             }
 
                              #' @details
                              #' plot a diagnosis measure.
@@ -265,7 +284,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                               plot_type = match.arg(plot_type)
 
-                              if(plot_type == "confidence_interval") {
+                              if(plot_type == "interval") {
 
                                 plot_result  <- DIAGNOSTICS$plot_ics(private$.stan_result,
                                                                      parameter_name=parameter_name,
@@ -366,9 +385,13 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
 
 
-                             .build_plot_df = function(m_matrix, station_names) {
+                             .build_plot_df = function() {
 
                                # browser()
+
+                               if(is.null(private$.extracted_data$Y_pred)) {
+                                 stop("You need to predict bedore ploting")
+                               }
 
                                df_list <- list()
                                df_list_aggregate <- list()
