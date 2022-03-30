@@ -6,9 +6,14 @@ BaseImpactModel <- R6::R6Class('BaseImpactModel', public = list(
   vector_name = NA_character_,
   variables_names = NA_character_,
   confidence_level=0.9,
-  initialize = function(name='model impact', event_initial, X_data, Y_data, vector_name, variables_names, confidence_level) {
+  initialize = function(name='model impact', event_initial=NULL, X_data, Y_data, vector_name, variables_names, confidence_level) {
 
     self$name <-  name
+
+    if(is.null(event_initial)) {
+      event_initial  <- dim(X_data)[1] # the total time
+    }
+
     self$event_initial <-  event_initial
 
     # browser()

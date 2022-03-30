@@ -321,7 +321,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                                stan_data = list(
                                  N = private$.N_time,
-                                 N_before = event_initial,
+                                 N_before = self$event_initial,
                                  K = private$.N_elem,
                                  P = private$.N_elem,
                                  Y = self$Y_data[,1,],
