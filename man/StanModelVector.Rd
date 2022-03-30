@@ -37,6 +37,7 @@ This class is used to fit Bayesian model when the response is a vector.
 \item \href{#method-predict}{\code{StanModelVector$predict()}}
 \item \href{#method-plot_individual}{\code{StanModelVector$plot_individual()}}
 \item \href{#method-plot_aggregate}{\code{StanModelVector$plot_aggregate()}}
+\item \href{#method-plot}{\code{StanModelVector$plot()}}
 \item \href{#method-plot_diagnosis}{\code{StanModelVector$plot_diagnosis()}}
 \item \href{#method-clone}{\code{StanModelVector$clone()}}
 }
@@ -45,7 +46,6 @@ This class is used to fit Bayesian model when the response is a vector.
 \out{<details open ><summary>Inherited methods</summary>}
 \itemize{
 \item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_end_time">}\href{../../dynamicimpact/html/BaseImpactModel.html#method-get_end_time}{\code{dynamicimpact::BaseImpactModel$get_end_time()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="plot">}\href{../../dynamicimpact/html/BaseImpactModel.html#method-plot}{\code{dynamicimpact::BaseImpactModel$plot()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="predic">}\href{../../dynamicimpact/html/BaseImpactModel.html#method-predic}{\code{dynamicimpact::BaseImpactModel$predic()}}\out{</span>}
 }
 \out{</details>}
@@ -147,7 +147,7 @@ make a prediction using MCMC.
 \if{latex}{\out{\hypertarget{method-plot_individual}{}}}
 \subsection{Method \code{plot_individual()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{StanModelVector$plot_individual(plot_variable)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{StanModelVector$plot_individual(plot_variable, event_initial = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -170,11 +170,27 @@ a ggplot object.
 \if{latex}{\out{\hypertarget{method-plot_aggregate}{}}}
 \subsection{Method \code{plot_aggregate()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{StanModelVector$plot_aggregate()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{StanModelVector$plot_aggregate(event_initial = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Details}{
 plot an aggregate of all variables.
+}
+
+\subsection{Returns}{
+a ggplot object.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-plot"></a>}}
+\if{latex}{\out{\hypertarget{method-plot}{}}}
+\subsection{Method \code{plot()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{StanModelVector$plot()}\if{html}{\out{</div>}}
+}
+
+\subsection{Details}{
+same as plot_aggregate.
 }
 
 \subsection{Returns}{

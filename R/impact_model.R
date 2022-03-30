@@ -269,7 +269,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
                              #' @return a ggplot object.
                              plot = function() {
                               return(plot_aggregate())
-                             }
+                             },
 
                              #' @details
                              #' plot a diagnosis measure.

@@ -44,8 +44,8 @@ This class is used to fit Bayesian model when the response is a vector with asso
 \out{<details ><summary>Inherited methods</summary>}
 \itemize{
 \item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_end_time">}\href{../../dynamicimpact/html/BaseImpactModel.html#method-get_end_time}{\code{dynamicimpact::BaseImpactModel$get_end_time()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="plot">}\href{../../dynamicimpact/html/BaseImpactModel.html#method-plot}{\code{dynamicimpact::BaseImpactModel$plot()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="predic">}\href{../../dynamicimpact/html/BaseImpactModel.html#method-predic}{\code{dynamicimpact::BaseImpactModel$predic()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="plot">}\href{../../dynamicimpact/html/StanModelVector.html#method-plot}{\code{dynamicimpact::StanModelVector$plot()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="plot_aggregate">}\href{../../dynamicimpact/html/StanModelVector.html#method-plot_aggregate}{\code{dynamicimpact::StanModelVector$plot_aggregate()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="plot_diagnosis">}\href{../../dynamicimpact/html/StanModelVector.html#method-plot_diagnosis}{\code{dynamicimpact::StanModelVector$plot_diagnosis()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="plot_individual">}\href{../../dynamicimpact/html/StanModelVector.html#method-plot_individual}{\code{dynamicimpact::StanModelVector$plot_individual()}}\out{</span>}
