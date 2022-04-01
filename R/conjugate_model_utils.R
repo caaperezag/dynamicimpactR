@@ -4,13 +4,64 @@ MODULE_IMPACT <-  modules::module(
   
   {
   
-    
     import("keep", "karray")
     import("abind", "abind")
     import('stats')
     
+    MATRIX_LIST <- c("ML", "IDENTITY")
+
     # DEFAULT_DISCOUNTS <- seq(from = 0.7, to = 0.97, length.out=100)
     DEFAULT_DISCOUNTS <- seq(from = 0.7, to = 0.99, length.out=100)
+
+    get_variable_matrix <- function(matrix_type, Y_data, event_initial= NULL) {
+    
+    
+      if( !(MATRIX_LIST %in% matrix_type) ) {
+        stop("unknow matrix type")
+      }
+      
+      if(is.null(event_initial)) {
+        event_initial <-  dim(Y_data)[1]
+      } else {
+        event_initial <- min(dim(Y_data)[1], event_initial)
+      }
+      
+      
+      n_dim <- Y_data |> dim()
+        
+      if( (n_dim %in% c(2, 3)) ) {
+        
+        if(MATRIX_LIST == "ml") {
+          
+          if(n_dim == 3) {
+            
+            result <-  estamate_ml_from_array( Y_data [1:event_initial,,] )$U
+            
+          } else if (n_dim == 2 ) {
+            Y_data <- Y_data |> 
+              array(dim=c(dim(Y_data)[1], 1, dim(Y_data)[2]))
+            
+            result <-  estamate_ml_from_array( Y_data [1:event_initial,,] )$v
+          } 
+          
+          
+        } else  {
+          result <-  diag(dim(Y_data)[2])
+          
+        }
+        
+        
+        
+      } else {
+        
+        stop("Y must be a 2D or 3D array")
+        
+      }
+      
+
+      return(result)
+    }
+  
     
     matrix_trace <- function(m_matrix) {
       

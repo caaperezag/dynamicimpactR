@@ -205,7 +205,8 @@ a ggplot object.
 \if{html}{\out{<div class="r">}}\preformatted{StanModelVector$plot_diagnosis(
   parameter_name = "theta_vec",
   measure_name = "Rhat",
-  plot_type = c("interval", "boxplot")
+  plot_type = c("interval", "boxplot"),
+  event_initial = NULL
 )}\if{html}{\out{</div>}}
 }
 

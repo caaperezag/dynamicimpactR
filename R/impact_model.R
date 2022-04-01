@@ -138,7 +138,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                                  if(is.null(predefined_cov_matrix)) {
 
-                                   predefined_cov_matrix_type  <- MODULE_MODEL_RUNNER$get_variable_matrix(
+                                   predefined_cov_matrix_type  <- MODULE_IMPACT$get_variable_matrix(
                                      matrix_type=predefined_cov_matrix_type,
                                      Y_data=Y_data,
                                      event_initial=event_initial
@@ -200,13 +200,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
                              #' @param event_initial time when event of interest start, if NULL the event_initial set in the initialization is used.
                              predict = function(event_initial=NULL) {
 
-                               if(is.null(event_initial)) {
-                                 event_initial = self$event_initial
-                               }
-
-                               if(is.null(event_initial)) {
-                                 stop("if event_initial is no defiend when then object is created, it must be given as parameter for this function.")
-                               }
+                               event_initial = private$.get_event_initial(event_initial)
 
                                stan_data = private$.get_stan_data()
                                stan_data$N_before  <- event_initial
@@ -231,9 +225,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
                              #' @return a ggplot object.
                              plot_individual = function(plot_variable, event_initial=NULL) {
 
-                               if(is.null(event_initial)) {
-                                 event_initial = self$event_initial
-                               }
+                               event_initial = private$.get_event_initial(event_initial)
 
                                plot_df_individual  <- PLOT_UTILS$plot_individual(
                                  plot_variable = plot_variable,
@@ -251,9 +243,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
                              #' @return a ggplot object.
                              plot_aggregate = function(event_initial=NULL) {
 
-                               if(is.null(event_initial)) {
-                                 event_initial = self$event_initial
-                               }
+                               event_initial = private$.get_event_initial(event_initial)
 
                                plot_df_aggregate  <- PLOT_UTILS$plot_aggregate(
                                  plot_df_aggregate = private$.plot_df_aggregate,
@@ -279,8 +269,13 @@ StanModelVector <- R6::R6Class('StanModelVector',
                              #' @return a ggplot object.
                              plot_diagnosis = function(parameter_name="theta_vec",
                                                        measure_name="Rhat",
-                                                       plot_type=c("interval", "boxplot")
+                                                       plot_type=c("interval", "boxplot"),
+                                                       event_initial=NULL
                                                        ) {
+
+                              
+                              event_initial = private$.get_event_initial(event_initial)
+                              
 
                               plot_type = match.arg(plot_type)
 
@@ -289,14 +284,14 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                 plot_result  <- DIAGNOSTICS$plot_ics(private$.stan_result,
                                                                      parameter_name=parameter_name,
                                                                      variable_name=measure_name) +
-                                                geom_vline(xintercept = self$event_initial, linetype="dashed", color="red")
+                                                geom_vline(xintercept = event_initial, linetype="dashed", color="red")
 
                               } else {
 
                                   plot_result  <- DIAGNOSTICS$box_plot(private$.stan_result,
                                                                        parameter_name=parameter_name,
                                                                        variable_name=measure_name) +
-                                                  geom_vline(xintercept = self$event_initial, linetype="dashed", color="red")
+                                                  geom_vline(xintercept = event_initial, linetype="dashed", color="red")
                               }
 
                               return(plot_result)
@@ -317,6 +312,20 @@ StanModelVector <- R6::R6Class('StanModelVector',
                              .scaled_data_y = NA_real_,
                              .predict_model_path = NA_character_,
 
+                             .get_event_initial = function(event_initial=NULL) {
+
+                                if(is.null(event_initial)) {
+                                  event_initial = self$event_initial
+                                }
+
+                                if(is.null(event_initial)) {
+                                  stop("if event_initial is no defiend when then object is created, it must be given as parameter for this function.")
+                                }
+
+                                return(event_initial)
+
+                             },
+
                              .get_stan_data = function() {
 
                                stan_data = list(
@@ -333,17 +342,17 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                return(stan_data)
 
                              },
-                             .build_df = function(m_matrix, station_names) {
+                             .build_df = function(m_matrix, station_names, event_initial) {
+
+                               event_initial = private$.get_event_initial(event_initial)
 
                                df <- data.frame(m_matrix)
                                colnames(df) <- station_names
                                df$t <- 1:nrow(df)
 
-
-
                                df <- df |> dplyr::pivot_longer(-t, names_to=self$vector_name, values_to="value")
 
-                               df$before = ifelse(df$t > self$event_initial, "after", "before")
+                               df$before = ifelse(df$t > event_initial, "after", "before")
 
                                return(df)
                              },
@@ -385,20 +394,16 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
 
 
-                             .build_plot_df = function() {
+                             .build_plot_df = function(event_initial=NULL) {
 
-                               # browser()
-
-                               if(is.null(private$.extracted_data$Y_pred)) {
-                                 stop("You need to predict bedore ploting")
-                               }
+                               event_initial = private$.get_event_initial(event_initial)
 
                                df_list <- list()
                                df_list_aggregate <- list()
 
                                y_pred_unscaled <- private$.extracted_data$Y_pred |>
                                  MODULES_SCALE$unscale_array_3d(result_list = private$.scaled_data_y)
-                               #browser()
+                               
                                difference_unscaled <- private$.extracted_data$Y_pred |>
                                  MODULES_SCALE$unscale_array_3d(
                                    result_list = private$.scaled_data_y,
@@ -406,14 +411,14 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                  )
 
 
-                               #difference_unscaled <- -difference_unscaled
+                               
 
                                cumsum_unscaled <- private$.extracted_data$Y_pred |>
                                  MODULES_SCALE$unscale_cumsum(result_list = private$.scaled_data_y,
-                                                              start_event = self$event_initial,
+                                                              start_event = event_initial,
                                                               m_diff_array = private$.original_y[,1,] )
 
-                               #cumsum_unscaled <- -cumsum_unscaled
+                               
 
 
 
@@ -548,7 +553,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                private$.plot_df$type <- private$.plot_df$type |>
                                  factor(levels=c("prediction", 'error', 'cumsum'))
 
-                               private$.plot_df$is_impact  <- private$.plot_df$time_index  >= self$event_initial
+                               private$.plot_df$is_impact  <- private$.plot_df$time_index  >= event_initial
 
 
                                private$.plot_df_aggregate <- do.call(rbind, df_list_aggregate)
@@ -556,7 +561,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                  factor(levels=c("prediction", 'error', 'cumsum'))
 
                                private$.plot_df_aggregate$is_impact  <-
-                                 private$.plot_df_aggregate$time_index  >= self$event_initial
+                                 private$.plot_df_aggregate$time_index  >= event_initial
 
 
                                return(private$.plot_df)
