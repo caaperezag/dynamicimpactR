@@ -213,7 +213,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                                private$.extracted_data <- private$.extracted_data  |> append(extracted_data2)
 
-                               private$.build_plot_df()
+                               private$.build_plot_df(event_initial)
 
                                return(extracted_data2)
 
