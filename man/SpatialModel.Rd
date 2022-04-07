@@ -43,8 +43,8 @@ This class is used to fit Bayesian model when the response is a vector with asso
 \if{html}{
 \out{<details ><summary>Inherited methods</summary>}
 \itemize{
+\item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_dates_df">}\href{../../dynamicimpact/html/BaseImpactModel.html#method-get_dates_df}{\code{dynamicimpact::BaseImpactModel$get_dates_df()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_end_time">}\href{../../dynamicimpact/html/BaseImpactModel.html#method-get_end_time}{\code{dynamicimpact::BaseImpactModel$get_end_time()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="predic">}\href{../../dynamicimpact/html/BaseImpactModel.html#method-predic}{\code{dynamicimpact::BaseImpactModel$predic()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="plot">}\href{../../dynamicimpact/html/StanModelVector.html#method-plot}{\code{dynamicimpact::StanModelVector$plot()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="plot_aggregate">}\href{../../dynamicimpact/html/StanModelVector.html#method-plot_aggregate}{\code{dynamicimpact::StanModelVector$plot_aggregate()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="plot_diagnosis">}\href{../../dynamicimpact/html/StanModelVector.html#method-plot_diagnosis}{\code{dynamicimpact::StanModelVector$plot_diagnosis()}}\out{</span>}
@@ -73,6 +73,7 @@ This class is used to fit Bayesian model when the response is a vector with asso
   stan_fit = NA_real_,
   n_spatial_kernels = 2,
   thin = 1,
+  dates = NULL,
   coordinates
 )}\if{html}{\out{</div>}}
 }

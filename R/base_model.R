@@ -130,7 +130,7 @@ private = list(
     }
 
     dates_df  <- data.frame(
-      "time_index" = time_index
+      "time_index" = time_index,
       "Date" = dates
 
     )

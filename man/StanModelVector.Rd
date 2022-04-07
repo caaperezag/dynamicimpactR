@@ -45,8 +45,8 @@ This class is used to fit Bayesian model when the response is a vector.
 \if{html}{
 \out{<details open ><summary>Inherited methods</summary>}
 \itemize{
+\item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_dates_df">}\href{../../dynamicimpact/html/BaseImpactModel.html#method-get_dates_df}{\code{dynamicimpact::BaseImpactModel$get_dates_df()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_end_time">}\href{../../dynamicimpact/html/BaseImpactModel.html#method-get_end_time}{\code{dynamicimpact::BaseImpactModel$get_end_time()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="predic">}\href{../../dynamicimpact/html/BaseImpactModel.html#method-predic}{\code{dynamicimpact::BaseImpactModel$predic()}}\out{</span>}
 }
 \out{</details>}
 }
@@ -69,7 +69,8 @@ This class is used to fit Bayesian model when the response is a vector.
   predefined_cov_matrix_type = c("mcmc", "ml", "identity"),
   predefined_cov_matrix = NULL,
   stan_fit = NA_real_,
-  thin = 1
+  thin = 1,
+  dates = NULL
 )}\if{html}{\out{</div>}}
 }
 

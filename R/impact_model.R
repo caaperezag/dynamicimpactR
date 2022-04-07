@@ -249,7 +249,9 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                plot_df_aggregate  <- PLOT_UTILS$plot_aggregate(
                                  plot_df_aggregate = private$.plot_df_aggregate,
                                  event_initial = event_initial,
-                                 vector_name = self$vector_name)
+                                 vector_name = self$vector_name,
+                                 dates_df = self$get_dates_df()
+                                )
 
                                return(plot_df_aggregate)
 
