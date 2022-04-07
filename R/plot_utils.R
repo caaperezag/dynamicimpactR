@@ -105,15 +105,23 @@ PLOT_UTILS <- modules::module({
 
   }
 
+   
+
   plot_aggregate <- function(plot_df_aggregate, event_initial, vector_name, dates_df=NULL, break_dates=NULL, exclude_input=F) {
 
     # browser()
     #
+
+    if(is.null(dates_df)) {
+      dates_df  <- data.frame(
+        time_index =  plot_df$time_index  |> unique(),
+        Date =  plot_df$time_index  |> unique()
+
+      )
+    }
+
     plot_df_aggregate <-
     plot_df_aggregate |>
-      # dplyr::filter() |>
-      # dplyr::filter(type != 'error') |>
-      # dplyr::filter(class != 'input') |>
       dplyr::mutate(class = class |> as.character()) |>
       dplyr::left_join(dates_df, by='time_index')
 
@@ -141,13 +149,7 @@ PLOT_UTILS <- modules::module({
 
     }
 
-    if(is.null(dates_df)) {
-      dates_df  <- data.frame(
-        time_index =  plot_df$time_index  |> unique(),
-        Date =  plot_df$time_index  |> unique()
-
-      )
-    }
+    
 
     if(is.null(break_dates)) {
       break_dates = waiver()

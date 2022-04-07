@@ -47,7 +47,8 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                                     predefined_cov_matrix_type = c("mcmc", "ml", "identity"),
                                                     predefined_cov_matrix = NULL,
                                                     stan_fit=NA_real_,
-                                                    thin=1) {
+                                                    thin=1,
+                                                    dates=NULL) {
 
                                self$thin  <- thin
 
@@ -63,7 +64,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                                super$initialize(name, event_initial, X_data, Y_data,
                                                 vector_name, variables_names,
-                                                confidence_level)
+                                                confidence_level, dates)
 
                                if(!is.na(stan_fit)) {
                                  private$.stan_result <- stan_fit
@@ -258,7 +259,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
                              #' same as plot_aggregate.
                              #' @return a ggplot object.
                              plot = function() {
-                              return(plot_aggregate())
+                              return(self$plot_aggregate())
                              },
 
                              #' @details

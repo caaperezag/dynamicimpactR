@@ -32,7 +32,9 @@ Imports:
     sf (>= 1.0.5),
     tmap (>= 3.3.2),
     MixMatrix (>= 0.2.6),
-    bayestestR (>= 0.11.5)
+    bayestestR (>= 0.11.5),
+    lubridate (>= 1.8.0),
+    stargazer (>= 5.2.3)
 LinkingTo: 
     BH (>= 1.66.0),
     Rcpp (>= 0.12.0),

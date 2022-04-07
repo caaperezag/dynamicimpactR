@@ -3,9 +3,9 @@ ImpactModel <- R6::R6Class('ImpactModel',
                            inherit = BaseImpactModel,
                            public = list(
                              n_simul = 1000,
-                             initialize  = function(name='model impact', event_initial, X_data, Y_data, vector_name, variables_names, confidence_level, n_simul) {
+                             initialize  = function(name='model impact', event_initial, X_data, Y_data, vector_name, variables_names, confidence_level, n_simul, dates=NULL) {
 
-                               super$initialize(name, event_initial, X_data, Y_data, vector_name, variables_names, confidence_level)
+                               super$initialize(name, event_initial, X_data, Y_data, vector_name, variables_names, confidence_level, dates)
 
                                self$n_simul <- n_simul
 

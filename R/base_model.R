@@ -6,7 +6,7 @@ BaseImpactModel <- R6::R6Class('BaseImpactModel', public = list(
   vector_name = NA_character_,
   variables_names = NA_character_,
   confidence_level=0.9,
-  initialize = function(name='model impact', event_initial=NULL, X_data, Y_data, vector_name, variables_names, confidence_level) {
+  initialize = function(name='model impact', event_initial=NULL, X_data, Y_data, vector_name, variables_names, confidence_level, dates=NULL) {
 
     self$name <-  name
 
@@ -56,7 +56,19 @@ BaseImpactModel <- R6::R6Class('BaseImpactModel', public = list(
     self$vector_name <-  vector_name
     self$variables_names <-  variables_names
 
+    private$.set_dates_df(X_data, dates)
 
+
+  },
+
+  get_dates_df = function() {
+
+
+    if( is.na(private$.dates_df) ) {
+      return(NULL)
+    }
+
+    return(private$.dates_df)
 
   },
 
@@ -69,7 +81,7 @@ BaseImpactModel <- R6::R6Class('BaseImpactModel', public = list(
     stop('No implemented')
 
   },
-  predic = function() {
+  predict = function() {
 
     stop('No implemented')
 
@@ -82,6 +94,7 @@ BaseImpactModel <- R6::R6Class('BaseImpactModel', public = list(
 
 ),
 private = list(
+  .dates_df = NA_real_,
   .residuals = NA_real_,
   .original_x = NA_real_,
   .original_y = NA_real_,
@@ -95,6 +108,36 @@ private = list(
   .get_unscaled_X = function() {
     MODULES_SCALE$unscale_matrix(input_matrix = self$X_data,
                                  result_list = private$.scaled_data_x)
+  },
+
+  .set_dates_df = function(X_data, dates) {
+
+    if(is.null(dates)) {
+      return(dates)
+    }
+
+    time_index  <- 1:(dim(X_data)[1])
+
+    if(!lubridate::is.Date(dates) ) {
+      stop("the dates are invalid")
+    }
+
+
+    if(length(time_index) != length(time_index)) {
+
+      stop("the legend of dates is different from the first dimension of the X_data and Y_data matrices")
+
+    }
+
+    dates_df  <- data.frame(
+      "time_index" = time_index
+      "Date" = dates
+
+    )
+
+    private$.dates_df = dates_df
+
+
   }
 ))
 

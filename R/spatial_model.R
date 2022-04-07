@@ -47,6 +47,7 @@ SpatialModel <- R6::R6Class('SpatialVectorModel',
                                                      stan_fit=NA_real_,
                                                      n_spatial_kernels=2,
                                                      thin=1,
+                                                     dates=NULL,
                                                      coordinates) {
 
 
@@ -58,7 +59,8 @@ SpatialModel <- R6::R6Class('SpatialVectorModel',
                                                    n_simul, n_chains, n_cores,
                                                    predefined_cov_matrix,
                                                    stan_fit,
-                                                   thin)
+                                                   thin,
+                                                   dates)
 
 
 
