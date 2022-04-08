@@ -1,4 +1,4 @@
-module_summary <- modules::module({
+MODULE_SUMMARY <- modules::module({
   
   import("dplyr")
   import("tidyr")

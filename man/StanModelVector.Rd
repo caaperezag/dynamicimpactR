@@ -39,6 +39,7 @@ This class is used to fit Bayesian model when the response is a vector.
 \item \href{#method-plot_aggregate}{\code{StanModelVector$plot_aggregate()}}
 \item \href{#method-plot}{\code{StanModelVector$plot()}}
 \item \href{#method-plot_diagnosis}{\code{StanModelVector$plot_diagnosis()}}
+\item \href{#method-summary}{\code{StanModelVector$summary()}}
 \item \href{#method-clone}{\code{StanModelVector$clone()}}
 }
 }
@@ -229,6 +230,15 @@ plot a diagnosis measure.
 \subsection{Returns}{
 a ggplot object.
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-summary"></a>}}
+\if{latex}{\out{\hypertarget{method-summary}{}}}
+\subsection{Method \code{summary()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{StanModelVector$summary(dates_list, ci = 0.95)}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

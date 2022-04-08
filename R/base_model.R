@@ -88,6 +88,10 @@ BaseImpactModel <- R6::R6Class('BaseImpactModel', public = list(
   },
   plot = function() {
     stop('No implemented')
+  },
+
+  summary = function(dates_list, ci=0.95) {
+    stop('No implemented')
   }
 
 
@@ -119,7 +123,7 @@ private = list(
     time_index  <- 1:(dim(X_data)[1])
 
     if(!lubridate::is.Date(dates) ) {
-      stop("the dates are invalid")
+      stop("the dates are not invalid")
     }
 
 

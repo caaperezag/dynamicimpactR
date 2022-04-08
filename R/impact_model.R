@@ -212,6 +212,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                                extracted_data2 <- result_redraw |> rstan::extract()
 
+                               private$.extracted_data <- rstan::extract(private$.stan_result)
                                private$.extracted_data <- private$.extracted_data  |> append(extracted_data2)
 
                                private$.build_plot_df(event_initial)
@@ -298,7 +299,25 @@ StanModelVector <- R6::R6Class('StanModelVector',
                               }
 
                               return(plot_result)
+                             },
+
+
+                             summary = function(dates_list, ci=0.95) {
+                                
+                                dates_df  <- self$get_dates_df()
+
+                                MODULE_SUMMARY$get_get_multiple_impacts_stan(
+                                      model=self, 
+                                      impact_list=dates_list, 
+                                      dates_df=dates_df, 
+                                      ci=ci
+                                )
+
+
                              }
+
+                             
+
                            ),
                            private = list(
                              .stan_result = NA_real_,

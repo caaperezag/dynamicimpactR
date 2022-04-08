@@ -50,6 +50,7 @@ This class is used to fit Bayesian model when the response is a vector with asso
 \item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="plot_diagnosis">}\href{../../dynamicimpact/html/StanModelVector.html#method-plot_diagnosis}{\code{dynamicimpact::StanModelVector$plot_diagnosis()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="plot_individual">}\href{../../dynamicimpact/html/StanModelVector.html#method-plot_individual}{\code{dynamicimpact::StanModelVector$plot_individual()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="predict">}\href{../../dynamicimpact/html/StanModelVector.html#method-predict}{\code{dynamicimpact::StanModelVector$predict()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="summary">}\href{../../dynamicimpact/html/StanModelVector.html#method-summary}{\code{dynamicimpact::StanModelVector$summary()}}\out{</span>}
 }
 \out{</details>}
 }
