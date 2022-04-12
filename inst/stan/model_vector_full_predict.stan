@@ -89,8 +89,8 @@ generated quantities {
   theta_vec_pred[1:N_before] = theta_vec[1:N_before];
   
   for (t in (N_before+1):N) {
-    print("n_before: ", N_before);
-    print("t: ", t);
+    // print("n_before: ", N_before);
+    // print("t: ", t);
     theta_vec_pred[t] = theta_vec[N_before];
   }
 
