@@ -236,7 +236,7 @@ a ggplot object.
 \if{latex}{\out{\hypertarget{method-summary}{}}}
 \subsection{Method \code{summary()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{StanModelVector$summary(dates_list, ci = 0.95)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{StanModelVector$summary(dates_list, confidence_level = NA)}\if{html}{\out{</div>}}
 }
 
 }

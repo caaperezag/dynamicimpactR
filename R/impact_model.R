@@ -210,12 +210,27 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                                            draws = as.matrix(private$.stan_result),
                                                            data=stan_data)
 
+                               UTILS$gc_quiet()
+
                                extracted_data2 <- result_redraw |> rstan::extract()
 
+                               UTILS$gc_quiet()
+
+                               private$.extracted_data  <- NA_real_
+
+                               UTILS$gc_quiet()
+
                                private$.extracted_data <- rstan::extract(private$.stan_result)
+
+                               UTILS$gc_quiet()
+
                                private$.extracted_data <- private$.extracted_data  |> append(extracted_data2)
 
+                               UTILS$gc_quiet()
+
                                private$.build_plot_df(event_initial)
+
+                               UTILS$gc_quiet()
 
                                return(extracted_data2)
 
@@ -226,6 +241,10 @@ StanModelVector <- R6::R6Class('StanModelVector',
                              #' @param plot_variable name of the variable to plot, the name must be in the vector variables_names.
                              #' @return a ggplot object.
                              plot_individual = function(plot_variable, event_initial=NULL) {
+
+                               UTILS$gc_quiet()
+
+                               private$.can_plot(event_initial)
 
                                event_initial = private$.get_event_initial(event_initial)
 
@@ -244,6 +263,10 @@ StanModelVector <- R6::R6Class('StanModelVector',
                              #' plot an aggregate of all variables.
                              #' @return a ggplot object.
                              plot_aggregate = function(event_initial=NULL) {
+
+                               UTILS$gc_quiet()
+
+                               private$.can_plot(event_initial)
 
                                event_initial = private$.get_event_initial(event_initial)
 
@@ -277,9 +300,9 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                                        event_initial=NULL
                                                        ) {
 
-                              
+
                               event_initial = private$.get_event_initial(event_initial)
-                              
+
 
                               plot_type = match.arg(plot_type)
 
@@ -302,21 +325,29 @@ StanModelVector <- R6::R6Class('StanModelVector',
                              },
 
 
-                             summary = function(dates_list, ci=0.95) {
-                                
+                             summary = function(dates_list, confidence_level=NA) {
+
+                                if(is.na(confidence_level)) {
+                                  confidence_level = self$confidence_level
+                                }
+
+                                if(is.na(confidence_level)) {
+                                  stop("The confidence leven can't be NA")
+                                }
+
                                 dates_df  <- self$get_dates_df()
 
                                 MODULE_SUMMARY$get_get_multiple_impacts_stan(
-                                      model=self, 
-                                      impact_list=dates_list, 
-                                      dates_df=dates_df, 
-                                      ci=ci
+                                      model=self,
+                                      impact_list=dates_list,
+                                      dates_df=dates_df,
+                                      ci=confidence_level
                                 )
 
 
                              }
 
-                             
+
 
                            ),
                            private = list(
@@ -425,7 +456,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                                y_pred_unscaled <- private$.extracted_data$Y_pred |>
                                  MODULES_SCALE$unscale_array_3d(result_list = private$.scaled_data_y)
-                               
+
                                difference_unscaled <- private$.extracted_data$Y_pred |>
                                  MODULES_SCALE$unscale_array_3d(
                                    result_list = private$.scaled_data_y,
@@ -433,14 +464,14 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                  )
 
 
-                               
+
 
                                cumsum_unscaled <- private$.extracted_data$Y_pred |>
                                  MODULES_SCALE$unscale_cumsum(result_list = private$.scaled_data_y,
                                                               start_event = event_initial,
                                                               m_diff_array = private$.original_y[,1,] )
 
-                               
+
 
 
 
@@ -587,6 +618,31 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
 
                                return(private$.plot_df)
+
+                             },
+
+                             .can_plot = function(event_initial) {
+
+                                can_plot = TRUE
+
+                                if(is.na(private$.plot_df)) {
+                                  can_plot = FALSE
+                                }
+
+                                if(is.na(private$plot_df_aggregate)) {
+                                  can_plot = FALSE
+                                }
+
+                                if(!can_plot) {
+
+                                  message("The model will make the predictions before ploting")
+
+                                  self$predict(event_initial=event_initial)
+                                }
+
+                                
+
+                                return(can_plot)
 
                              }
 

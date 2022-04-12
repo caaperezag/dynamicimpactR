@@ -77,6 +77,12 @@ UTILS <- modules::module({
     return(result_df)
     
   }
+
+  # taken from :
+  # https://stackoverflow.com/questions/26553602/release-memory-by-gc-in-silence
+  gc_quiet <- function(quiet = TRUE, ...) {
+    if(quiet) invisible(gc()) else gc(...)
+  }
   
   
 })
