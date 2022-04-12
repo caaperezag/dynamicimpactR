@@ -330,22 +330,12 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                              summary = function(dates_list, confidence_level=NA) {
 
-                                if(is.na(confidence_level)) {
-                                  confidence_level = self$confidence_level
-                                }
-
-                                if(is.na(confidence_level)) {
-                                  stop("The confidence leven can't be NA")
-                                }
-
-                                dates_df  <- self$get_dates_df()
-
-                                MODULE_SUMMARY$get_get_multiple_impacts_stan(
-                                      model=self,
-                                      impact_list=dates_list,
-                                      dates_df=dates_df,
-                                      ci=confidence_level
+                                private$.build_summary(
+                                  dates_list=dates_list, 
+                                  confidence_level=confidence_level
                                 )
+
+                                MODULE_SUMMARY$result_summary(private$.summary_result )
 
 
                              }
@@ -354,6 +344,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                            ),
                            private = list(
+                             .summary_result = NA_real_,
                              .stan_result = NA_real_,
                              .predefined_cov_matrix = NA_real_,
                              .use_predefined_stations_var = 0,
@@ -623,6 +614,29 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
 
                                return(private$.plot_df)
+
+                             },
+
+                             .build_summary = function(dates_list, confidence_level) {
+
+                                if(is.na(confidence_level)) {
+                                  confidence_level = self$confidence_level
+                                }
+
+                                if(is.na(confidence_level)) {
+                                  stop("The confidence leven can't be NA")
+                                }
+
+                                dates_df  <- self$get_dates_df()
+
+                                private$.summary_result  <- MODULE_SUMMARY$get_get_multiple_impacts_stan(
+                                      model=self,
+                                      impact_list=dates_list,
+                                      dates_df=dates_df,
+                                      ci=confidence_level
+                                )
+
+                                return(private$.summary_resul)
 
                              },
 

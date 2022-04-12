@@ -280,6 +280,8 @@ MODULE_SUMMARY <- modules::module({
   get_get_multiple_impacts_stan <- function(model, impact_list, dates_df=NULL, ci=0.95) {
 
 
+    UTILS$gc_quiet()
+
     if(is.null(dates_df)) {
        dates_df  <- model$get_dates_df()
     }
@@ -288,6 +290,8 @@ MODULE_SUMMARY <- modules::module({
     result_list  <- list()
 
     for(index in 1:length(impact_list)) {
+
+      UTILS$gc_quiet()
 
       #current_index  <- length(result_list) + 1
 
@@ -332,6 +336,8 @@ MODULE_SUMMARY <- modules::module({
             ci=ci
       )
 
+      UTILS$gc_quiet()
+
       result_list[[elem_name]]  <- list(
         "impact_df"  = impact_df,
 
@@ -346,6 +352,8 @@ MODULE_SUMMARY <- modules::module({
 
 
     }
+
+    UTILS$gc_quiet()
 
     return(result_list)
 
