@@ -213,9 +213,13 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                                            draws = as.matrix(private$.stan_result),
                                                            data=stan_data)
 
+                               # rm(stan_data)
+
                                UTILS$gc_quiet()
 
                                extracted_data2 <- result_redraw |> rstan::extract()
+
+                               rm(result_redraw)
 
                                UTILS$gc_quiet()
 
@@ -228,6 +232,8 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                UTILS$gc_quiet()
 
                                private$.extracted_data <- private$.extracted_data  |> append(extracted_data2)
+
+                               rm(extracted_data2)
 
                                UTILS$gc_quiet()
 
@@ -636,7 +642,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                       ci=confidence_level
                                 )
 
-                                return(private$.summary_resul)
+                                return(private$.summary_result)
 
                              },
 

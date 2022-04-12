@@ -277,7 +277,7 @@ MODULE_SUMMARY <- modules::module({
 
   }
   
-  get_get_multiple_impacts_stan <- function(model, impact_list, dates_df=NULL, ci=0.95) {
+  get_get_multiple_impacts_stan <- function(model, impact_list, dates_df=NULL, ci=0.9) {
 
 
     UTILS$gc_quiet()
@@ -353,6 +353,7 @@ MODULE_SUMMARY <- modules::module({
 
     }
 
+    rm(model)
     UTILS$gc_quiet()
 
     return(result_list)
