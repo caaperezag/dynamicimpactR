@@ -206,8 +206,8 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                                event_initial = private$.get_event_initial(event_initial)
 
-                               stan_data = private$.get_stan_data()
-                               stan_data$N_before  <- event_initial
+                               stan_data = private$.get_stan_data(event_initial)
+                               
 
                                result_redraw <- rstan::gqs(private$.predict_model_path,
                                                            draws = as.matrix(private$.stan_result),
