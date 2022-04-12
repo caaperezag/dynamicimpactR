@@ -241,7 +241,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                                UTILS$gc_quiet()
 
-                               return(extracted_data2)
+                               #return(extracted_data2)
 
                              },
 
