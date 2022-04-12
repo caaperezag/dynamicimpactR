@@ -173,7 +173,10 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                                # browser()
 
-                               stan_data = private$.get_stan_data()
+
+                               stan_data = private$.get_stan_data(
+                                 self$get_end_time()
+                               )
 
 
                                options(mc.cores = self$n_cores)
@@ -379,11 +382,13 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                              },
 
-                             .get_stan_data = function() {
+                             .get_stan_data = function(event_initial) {
+                               
+                               event_initial = private$.get_event_initial(event_initial)
 
                                stan_data = list(
                                  N = private$.N_time,
-                                 N_before = self$event_initial,
+                                 N_before = event_initial,
                                  K = private$.N_elem,
                                  P = private$.N_elem,
                                  Y = self$Y_data[,1,],
@@ -629,7 +634,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                   can_plot = FALSE
                                 }
 
-                                if(is.na(private$plot_df_aggregate)) {
+                                if(is.na(private$.plot_df_aggregate)) {
                                   can_plot = FALSE
                                 }
 
