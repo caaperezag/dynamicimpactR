@@ -4,7 +4,7 @@ MODULE_SUMMARY <- modules::module({
   import("tidyr")
   import("stats")
   
-  PREDIFINED_CONFIDENCE  <- 0.5
+  # PREDIFINED_CONFIDENCE  <- 0.5
   
   ics_to_data_frame <- function(lower_matrix, upper_matrix, event_min, 
                             event_max, variables_names, 
@@ -120,24 +120,28 @@ MODULE_SUMMARY <- modules::module({
               apply(c(2,3), 
                      function(x){  bayestestR::hdi(x, c=ci)$CI_low  }
               )
+    UTILS$gc_quiet()
    
    i_upper <- m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after[,event_min:event_max,] |> 
               apply(c(2,3), 
                     function(x){  
                       bayestestR::hdi(x, c=ci)$CI_high  
               })
+    UTILS$gc_quiet()
    
    
    i_lower_arco <- m_model$.__enclos_env__$private$.extracted_data$arco_only_after[,event_min:event_max,] |> 
                    apply(c(2,3), 
                          function(x){  bayestestR::hdi(x, c=ci)$CI_low  }
                    )
+    UTILS$gc_quiet()
    
    i_upper_arco <- m_model$.__enclos_env__$private$.extracted_data$arco_only_after[,event_min:event_max,] |> 
                    apply(c(2,3), 
                          function(x){  
                            bayestestR::hdi(x, c=ci)$CI_high  
                          })
+    UTILS$gc_quiet()
 
 
     i_arco_quantile <- m_model$.__enclos_env__$private$.extracted_data$arco_only_after[,event_min:event_max,] |> 
@@ -145,12 +149,14 @@ MODULE_SUMMARY <- modules::module({
                                   function(x){  
                                    x |> quantile(ci) |> as.numeric() 
                                   })
+    UTILS$gc_quiet()
 
     i_cumsum_quantile <- m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after[,event_min:event_max,] |> 
                                apply(c(2,3), 
                                     function(x){  
                                      x |> quantile(ci) |> as.numeric() 
                                     })
+    UTILS$gc_quiet()
 
 
     i_quantile_arco_cumsum <- ics_to_data_frame(lower_matrix = i_arco_quantile, 
@@ -161,6 +167,7 @@ MODULE_SUMMARY <- modules::module({
                                                 lower_limit_name=paste0("quantile_", ci, "_arco"),
                                                 upper_limit_name=paste0("quantile_", ci, "_cumsum")
                                                 )
+    UTILS$gc_quiet()
    
    
     # browser()
