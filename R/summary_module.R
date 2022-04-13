@@ -45,6 +45,8 @@ MODULE_SUMMARY <- modules::module({
     
   }
 
+  
+
   merge_multiuples_df  <- function(df_list, dates_df=NULL) {
 
     result_df  <- df_list[[1]]
@@ -136,6 +138,29 @@ MODULE_SUMMARY <- modules::module({
                          function(x){  
                            bayestestR::hdi(x, c=ci)$CI_high  
                          })
+
+
+    i_arco_quantile <- m_model$.__enclos_env__$private$.extracted_data$arco_only_after[,event_min:event_max,] |> 
+                             apply(c(2,3), 
+                                  function(x){  
+                                   x |> quantile(ci) |> as.numeric() 
+                                  })
+
+    i_cumsum_quantile <- m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after[,event_min:event_max,] |> 
+                               apply(c(2,3), 
+                                    function(x){  
+                                     x |> quantile(ci) |> as.numeric() 
+                                    })
+
+
+    i_quantile_arco_cumsum <- ics_to_data_frame(lower_matrix = i_arco_quantile, 
+                                                upper_matrix = i_cumsum_quantile, 
+                                                event_min = event_min, 
+                                                event_max = event_max, 
+                                                variables_names = variables_names, 
+                                                lower_limit_name=paste0("quantile_", ci, "_arco"),
+                                                upper_limit_name=paste0("quantile_", ci, "_cumsum")
+                                                )
    
    
     # browser()
@@ -157,24 +182,25 @@ MODULE_SUMMARY <- modules::module({
                                                upper_limit_name="upper_arco")
  
    
-   get_averange_df <-  get_averange_df(variable_array=m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after, 
-                                       event_min=event_min, 
-                                       event_max=event_max, 
-                                       variables_names=variables_names,
-                                       prefix ="cumsum_")
+   averange_df <-  get_averange_df(variable_array=m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after, 
+                                   event_min=event_min, 
+                                   event_max=event_max, 
+                                   variables_names=variables_names,
+                                   prefix ="cumsum_")
    
    
-   get_averange_arco_df <-  get_averange_df(variable_array=m_model$.__enclos_env__$private$.extracted_data$arco_only_after, 
-                                            event_min=event_min, 
-                                            event_max=event_max, 
-                                            variables_names=variables_names,
-                                            prefix = "arco_")
+   averange_arco_df <-  get_averange_df(variable_array=m_model$.__enclos_env__$private$.extracted_data$arco_only_after, 
+                                        event_min=event_min, 
+                                        event_max=event_max, 
+                                        variables_names=variables_names,
+                                        prefix = "arco_")
 
     result_df  <- merge_multiuples_df(list(
       data_frame_result_cumsum,
       data_frame_result_arco,
-      get_averange_df,
-      get_averange_arco_df
+      averange_df,
+      averange_arco_df,
+      i_quantile_arco_cumsum
     ), dates_df=dates_df)
 
     return(result_df)
