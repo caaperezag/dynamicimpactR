@@ -110,9 +110,11 @@ MODULE_SUMMARY <- modules::module({
       stop("the initial time must be greater than the end time")
     }
     
-    predict_result <- m_model$predict(event_initial=event_min)
+    m_model$predict(event_initial=event_min)
+
     
-    result_global <- predict_result$cumsum_only_after[,event_max,] |> 
+    
+    result_global <- m_model$.__enclos_env__$private$.extracted_data[,event_max,] |> 
                      apply(2, bayestestR::hdi, ci=ci)
     
     
