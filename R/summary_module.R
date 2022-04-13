@@ -167,8 +167,8 @@ MODULE_SUMMARY <- modules::module({
                                                 lower_limit_name=paste0("quantile_", ci, "_arco"),
                                                 upper_limit_name=paste0("quantile_", ci, "_cumsum")
                                                 )
+    
     UTILS$gc_quiet()
-   
    
     # browser()
    data_frame_result_cumsum <- ics_to_data_frame(lower_matrix = i_lower, 
@@ -320,6 +320,13 @@ MODULE_SUMMARY <- modules::module({
     result_list  <- list()
 
     for(index in 1:length(impact_list)) {
+
+      m_text  <- paste0{
+        "Computing impact: ",
+        index,"/", length(impact_list)
+      }
+
+      print(m_text)
 
       UTILS$gc_quiet()
 
