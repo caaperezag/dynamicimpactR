@@ -119,7 +119,7 @@ generated quantities {
   arco_only_after_aggregated[1:N_before] = rep_vector(0, N_before);
   
   for(t in (N_before+1):N) {
-    arco_only_after[t] = (1.0/(t-N_before+1.0)) * cumsum_difference[t];
+    arco_only_after[t] = (1.0/(t-N_before+1.0)) * cumsum_only_after[t];
     arco_only_after_aggregated[t] = mean(arco_only_after[t]);
   }
   

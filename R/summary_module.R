@@ -4,7 +4,7 @@ MODULE_SUMMARY <- modules::module({
   import("tidyr")
   import("stats")
   
-  
+  PREDIFINED_CONFIDENCE  <- 0.5
   
   ics_to_data_frame <- function(lower_matrix, upper_matrix, event_min, 
                             event_max, variables_names, 
@@ -112,11 +112,6 @@ MODULE_SUMMARY <- modules::module({
     
     m_model$predict(event_initial=event_min)
 
-    
-    
-    result_global <- m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after[,event_max,] |> 
-                     apply(2, bayestestR::hdi, ci=ci)
-    
     
     
    i_lower <- m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after[,event_min:event_max,] |> 
