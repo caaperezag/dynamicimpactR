@@ -114,29 +114,29 @@ MODULE_SUMMARY <- modules::module({
 
     
     
-    result_global <- m_model$.__enclos_env__$private$.extracted_data[,event_max,] |> 
+    result_global <- m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after[,event_max,] |> 
                      apply(2, bayestestR::hdi, ci=ci)
     
     
     
-   i_lower <- predict_result$cumsum_only_after[,event_min:event_max,] |> 
+   i_lower <- m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after[,event_min:event_max,] |> 
               apply(c(2,3), 
                      function(x){  bayestestR::hdi(x, c=ci)$CI_low  }
               )
    
-   i_upper <- predict_result$cumsum_only_after[,event_min:event_max,] |> 
+   i_upper <- m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after[,event_min:event_max,] |> 
               apply(c(2,3), 
                     function(x){  
                       bayestestR::hdi(x, c=ci)$CI_high  
               })
    
    
-   i_lower_arco <- predict_result$arco_only_after[,event_min:event_max,] |> 
+   i_lower_arco <- m_model$.__enclos_env__$private$.extracted_data$arco_only_after[,event_min:event_max,] |> 
                    apply(c(2,3), 
                          function(x){  bayestestR::hdi(x, c=ci)$CI_low  }
                    )
    
-   i_upper_arco <- predict_result$arco_only_after[,event_min:event_max,] |> 
+   i_upper_arco <- m_model$.__enclos_env__$private$.extracted_data$arco_only_after[,event_min:event_max,] |> 
                    apply(c(2,3), 
                          function(x){  
                            bayestestR::hdi(x, c=ci)$CI_high  
@@ -162,14 +162,14 @@ MODULE_SUMMARY <- modules::module({
                                                upper_limit_name="upper_arco")
  
    
-   get_averange_df <-  get_averange_df(variable_array=predict_result$cumsum_only_after, 
+   get_averange_df <-  get_averange_df(variable_array=m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after, 
                                        event_min=event_min, 
                                        event_max=event_max, 
                                        variables_names=variables_names,
                                        prefix ="cumsum_")
    
    
-   get_averange_arco_df <-  get_averange_df(variable_array=predict_result$arco_only_after, 
+   get_averange_arco_df <-  get_averange_df(variable_array=m_model$.__enclos_env__$private$.extracted_data$arco_only_after, 
                                             event_min=event_min, 
                                             event_max=event_max, 
                                             variables_names=variables_names,
