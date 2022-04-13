@@ -321,10 +321,10 @@ MODULE_SUMMARY <- modules::module({
 
     for(index in 1:length(impact_list)) {
 
-      m_text  <- paste0{
+      m_text  <- paste0(
         "Computing impact: ",
         index,"/", length(impact_list)
-      }
+      )
 
       print(m_text)
 
