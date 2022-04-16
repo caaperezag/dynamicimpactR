@@ -151,6 +151,8 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                                }
 
+                               browser()
+
                                private$.predefined_cov_matrix <-  predefined_cov_matrix
 
 
