@@ -27,7 +27,7 @@ MODULE_IMPACT <-  modules::module(
       }
       
       
-      n_dim <- Y_data |> dim()
+      n_dim <- Y_data |> dim()  |> length()
         
       if( (n_dim %in% c(2, 3)) ) {
         
