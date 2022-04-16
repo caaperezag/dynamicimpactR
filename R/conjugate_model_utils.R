@@ -31,7 +31,7 @@ MODULE_IMPACT <-  modules::module(
         
       if( (n_dim %in% c(2, 3)) ) {
         
-        if(MATRIX_LIST == "ml") {
+        if(matrix_type == "ml") {
           
           if(n_dim == 3) {
             
