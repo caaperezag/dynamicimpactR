@@ -46,8 +46,19 @@ MODULE_IMPACT <-  modules::module(
           
           
         } else  {
-          result <-  diag(dim(Y_data)[2])
-          
+
+          if(n_dim == 2 ) {
+            result <-  diag(dim(Y_data)[2])
+          } else if(n_dim == 3) {
+
+              if(dim(Y_data)[2] == 1) {
+                result <-  diag(dim(Y_data)[3])
+              } else {
+                result <-  diag(dim(Y_data)[2])
+              }
+
+          }
+
         }
         
         
