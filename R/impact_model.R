@@ -52,7 +52,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                                self$thin  <- thin
 
-                               browser()
+                               # browser()
 
                                # if(length(dim(Y_data)) == 2) {
                                #   Y_data <-  Y_data |> array(dim = c(dim(Y_data)[1], 1, dim(Y_data)[2]))
@@ -134,6 +134,8 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                self$n_cores <- n_cores
 
                               private$.use_predefined_stations_var = 1
+
+                              browser()
 
                               predefined_cov_matrix_type = match.arg(predefined_cov_matrix_type)
 

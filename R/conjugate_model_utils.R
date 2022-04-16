@@ -8,7 +8,7 @@ MODULE_IMPACT <-  modules::module(
     import("abind", "abind")
     import('stats')
     
-    MATRIX_LIST <- c("ML", "IDENTITY")
+    MATRIX_LIST <- c("ml", "identity")
 
     # DEFAULT_DISCOUNTS <- seq(from = 0.7, to = 0.97, length.out=100)
     DEFAULT_DISCOUNTS <- seq(from = 0.7, to = 0.99, length.out=100)
@@ -16,7 +16,7 @@ MODULE_IMPACT <-  modules::module(
     get_variable_matrix <- function(matrix_type, Y_data, event_initial= NULL) {
     
     
-      if( !(MATRIX_LIST %in% matrix_type) ) {
+      if( !(matrix_type %in% MATRIX_LIST) ) {
         stop("unknow matrix type")
       }
       
