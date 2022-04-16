@@ -135,7 +135,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                               private$.use_predefined_stations_var = 1
 
-                              browser()
+                              # browser()
 
                               predefined_cov_matrix_type = match.arg(predefined_cov_matrix_type)
 
