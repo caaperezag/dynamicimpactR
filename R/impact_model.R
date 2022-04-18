@@ -371,19 +371,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
                              .scaled_data_y = NA_real_,
                              .predict_model_path = NA_character_,
 
-                             .get_event_initial = function(event_initial=NULL) {
 
-                                if(is.null(event_initial)) {
-                                  event_initial = self$event_initial
-                                }
-
-                                if(is.null(event_initial)) {
-                                  stop("if event_initial is no defiend when then object is created, it must be given as parameter for this function.")
-                                }
-
-                                return(event_initial)
-
-                             },
 
                              .get_stan_data = function(event_initial) {
                                

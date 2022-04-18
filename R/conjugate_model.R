@@ -16,29 +16,12 @@ ImpactModel <- R6::R6Class('ImpactModel',
 
                                # browser()
 
-                               m_list <- private$.build_data_list()
-
-
-
-                               # private$.fitted_model <- m_list |>  MODULE_IMPACT$run_model(discount = 0.77)
-                               # private$.fitted_model <- m_list |>  MODULE_IMPACT$run_model(discount = 0.85)
-                               private$.fitted_model <- m_list |>  MODULE_IMPACT$run_model(discount = NULL)
-
-                               # return(private$.fitted_model)
-
-                               # browser()
-
-                               private$.build_simulation()
-
-                               private$.build_plot_df()
-                               # private$.build_plot_scaled_df()
-                               private$.build_plot_df_aggregate()
-
-
-                               return(NULL)
+                               private$.fit()
 
                              },
-                             predic = function() {
+                             predic = function(event_initial=NULL) {
+
+                               private$.fit(event_initial=event_initial)
 
                              },
                              plot_individual = function(plot_variable) {
@@ -87,14 +70,16 @@ ImpactModel <- R6::R6Class('ImpactModel',
                              .original_variance = NA_real_,
 
 
-                             .build_data_list = function() {
+                             .build_data_list = function(event_initial=NULL) {
 
                                # browser()
+
+                               event_initial  <- private$.get_event_initial(event_initial)
 
                                m_list <- list(
 
                                  N_array = dim(self$X_data)[1],
-                                 N_before = self$event_initial,
+                                 N_before = event_initial,
 
                                  parameter_names = self$vector_name,
                                  estaciones_names = self$variables_names,
@@ -392,6 +377,30 @@ ImpactModel <- R6::R6Class('ImpactModel',
                                return(private$.plot_df)
 
                              },
+
+                             .fit  <-  function(event_initial=NULL, discount=NULL) {
+
+
+                                m_list <- private$.build_data_list(event_initial)
+
+                                
+                                private$.fitted_model <- m_list |>  MODULE_IMPACT$run_model(discount = discount)
+
+                               
+
+                                private$.build_simulation()
+
+                                private$.build_plot_df()
+                                # private$.build_plot_scaled_df()
+                                private$.build_plot_df_aggregate()
+
+
+                                return(NULL)
+
+
+
+                             },
+
                              .build_plot_df_aggregate = function() {
 
                                # if(is.na(private$.plot_df)) {

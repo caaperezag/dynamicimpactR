@@ -93,10 +93,33 @@ MODULE_SUMMARY <- modules::module({
     
   }
   
+  get_impact_manual  <- function(m_model, event_min, event_max, 
+                              variables_names, dates_df = NULL, ci=0.9) {
+
+    N <- dim(m_model$X_data)[1]
+    
+    if( (event_min < 1) |  (event_max < 1) ) {
+      stop("All the events times must be greater than zero")
+    }
+    
+    if(event_max < 0) {
+      stop("All the initial evnets times must be greater than zero")
+    }
+    
+    if(event_min >= event_max) {
+      stop("the initial time must be greater than the end time")
+    }
+
+
+    
+
+
+
+  }
  
   
   get_impact_stan <- function(m_model, event_min, event_max, 
-                              variables_names, dates_df = NULL, ci=0.95) {
+                              variables_names, dates_df = NULL, ci=0.9) {
     
     N <- dim(m_model$X_data)[1]
     

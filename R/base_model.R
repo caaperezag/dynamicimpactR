@@ -81,7 +81,7 @@ BaseImpactModel <- R6::R6Class('BaseImpactModel', public = list(
     stop('No implemented')
 
   },
-  predict = function() {
+  predict = function(event_initial=NULL) {
 
     stop('No implemented')
 
@@ -112,6 +112,20 @@ private = list(
   .get_unscaled_X = function() {
     MODULES_SCALE$unscale_matrix(input_matrix = self$X_data,
                                  result_list = private$.scaled_data_x)
+  },
+
+  .get_event_initial = function(event_initial=NULL) {
+
+    if(is.null(event_initial)) {
+      event_initial = self$event_initial
+    }
+
+    if(is.null(event_initial)) {
+      stop("if event_initial is no defiend when then object is created, it must be given as parameter for this function.")
+    }
+
+    return(event_initial)
+
   },
 
   .set_dates_df = function(X_data, dates) {

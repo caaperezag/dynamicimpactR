@@ -114,8 +114,8 @@ PLOT_UTILS <- modules::module({
 
     if(is.null(dates_df)) {
       dates_df  <- data.frame(
-        time_index =  plot_df$time_index  |> unique(),
-        Date =  plot_df$time_index  |> unique()
+        time_index =  plot_df_aggregate$time_index  |> unique(),
+        Date =  plot_df_aggregate$time_index  |> unique()
 
       )
     }
