@@ -1,5 +1,5 @@
 #' @export
-ImpactModel <- R6::R6Class('ImpactModel',
+ConjugateModel <- R6::R6Class('ConjugateModel',
                            inherit = BaseImpactModel,
                            public = list(
                              n_simul = 1000,
