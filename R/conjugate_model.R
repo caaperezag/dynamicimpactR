@@ -378,7 +378,7 @@ ImpactModel <- R6::R6Class('ImpactModel',
 
                              },
 
-                             .fit  <-  function(event_initial=NULL, discount=NULL) {
+                             .fit  =  function(event_initial=NULL, discount=NULL) {
 
 
                                 m_list <- private$.build_data_list(event_initial)
