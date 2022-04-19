@@ -526,6 +526,7 @@ ConjugateModel <- R6::R6Class('ConjugateModel',
                                return(temp_fitted)
 
                              },
+                             
                              .build_simulation = function() {
 
                                alpha <- 1-self$confidence_level
@@ -538,32 +539,18 @@ ConjugateModel <- R6::R6Class('ConjugateModel',
                                  m_weights=NULL,
                                  MODULES_SCALE=MODULES_SCALE)
 
-                               # private$.simul_resul_scaled <- MODULES_IC_SIMULATION$make_theta_based(
-                               #                               model_result = private$.fitted_model,
-                               #                               n_simul = self$n_simul,
-                               #                               y_scaled_data=NULL,
-                               #                               use_percent=FALSE,
-                               #                               m_weights=NULL,
-                               #                               MODULES_SCALE=MODULES_SCALE)
-
-
-
+            
                                private$.simul_sumation <- MODULES_IC_SIMULATION$make_sumation(
                                  simul_model_raw = private$.simul_result$error_array,
                                  alpha = alpha,
                                  m_weights=NULL)
 
-                               # private$.simul_sumation_scaled <- MODULES_IC_SIMULATION$make_sumation(
-                               #                                   simul_model_raw = private$.simul_resul_scaled$error_array,
-                               #                                   alpha = alpha,
-                               #                                   m_weights=NULL)
-
-
-
                                private$.fitted_model_orignal <- private$.fitted_model
                                private$.fitted_model <- private$.fitted_model |> private$.unscaled_fitted_model()
 
                              },
+
+
                              .make_ic_simulation = function(cumsum_df, event_time, m_variable, alpha) {
 
 

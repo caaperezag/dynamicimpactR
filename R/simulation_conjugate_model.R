@@ -2,7 +2,6 @@
 MODULES_IC_SIMULATION <- modules::module({
   
     import("keep", "karray")
-    
     sum_of_normals_var <- function(coefficients, cov_matrix) {
       
       N <- length(coefficients)
@@ -246,7 +245,7 @@ MODULES_IC_SIMULATION <- modules::module({
     
     make_sumation <- function(simul_model_raw, alpha, m_weights=NULL) {
       
-      # browser()
+      browser()
       
       n_simul <-  dim(simul_model_raw)[1]
       n_time  <-  dim(simul_model_raw)[2]
@@ -262,28 +261,23 @@ MODULES_IC_SIMULATION <- modules::module({
           matrix(nrow=n_time, ncol=n_est, byrow = T)
       }
       
-      
-      
 
-      
       simul_model_cumsum <- simul_model_raw |>  apply_across_time(cumsum)
-      
       
 
       m_confidence_level <- 1-alpha
 
 
-
       hdi_ic <- simul_model_cumsum |> extract_ic(m_confidence_level)
-      
-      
-      
-      
-      mean_inter  <- simul_model_cumsum |> apply(c(2,3), stats::median)
+
+      mean_inter  <- simul_model_cumsum |> apply(c(2,3), mean)
+      median_inter  <- simul_model_cumsum |> apply(c(2,3), stats::median)
+      quantile_inter  <- simul_model_cumsum |> apply(c(2,3), function(x) {
+        x  |> stats::qunatile(probs=m_confidence_level)  |> as.numeric()
+      } )
       lower_inter <- hdi_ic$lower
       upper_inter <- hdi_ic$upper
       
-
       
       mean_simul_model_cumsum_raw <- simul_model_raw |>
                                      apply(c(1, 2), mean) |>  
@@ -294,13 +288,19 @@ MODULES_IC_SIMULATION <- modules::module({
       
       lower_aggregate <-   aggrate_inter$lower
       upper_aggregate <-   aggrate_inter$upper
-      mean_aggregate  <-   mean_simul_model_cumsum_raw |> apply(2, stats::median)
+      mean_aggregate  <-   mean_simul_model_cumsum_raw |> apply(2, mean)
+      median_aggregate  <-   mean_simul_model_cumsum_raw |> apply(2, stats::median)
+      quantile_aggregate  <- mean_simul_model_cumsum_raw |> apply(2, function(x) {
+        x  |> stats::quantile(probs=m_confidence_level)  |> as.numeric()
+      })
 
       
       
       return(
         list(
           mean_inter = mean_inter,
+          median_inter = median_inter,
+          quantile_inter = quantile_inter,
           lower_limit = lower_inter,
           upper_limit = upper_inter,
           cumsum_result = simul_model_cumsum,
@@ -311,6 +311,8 @@ MODULES_IC_SIMULATION <- modules::module({
             lower_limit = lower_aggregate,
             upper_limit = upper_aggregate,
             mean_aggregate = mean_aggregate,
+            median_aggregate = median_aggregate,
+            quantile_aggregate = quantile_aggregate,
             t = 1:length(mean_aggregate)
           )
           

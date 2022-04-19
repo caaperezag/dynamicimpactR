@@ -92,9 +92,100 @@ MODULE_SUMMARY <- modules::module({
     return(averange_df)
     
   }
+
+  make_df_from_simul_resut  <- function(simul_result, event_min, event_max, dates_df, variable_name="global", m_quantile=0.9) {
+
+    names(simul_result)  <- names(simul_result)  |> 
+                            stringr::str_remove_all("_inter")  |> 
+                            stringr::str_remove_all("_aggregate")  
+
+
+    event_min_date  <- event_min |> get_date_from_index(dates_df)
+    event_max_date  <- event_max |> get_date_from_index(dates_df)
+    
+    if(!is.data.frame(simul_result)) {
+      
+      event_max  <- min(event_max, dim(simul_result[[1]])[1])
+
+      time_index <- event_min:event_max
+
+      result_df  <- data.frame(time_index = time_index)
+
+      result_df$event_min  <- event_min
+      result_df$event_max  <- event_max
+
+      result_df$event_min_date  <- event_min_date
+      result_df$event_max_date  <- event_max_date
+
+      cumsum_lower  <- lower
+      cumsum_upper  <- upper
+
+
+
+    } 
+
+    
+
+    
+
+    
+
+
+    return(result_df)
+
+
+  }
   
+  extract_single_from_simul  <- function(simul_result, event_min, event_max, idx1=NULL, idx2=NULL) {
+
+    
+    
+
+    if(is.null(idx1)) {
+
+      if(is.null(idx2)) {
+          simul_result  <- simul_result$aggregate
+      }
+
+      simul_result$cumsum_result  <-  NULL
+      simul_result$cumsum_aggregate  <-  NULL
+      simul_result$t  <-  NULL
+        
+    } else if(is.null(idx2)) {
+        simul_result$aggregate  <- NULL
+
+        simul_result$cumsum_result  <-  NULL
+        simul_result$cumsum_aggregate  <-  NULL
+        simul_result$t  <-  NULL
+        
+        for(m_elem in names(simul_result)) {
+          simul_result[[simul_result]]  <- simul_result[[simul_result]][,idx1]
+        }
+
+    } else {
+
+      simul_result$aggregate  <- NULL
+
+      simul_result$cumsum_result  <-  NULL
+      simul_result$cumsum_aggregate  <-  NULL
+      simul_result$t  <-  NULL
+
+      for(m_elem in names(simul_result)) {
+          simul_result[[simul_result]]  <- simul_result[[simul_result]][,idx1, idx2]
+      }
+      
+    }
+
+
+
+    return(simul_result)
+
+  }
+
   get_impact_manual  <- function(m_model, event_min, event_max, 
-                              variables_names, dates_df = NULL, ci=0.9) {
+                              variables_names, 
+                              variable_index = NULL,
+                              dates_df = NULL, ci=0.9, discount=NULL) {
 
     N <- dim(m_model$X_data)[1]
     
@@ -111,7 +202,11 @@ MODULE_SUMMARY <- modules::module({
     }
 
 
+    m_model$.fit(event_initial=event_min, discount=discount)
+
     
+    simul_result  <- m_model$.__enclos_env__$private$.simul_sumation
+
 
 
 
