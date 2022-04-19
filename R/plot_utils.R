@@ -63,6 +63,10 @@ PLOT_UTILS <- modules::module({
       )
     }
 
+    m_xintercep   <- dates_df  |> 
+                     filter(time_index==event_initial)  |> 
+                     pull(Date)  |> 
+                     first()
 
     plot_df_individual <- plot_df |>
        dplyr::left_join(dates_df, by='time_index')  |>
@@ -86,7 +90,7 @@ PLOT_UTILS <- modules::module({
       ggplot(aes(x=Date, y=value, col=class)) +
       geom_ribbon( aes(ymin = lower_limit, ymax = upper_limit), fill = "grey90" ) +
       geom_line() +
-      geom_vline(xintercept = dates_df$Date[event_initial], linetype = "dashed") +
+      geom_vline(xintercept = m_xintercep, linetype = "dashed") +
       geom_hline(data = plot_df_line_df, aes(yintercept=value), linetype = "dashed") +
       facet_wrap(~type, ncol=1, scales='free_y') +
       ggtitle(paste0(vector_name, ' - ' ,plot_variable)) +
@@ -161,6 +165,12 @@ PLOT_UTILS <- modules::module({
       break_dates = waiver()
     }
 
+    m_xintercep   <- dates_df  |> 
+                     filter(time_index==event_initial)  |> 
+                     pull(Date)  |> 
+                     first()
+
+
     m_plot <- plot_df_aggregate |>
               dplyr::mutate(lower_limit = dplyr::if_else(class != 'real', lower_limit, NA_real_),
                             upper_limit = dplyr::if_else(class != 'real', upper_limit, NA_real_)) |>
@@ -180,7 +190,7 @@ PLOT_UTILS <- modules::module({
               ggplot(aes(x=Date, y=value, col=class)) +
               geom_ribbon( aes(ymin = lower_limit, ymax = upper_limit), fill = "grey90" ) +
               geom_line(aes(linetype=class)) +
-              geom_vline(xintercept = dates_df$Date[event_initial], linetype = "dashed") +
+              geom_vline(xintercept = m_xintercep, linetype = "dashed") +
               geom_hline(yintercept = 0, linetype = "dashed") +
               facet_wrap(~type, ncol=1, scales='free_y') +
               ggtitle(vector_name) +
