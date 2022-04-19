@@ -250,7 +250,7 @@ MODULES_IC_SIMULATION <- modules::module({
     
     make_sumation <- function(simul_model_raw, alpha, m_weights=NULL) {
       
-      browser()
+      #browser()
       
       n_simul <-  dim(simul_model_raw)[1]
       n_time  <-  dim(simul_model_raw)[2]
@@ -278,7 +278,7 @@ MODULES_IC_SIMULATION <- modules::module({
       mean_inter  <- simul_model_cumsum |> apply(c(2,3), mean)
       median_inter  <- simul_model_cumsum |> apply(c(2,3), stats::median)
       quantile_inter  <- simul_model_cumsum |> apply(c(2,3), function(x) {
-        x  |> stats::qunatile(probs=m_confidence_level)  |> as.numeric()
+        x  |> stats::quantile(probs=m_confidence_level)  |> as.numeric()
       } )
       lower_inter <- hdi_ic$lower
       upper_inter <- hdi_ic$upper
