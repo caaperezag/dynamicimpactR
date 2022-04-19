@@ -96,6 +96,8 @@ MODULES_IC_SIMULATION <- modules::module({
 
         for(i in 1:n_simul) {
 
+          browser()
+
           W_t <- (beta %*% model_result$C_t[N_before+t-1,,] %*% beta) - model_result$C_t[N_before+t-1,,]    
 
           theta_array[i,t,,] <-  MixMatrix::rmatrixnorm(n = 1, 
@@ -111,7 +113,8 @@ MODULES_IC_SIMULATION <- modules::module({
 
           result_array[i,t,] <- MixMatrix::rmatrixnorm(n = 1, 
                                                        mean =  ( t(temp_matrix) %*% theta_array[i,t,,] ),
-                                                       U = model_result$V_t[N_before+t] |> diag(1), #rows
+                                                       #U = model_result$V_t[N_before+t] |> diag(1), #rows
+                                                       U =  diag(1), #rows
                                                        V = model_result$S_t[N_before+t,,] # cols
                                                        )
           
