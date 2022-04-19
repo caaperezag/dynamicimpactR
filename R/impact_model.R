@@ -213,7 +213,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                event_initial = private$.get_event_initial(event_initial)
 
                                stan_data = private$.get_stan_data(event_initial)
-                               
+
 
                                result_redraw <- rstan::gqs(private$.predict_model_path,
                                                            draws = as.matrix(private$.stan_result),
@@ -343,7 +343,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
                              summary = function(dates_list, confidence_level=NA) {
 
                                 private$.build_summary(
-                                  dates_list=dates_list, 
+                                  dates_list=dates_list,
                                   confidence_level=confidence_level
                                 )
 
@@ -374,7 +374,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
 
                              .get_stan_data = function(event_initial) {
-                               
+
                                event_initial = private$.get_event_initial(event_initial)
 
                                stan_data = list(
@@ -410,7 +410,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                              .get_ic_from_variable = function(m_array, global=FALSE) {
 
-                               temp_array <- m_array
+                               # temp_array <- m_array
 
                                if(global) {
 
@@ -659,7 +659,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                   self$predict(event_initial=event_initial)
                                 }
 
-                                
+
 
                                 return(can_plot)
 
