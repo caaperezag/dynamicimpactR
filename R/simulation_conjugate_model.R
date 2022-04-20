@@ -308,6 +308,7 @@ MODULES_IC_SIMULATION <- modules::module({
           quantile_inter = quantile_inter,
           lower_limit = lower_inter,
           upper_limit = upper_inter,
+
           cumsum_result = simul_model_cumsum,
           cumsum_aggregate = mean_simul_model_cumsum_raw,
           t = 1:length(mean_aggregate),

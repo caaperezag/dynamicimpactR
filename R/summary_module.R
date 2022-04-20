@@ -103,32 +103,41 @@ MODULE_SUMMARY <- modules::module({
     event_min_date  <- event_min |> get_date_from_index(dates_df)
     event_max_date  <- event_max |> get_date_from_index(dates_df)
     
-    if(!is.data.frame(simul_result)) {
+    
+    quantile_cumsum_name  <- paste0("quantile_",m_quantile,"_cumsum")
+    quantile_arco_name  <- paste0("quantile_",m_quantile,"_arco")
       
-      event_max  <- min(event_max, dim(simul_result[[1]])[1])
+    event_max  <- min(event_max, dim(simul_result[[1]])[1])
 
-      time_index <- event_min:event_max
+    time_index <- event_min:event_max
 
-      result_df  <- data.frame(time_index = time_index)
+    result_df  <- data.frame(time_index = time_index)
 
-      result_df$event_min  <- event_min
-      result_df$event_max  <- event_max
+    result_df$event_min  <- event_min
+    result_df$event_max  <- event_max
 
-      result_df$event_min_date  <- event_min_date
-      result_df$event_max_date  <- event_max_date
+    result_df$event_min_date  <- event_min_date
+    result_df$event_max_date  <- event_max_date
 
-      cumsum_lower  <- lower
-      cumsum_upper  <- upper
+    result_df$cumsum_lower  <- simul_result$lower
+    result_df$cumsum_upper  <- simul_result$upper
+
+    result_df$cumsum_mean  <- simul_result$mean
+    result_df$cumsum_median  <- simul_result$median 
+
+    result_df$arco_mean  <- (1/time_index)*simul_result$mean
+    result_df$arco_median  <- (1/time_index)*simul_result$median 
+
+    result_df$lower_arco  <- (1/time_index)*simul_result$lower
+    result_df$upper_arco  <- (1/time_index)*simul_result$upper
 
 
+    result_df$lower_arco  <- (1/time_index)*simul_result$lower
+    result_df$upper_arco  <- (1/time_index)*simul_result$upper
 
-    } 
 
-    
-
-    
-
-    
+    result_df[[quantile_cumsum_name]]  <- simul_result$quantile
+    result_df[[quantile_arco_name]]  <- (1/time_index)*simul_result$quantile
 
 
     return(result_df)

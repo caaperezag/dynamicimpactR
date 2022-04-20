@@ -410,7 +410,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                              .get_ic_from_variable = function(m_array, global=FALSE) {
 
-                               # temp_array <- m_array
+                               temp_array <- m_array
 
                                if(global) {
 
