@@ -203,7 +203,7 @@ PLOT_UTILS <- modules::module({
                 legend.position="bottom",
                 strip.text = element_text(size=11)
               ) + ylab('') +
-              scale_linetype_manual(values=c("solid", "solid", 'solid', 'solid')) +
+              #scale_linetype_manual(values=c("solid", "solid", 'solid', 'solid')) +
               scale_colour_brewer(palette = "Set1") 
 
     if(!dates_df_is_null) {
