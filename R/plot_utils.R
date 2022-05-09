@@ -189,7 +189,8 @@ PLOT_UTILS <- modules::module({
               dplyr::mutate(class = class  |> factor(levels = c('error','real', "input", 'prediction') , ordered = F) )  |>
               ggplot(aes(x=Date, y=value, col=class)) +
               geom_ribbon( aes(ymin = lower_limit, ymax = upper_limit), fill = "grey90" ) +
-              geom_line(aes(linetype=class)) +
+              #geom_line(aes(linetype=class)) +
+              geom_line() +
               geom_vline(xintercept = m_xintercep, linetype = "dashed") +
               geom_hline(yintercept = 0, linetype = "dashed") +
               facet_wrap(~type, ncol=1, scales='free_y') +
