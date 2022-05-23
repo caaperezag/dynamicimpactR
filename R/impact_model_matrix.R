@@ -17,7 +17,7 @@
 #' * `thin`: thinning used in MCMC, default 1.
 #' @export
 StanModelMatrix <- R6::R6Class('StanModelMatrix',
-                           inherit = BaseImpactModel,
+                           inherit = StanModelVector,
                            public = list(
                              n_simul = NA_integer_,
                              n_chains = NA_integer_,
@@ -53,7 +53,7 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                                     share_cols_var= TRUE,
                                                     dates=NULL) {
                                                         
-                               super$initialize(name='Model Vector', event_initial,
+                               super$initialize(name=name, event_initial=event_initial,
                                                 X_data=X_data, Y_data=Y_data, vector_name=vector_name,
                                                 variables_names=variables_names, confidence_level=confidence_level,
                                                 n_simul=n_simul, n_chains=n_chains, n_cores=n_cores,
@@ -178,6 +178,8 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
 
                            ),
                            private = list(
+                             .share_cols_var = NA,
+
                              .summary_result = NA_real_,
                              .stan_result = NA_real_,
                              .predefined_cov_matrix = NA_real_,
