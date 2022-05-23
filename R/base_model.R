@@ -10,6 +10,26 @@ BaseImpactModel <- R6::R6Class('BaseImpactModel', public = list(
 
     self$name <-  name
 
+
+    if(is.null(dim(Y_data))) {
+      stop('Incorrect Y_data dimensions')
+    }
+
+    if(is.null(dim(X_data))) {
+      stop('Incorrect X_data dimensions')
+    }
+
+    if( !(length(dim(Y_data)) %in% c(2, 3)) ) {
+      stop('Incorrect Y_data dimensions')
+
+    }
+
+    if( !(length(dim(X_data)) %in% c(2, 3)) ) {
+      stop('Incorrect X_data dimensions')
+
+    }
+
+
     if(is.null(event_initial)) {
       event_initial  <- dim(X_data)[1] # the total time
     }
@@ -31,12 +51,28 @@ BaseImpactModel <- R6::R6Class('BaseImpactModel', public = list(
       private$.original_variance <- MODULE_IMPACT$estamate_ml_from_array( Y_data [1:event_initial,,] )$U
     }
 
+    if(any(is.na(Y_data))) {
+      stop("There should be no missing values in Y.")
+    }
+
+    if(any(is.na(X_data))) {
+      stop("There should be no missing values in X.")
+    }
+
+     if(dim(Y_data)[1] != dim(X)[1]) {
+      stop("The length of the time series(first dim of X and Y) is diferent.")
+     }
+
     if(length(dim(Y_data)) == 2) {
       Y_data <-  Y_data |> array(dim = c(dim(Y_data)[1], 1, dim(Y_data)[2]))
     }
 
     if(length(dim(X_data)) == 2) {
       X_data <-  X_data |> array(dim = c(dim(X_data)[1], 1, dim(X_data)[2]))
+    }
+
+    if(dim(Y_data)[2] != dim(X_data)[2]) {
+      stop("The number of rows(second dim of X and Y) is diferent.")
     }
 
     if(is.na(private$.original_variance)) {

@@ -28,7 +28,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
                              #' Create a new `StanModelVector` object.
                              #'
                              #' @param  name: name of the model.
-                             #' @param  y_data: response matrix.
+                             #' @param  Y_data: response matrix.
                              #' @param  X_data: covariates matrix.
                              #' @param  event_initial: The time when the event starts.
                              #' @param  vector_name: name of the response variable (only used in plots).
@@ -79,26 +79,6 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                                private$.model_path <- stanmodels$model_vector_full
                                private$.predict_model_path  <- stanmodels$model_vector_full_predict
-
-                               # browser()
-
-                               if(is.null(dim(Y_data))) {
-                                 stop('Incorrect Y_data dimensions')
-                               }
-
-                               if(is.null(dim(X_data))) {
-                                 stop('Incorrect X_data dimensions')
-                               }
-
-                               if( !(length(dim(Y_data)) %in% c(2, 3)) ) {
-                                 stop('Incorrect Y_data dimensions')
-
-                               }
-
-                               if( !(length(dim(X_data)) %in% c(2, 3)) ) {
-                                 stop('Incorrect X_data dimensions')
-
-                               }
 
 
                                # if(length(dim(Y_data)) == 2) {
