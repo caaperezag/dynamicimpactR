@@ -196,7 +196,6 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                              .predict_model_path = NA_character_,
 
 
-
                              .get_stan_data = function(event_initial) {
 
                                event_initial = private$.get_event_initial(event_initial)
@@ -221,23 +220,7 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                return(stan_data)
 
                              },
-                             .build_df = function(m_matrix, station_names, event_initial) {
-
-                               event_initial = private$.get_event_initial(event_initial)
-
-                               df <- data.frame(m_matrix)
-                               colnames(df) <- station_names
-                               df$t <- 1:nrow(df)
-
-                               df <- df |> dplyr::pivot_longer(-t, names_to=self$vector_name, values_to="value")
-
-                               df$before = ifelse(df$t > event_initial, "after", "before")
-
-                               return(df)
-                             },
-
-
-
+                             
                              .get_ic_from_variable = function(m_array, global=FALSE) {
 
                                temp_array <- m_array
@@ -280,30 +263,34 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                df_list <- list()
                                df_list_aggregate <- list()
 
-                               y_pred_unscaled <- private$.extracted_data$Y_pred |>
-                                 MODULES_SCALE$unscale_array_3d(result_list = private$.scaled_data_y)
-
-                               difference_unscaled <- private$.extracted_data$Y_pred |>
-                                 MODULES_SCALE$unscale_array_3d(
-                                   result_list = private$.scaled_data_y,
-                                   m_diff_array = private$.original_y[,1,]
-                                 )
+                              
 
 
+                               for(m_index_grops  in 1:length(self$vector_name)) {
+                                   
+                                   
 
+                                   y_pred_unscaled <- private$.extracted_data$Y_pred |>
+                                   MODULES_SCALE$unscale_array_3d(result_list = private$.scaled_data_y)
 
-                               cumsum_unscaled <- private$.extracted_data$Y_pred |>
-                                 MODULES_SCALE$unscale_cumsum(result_list = private$.scaled_data_y,
-                                                              start_event = event_initial,
-                                                              m_diff_array = private$.original_y[,1,] )
-
+                                  difference_unscaled <- private$.extracted_data$Y_pred |>
+                                                        MODULES_SCALE$unscale_array_3d(
+                                                          result_list = private$.scaled_data_y,
+                                                          m_diff_array = private$.original_y[,m_index_grops,] # TODO esto tiene que cambiar
+                                  )
 
 
 
 
-                               for(m_index in 1:(length(self$variables_names)+1)  ) {
+                                  cumsum_unscaled <- private$.extracted_data$Y_pred |>
+                                                     MODULES_SCALE$unscale_cumsum(result_list = private$.scaled_data_y,
+                                                                                  start_event = event_initial,
+                                                                                  m_diff_array = private$.original_y[,m_index_grops,] )
 
-                                 is_global <- m_index > length(self$variables_names)
+
+                                  for(m_index in 1:(length(self$variables_names)+1)  ) {
+
+                                   is_global <- m_index > length(self$variables_names)
 
 
 
@@ -319,11 +306,12 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
 
 
                                  # m_df_stan_pred <- private$.extracted_data$Y_pred[,,idx]  |>
-                                 m_df_stan_pred <- y_pred_unscaled[,,idx]  |>
+                                 m_df_stan_pred <- y_pred_unscaled[,m_index_grops,idx]  |>
                                    private$.get_ic_from_variable(global=is_global)
                                  m_df_stan_pred$variable <- m_variable_name
                                  m_df_stan_pred$type <- "prediction"
                                  m_df_stan_pred$class <- "prediction"
+                                 m_df_stan_pred$vector = vector_name[m_index_grops]
 
 
 
@@ -337,9 +325,10 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                      variable=m_variable_name,
                                      time_index = 1:(dim(self$X_data)[1]),
                                      # value = self$Y_data |> apply(c(1), mean),
-                                     value = private$.original_y |> apply(c(1), mean),
+                                     value = private$.original_y[,m_index_grops,] |> apply(c(1), mean),
                                      type = "prediction",
-                                     class = 'real'
+                                     class = 'real',
+                                     vector = vector_name[m_index_grops]
 
                                    )
 
@@ -348,9 +337,10 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                      variable=m_variable_name,
                                      time_index = 1:(dim(self$X_data)[1]),
                                      # value = self$Y_data |> apply(c(1), mean),
-                                     value = private$.original_x |> apply(c(1), mean),
+                                     value = private$.original_x[,m_index_grops,]  |> apply(c(1), mean),
                                      type = "prediction",
-                                     class = 'input'
+                                     class = 'input',
+                                     vector = vector_name[m_index_grops]
 
                                    )
 
@@ -361,10 +351,10 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
 
                                      variable=m_variable_name,
                                      time_index = 1:(dim(self$X_data)[1]),
-                                     # value = self$Y_data[,1, idx],
-                                     value = private$.original_y[,1, idx],
+                                     value = private$.original_y[,m_index_grops, idx],
                                      type = "prediction",
-                                     class = 'real'
+                                     class = 'real',
+                                     vector = vector_name[m_index_grops]
 
                                    )
 
@@ -372,10 +362,10 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
 
                                      variable=m_variable_name,
                                      time_index = 1:(dim(self$X_data)[1]),
-                                     # value = self$Y_data[,1, idx],
-                                     value = private$.original_x[,1, idx],
+                                     value = private$.original_x[,m_index_grops, idx],
                                      type = "prediction",
-                                     class = 'input'
+                                     class = 'input',
+                                     vector = vector_name[m_index_grops]
 
                                    )
                                  }
@@ -388,19 +378,21 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                  m_df_real$lower_limit <- NA
 
 
-                                 m_df_stan_error <- difference_unscaled[,,idx]  |>
+                                 m_df_stan_error <- difference_unscaled[,m_index_grops,idx]  |>
                                    private$.get_ic_from_variable(global=is_global)
                                  m_df_stan_error$variable <- m_variable_name
                                  m_df_stan_error$type <- "error"
                                  m_df_stan_error$class <- "error"
+                                 m_df_stan_error$vector = vector_name[m_index_grops]
 
 
                                  # m_df_stan_error <- private$.extracted_data$cumsum_only_after[,,idx] |>
-                                 m_df_stan_error_cusum <- cumsum_unscaled[,,idx] |>
+                                 m_df_stan_error_cusum <- cumsum_unscaled[,m_index_grops,idx] |>
                                    private$.get_ic_from_variable(global=is_global)
                                  m_df_stan_error_cusum$variable <- m_variable_name
                                  m_df_stan_error_cusum$type <- "cumsum"
                                  m_df_stan_error_cusum$class <- "error"
+                                 m_df_stan_error_cusum$vector = vector_name[m_index_grops]
 
                                  if(is_global) {
 
@@ -424,6 +416,12 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                  }
 
                                }
+
+
+                               }
+
+
+                              
 
                                # browser()
 
