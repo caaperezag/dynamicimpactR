@@ -80,7 +80,7 @@ This class is used to fit Bayesian model when the response is a vector.
 \describe{
 \item{\code{name:}}{name of the model.}
 
-\item{\code{y_data:}}{response matrix.}
+\item{\code{Y_data:}}{response matrix.}
 
 \item{\code{X_data:}}{covariates matrix.}
 

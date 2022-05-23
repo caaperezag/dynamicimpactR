@@ -50,7 +50,7 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                                     predefined_cov_matrix = NULL,
                                                     stan_fit=NA_real_,
                                                     thin=1,
-                                                    share_cols_var= TRUE
+                                                    share_cols_var= TRUE,
                                                     dates=NULL) {
                                                         
                                super$initialize(name='Model Vector', event_initial,
@@ -210,9 +210,9 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                  predefined_stations_var = private$.predefined_cov_matrix,
 
                                  use_predefined_sensors_var = 0, # TODO no implement in the interface
-                                 use_discount_factor = 0 # TODO no yet implemented
+                                 use_discount_factor = 0, # TODO no yet implemented
 
-                                 keep_theta_static_for_prediction = 1 # is need to avoid over variance
+                                 keep_theta_static_for_prediction = 1, # is need to avoid over variance
                                  share_stations_var = private$.share_cols_var
                                )
 

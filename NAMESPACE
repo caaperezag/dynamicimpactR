@@ -2,6 +2,7 @@
 
 export(ConjugateModel)
 export(SpatialModel)
+export(StanModelMatrix)
 export(StanModelVector)
 import(Rcpp)
 import(methods)

@@ -33,7 +33,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_model_vector_full_spatial_predict");
-    reader.add_event(179, 177, "end", "model_model_vector_full_spatial_predict");
+    reader.add_event(180, 178, "end", "model_model_vector_full_spatial_predict");
     return reader;
 }
 template <typename T0__>
@@ -998,12 +998,12 @@ public:
                         "assigning variable arco_only_after_aggregated");
             current_statement_begin__ = 170;
             for (int t = (N_before + 1); t <= N; ++t) {
-                current_statement_begin__ = 171;
+                current_statement_begin__ = 172;
                 stan::model::assign(arco_only_after, 
                             stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
-                            multiply((1.0 / ((t - N_before) + 1.0)), get_base1(difference, t, "difference", 1)), 
+                            multiply((1.0 / (t - N_before)), get_base1(cumsum_only_after, t, "cumsum_only_after", 1)), 
                             "assigning variable arco_only_after");
-                current_statement_begin__ = 172;
+                current_statement_begin__ = 173;
                 stan::model::assign(arco_only_after_aggregated, 
                             stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
                             mean(get_base1(arco_only_after, t, "arco_only_after", 1)), 

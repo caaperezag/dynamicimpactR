@@ -33,7 +33,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_model_vector_full_predict");
-    reader.add_event(124, 122, "end", "model_model_vector_full_predict");
+    reader.add_event(130, 128, "end", "model_model_vector_full_predict");
     return reader;
 }
 template <typename T0__>
@@ -554,60 +554,68 @@ public:
                         stan::model::cons_list(stan::model::index_min_max(1, N_before), stan::model::nil_index_list()), 
                         stan::model::rvalue(theta_vec, stan::model::cons_list(stan::model::index_min_max(1, N_before), stan::model::nil_index_list()), "theta_vec"), 
                         "assigning variable theta_vec_pred");
-            current_statement_begin__ = 92;
+            current_statement_begin__ = 91;
+            for (int t = (N_before + 1); t <= N; ++t) {
+                current_statement_begin__ = 94;
+                stan::model::assign(theta_vec_pred, 
+                            stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
+                            get_base1(theta_vec, N_before, "theta_vec", 1), 
+                            "assigning variable theta_vec_pred");
+            }
+            current_statement_begin__ = 97;
             for (int t = 1; t <= N; ++t) {
-                current_statement_begin__ = 93;
+                current_statement_begin__ = 98;
                 stan::model::assign(mu, 
                             stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
                             multiply(transpose(to_matrix(get_base1(theta_vec_pred, t, "theta_vec_pred", 1), P, K)), get_base1(X, t, "X", 1)), 
                             "assigning variable mu");
             }
-            current_statement_begin__ = 96;
+            current_statement_begin__ = 101;
             if (as_bool(use_predefined_stations_var)) {
-                current_statement_begin__ = 98;
+                current_statement_begin__ = 103;
                 stan::math::assign(Y_pred, multi_normal_rng(mu, predefined_stations_var, base_rng__));
             } else {
-                current_statement_begin__ = 101;
+                current_statement_begin__ = 106;
                 stan::math::assign(Y_pred, multi_normal_rng(mu, sigma_entry_obs_stations, base_rng__));
             }
-            current_statement_begin__ = 104;
+            current_statement_begin__ = 109;
             for (int t = 1; t <= N; ++t) {
-                current_statement_begin__ = 105;
+                current_statement_begin__ = 110;
                 stan::model::assign(difference, 
                             stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
                             subtract(get_base1(Y, t, "Y", 1), get_base1(Y_pred, t, "Y_pred", 1)), 
                             "assigning variable difference");
             }
-            current_statement_begin__ = 108;
+            current_statement_begin__ = 113;
             stan::model::assign(cumsum_only_after, 
                         stan::model::cons_list(stan::model::index_min_max(1, N_before), stan::model::nil_index_list()), 
                         rep_array(rep_vector(0, K), N_before), 
                         "assigning variable cumsum_only_after");
-            current_statement_begin__ = 109;
+            current_statement_begin__ = 114;
             stan::model::assign(cumsum_only_after, 
                         stan::model::cons_list(stan::model::index_min_max((N_before + 1), N), stan::model::nil_index_list()), 
                         cumsum_vector(stan::model::rvalue(difference, stan::model::cons_list(stan::model::index_min_max((N_before + 1), N), stan::model::nil_index_list()), "difference"), pstream__), 
                         "assigning variable cumsum_only_after");
-            current_statement_begin__ = 111;
+            current_statement_begin__ = 116;
             stan::math::assign(cumsum_difference, cumsum_vector(difference, pstream__));
-            current_statement_begin__ = 113;
+            current_statement_begin__ = 118;
             stan::model::assign(arco_only_after, 
                         stan::model::cons_list(stan::model::index_min_max(1, N_before), stan::model::nil_index_list()), 
                         rep_array(rep_vector(0, K), N_before), 
                         "assigning variable arco_only_after");
-            current_statement_begin__ = 114;
+            current_statement_begin__ = 119;
             stan::model::assign(arco_only_after_aggregated, 
                         stan::model::cons_list(stan::model::index_min_max(1, N_before), stan::model::nil_index_list()), 
                         rep_vector(0, N_before), 
                         "assigning variable arco_only_after_aggregated");
-            current_statement_begin__ = 116;
+            current_statement_begin__ = 121;
             for (int t = (N_before + 1); t <= N; ++t) {
-                current_statement_begin__ = 117;
+                current_statement_begin__ = 123;
                 stan::model::assign(arco_only_after, 
                             stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
-                            multiply((1.0 / ((t - N_before) + 1.0)), get_base1(difference, t, "difference", 1)), 
+                            multiply((1.0 / (t - N_before)), get_base1(cumsum_only_after, t, "cumsum_only_after", 1)), 
                             "assigning variable arco_only_after");
-                current_statement_begin__ = 118;
+                current_statement_begin__ = 124;
                 stan::model::assign(arco_only_after_aggregated, 
                             stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
                             mean(get_base1(arco_only_after, t, "arco_only_after", 1)), 
