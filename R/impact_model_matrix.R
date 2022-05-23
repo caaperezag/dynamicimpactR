@@ -1,4 +1,4 @@
-#' R6 class for StanModelVector
+#' R6 class for StanModelMatrix
 #'
 #'
 #'

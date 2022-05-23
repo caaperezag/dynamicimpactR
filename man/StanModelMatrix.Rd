@@ -2,11 +2,11 @@
 % Please edit documentation in R/impact_model_matrix.R
 \name{StanModelMatrix}
 \alias{StanModelMatrix}
-\title{R6 class for StanModelVector}
+\title{R6 class for StanModelMatrix}
 \description{
-R6 class for StanModelVector
+R6 class for StanModelMatrix
 
-R6 class for StanModelVector
+R6 class for StanModelMatrix
 }
 \details{
 This class is used to fit Bayesian model when the response is a vector.
@@ -26,8 +26,8 @@ This class is used to fit Bayesian model when the response is a vector.
 }
 }
 
-\section{Super class}{
-\code{\link[dynamicimpact:BaseImpactModel]{dynamicimpact::BaseImpactModel}} -> \code{StanModelMatrix}
+\section{Super classes}{
+\code{\link[dynamicimpact:BaseImpactModel]{dynamicimpact::BaseImpactModel}} -> \code{\link[dynamicimpact:StanModelVector]{dynamicimpact::StanModelVector}} -> \code{StanModelMatrix}
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -44,10 +44,10 @@ This class is used to fit Bayesian model when the response is a vector.
 \if{html}{
 \out{<details open ><summary>Inherited methods</summary>}
 \itemize{
-\item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="fit">}\href{../../dynamicimpact/html/BaseImpactModel.html#method-fit}{\code{dynamicimpact::BaseImpactModel$fit()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_dates_df">}\href{../../dynamicimpact/html/BaseImpactModel.html#method-get_dates_df}{\code{dynamicimpact::BaseImpactModel$get_dates_df()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_end_time">}\href{../../dynamicimpact/html/BaseImpactModel.html#method-get_end_time}{\code{dynamicimpact::BaseImpactModel$get_end_time()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="predict">}\href{../../dynamicimpact/html/BaseImpactModel.html#method-predict}{\code{dynamicimpact::BaseImpactModel$predict()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="fit">}\href{../../dynamicimpact/html/StanModelVector.html#method-fit}{\code{dynamicimpact::StanModelVector$fit()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="predict">}\href{../../dynamicimpact/html/StanModelVector.html#method-predict}{\code{dynamicimpact::StanModelVector$predict()}}\out{</span>}
 }
 \out{</details>}
 }
