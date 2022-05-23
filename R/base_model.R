@@ -59,7 +59,7 @@ BaseImpactModel <- R6::R6Class('BaseImpactModel', public = list(
       stop("There should be no missing values in X.")
     }
 
-     if(dim(Y_data)[1] != dim(X)[1]) {
+     if(dim(Y_data)[1] != dim(X_data)[1]) {
       stop("The length of the time series(first dim of X and Y) is diferent.")
      }
 
