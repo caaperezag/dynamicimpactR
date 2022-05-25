@@ -184,6 +184,9 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
 
                              .get_stan_data = function(event_initial) {
 
+                               # TODO move to the initalize if implemented 
+                               temp_predefined_sensors_var  <- diag(private$.N_sub_elem)
+
                                event_initial = private$.get_event_initial(event_initial)
 
                                stan_data = list(
@@ -191,7 +194,7 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                  N_before = event_initial,
                                  K = private$.N_elem,
                                  P = private$.N_pred_var,
-                                 Y = self$Y_data,
+                                 y = self$Y_data,
                                  X = self$X_data,
                                  use_predefined_stations_var = private$.use_predefined_stations_var,
                                  predefined_stations_var = private$.predefined_cov_matrix,
@@ -199,6 +202,8 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                  R = private$.N_sub_elem,
 
                                  use_predefined_sensors_var = 0, # TODO no implement in the interface
+                                 predefined_sensors_var = temp_predefined_sensors_var,
+
                                  use_discount_factor = 0, # TODO no yet implemented
 
                                  keep_theta_static_for_prediction = 1, # is need to avoid over variance
