@@ -101,21 +101,26 @@ MODULE_IMPACT <-  modules::module(
     
     
     
-    estamate_ml_from_array <- function(y_array){
+    estamate_ml_from_array <- function(y_array) {
       
       temp_list <- list()
+
+      array_size  <- y_array |> dim() |> length()
       
       for(t in 1:dim(y_array)[1]) {
         
-        temp_list[[t]] <- array(y_array[t,], dim= c(dim(y_array)[2], 1)  )
-        
+        if(array_size == 2) {
+          temp_list[[t]] <- array(y_array[t,], dim= c(dim(y_array)[2], 1)  )
+        } else {
+           temp_list[[t]] <- y_array[t,,]
+        }
+
       }
       
       result <- MixMatrix::MLmatrixnorm(temp_list, tol = 1e-8, max.iter = 1000)
       
       return(result)
-      
-      
+
     }
     
     matrix_to_array_rep <- function(m_matrix, m_size) {
