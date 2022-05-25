@@ -84,7 +84,7 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
 
                              },
                              #' @details
-                             #' plot a single variable.
+                             #' plot a single variable..
                              #' @param plot_variable name of the variable to plot, the name must be in the vector variables_names.
                              #' @return a ggplot object.
                              plot_individual = function(plot_variable, event_initial=NULL) {
