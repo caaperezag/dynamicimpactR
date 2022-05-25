@@ -268,6 +268,16 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                df_list_aggregate <- list()
 
                               
+                              difference_unscaled_all <- private$.extracted_data$Y_pred |>
+                                                        MODULES_SCALE$unscale_array_3d(
+                                                          result_list = private$.scaled_data_y,
+                                                          m_diff_array = private$.original_y 
+                              )
+
+                              cumsum_unscaled_all <- private$.extracted_data$Y_pred |>
+                                                     MODULES_SCALE$unscale_cumsum(result_list = private$.scaled_data_y,
+                                                                                  start_event = event_initial,
+                                                                                  m_diff_array = private$.original_y ) # TODO esto tiene que cambiar
 
 
                                for(m_index_grops  in 1:length(self$vector_name)) {
@@ -277,20 +287,8 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                    y_pred_unscaled <- private$.extracted_data$Y_pred |>
                                    MODULES_SCALE$unscale_array_3d(result_list = private$.scaled_data_y)
 
-                                  difference_unscaled <- private$.extracted_data$Y_pred |>
-                                                        MODULES_SCALE$unscale_array_3d(
-                                                          result_list = private$.scaled_data_y,
-                                                          m_diff_array = private$.original_y[,m_index_grops,] # TODO esto tiene que cambiar
-                                  )
-
-
-
-
-                                  cumsum_unscaled <- private$.extracted_data$Y_pred |>
-                                                     MODULES_SCALE$unscale_cumsum(result_list = private$.scaled_data_y,
-                                                                                  start_event = event_initial,
-                                                                                  m_diff_array = private$.original_y[,m_index_grops,] )
-
+                                  difference_unscaled <- difference_unscaled_all[,,m_index_grops,]
+                                  cumsum_unscaled     <- cumsum_unscaled_all[,,m_index_grops,]
 
                                   for(m_index in 1:(length(self$variables_names)+1)  ) {
 

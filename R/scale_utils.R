@@ -2,8 +2,45 @@ MODULES_SCALE <- modules::module({
   
     
     import('stats')
+    import("karray")
     
     
+    scale_3d_array  <- function(input_array) {
+
+       result_array  <- array(NA_real_, dim=dim(input_array)) |> keep::as.karray()
+
+       indexer  <- dim(input_array)[2]
+
+       n_cols  <- dim(input_array)[3]
+
+       scaled_array  <- matrix(NA_real_, indexer, n_cols) |> keep::as.karray()
+       center_array  <- matrix(NA_real_, indexer, n_cols) |> keep::as.karray()
+
+       
+
+       for(idx in 1:indexer ) {
+
+        result_scale  <- scale_matrix(input_array[,idx,])
+        result_array[,idx,]  <- result_scale$scaled_matrix
+
+        scaled_array[idx,] <- result_scale$original_scale
+        center_array[idx,] <- result_scale$original_means
+
+       }
+
+
+       result_list <- list(
+        'scaled_matrix' = result_array,
+        'original_means' = center_array,
+        'original_scale' = scaled_array,
+        'is_3d' = TRUE,
+        'is_array' = TRUE
+      )
+
+       
+
+    }
+
     scale_matrix <- function(input_matrix) {
 
       is_3d  <-  length(dim(input_matrix)) == 3
@@ -31,7 +68,8 @@ MODULES_SCALE <- modules::module({
         'scaled_matrix' = temp_matrix,
         'original_means' = attr(result_matrix, "scaled:center"),
         'original_scale' = attr(result_matrix, "scaled:scale"),
-        'is_3d' = is_3d
+        'is_3d' = is_3d,
+        'is_array' = FALSE
       )
       
       
@@ -85,8 +123,47 @@ MODULES_SCALE <- modules::module({
       
     }
     
+    unscale_array_3d  <- function(input_array, result_list, m_diff_array=NULL) {
+
+      if(result_list$is_3d) {
+
+
+        m_result <- array(NA_real_, dim=dim(input_array)) |> keep::as.karray()
+
+        indexer <- dim(input_array)[3]
+
+        for(idx in 1:indexer) {
+
+
+            temp_result_list  <- list(
+                'original_means' = result_list$original_means[idx,],
+                'original_scale' = result_list$original_scale[idx,]
+
+            )
+
+            m_result[,,idx,]  <- unscale_array_3d_from_2d_array(input_array = input_array[,,idx,] , 
+                                                                result_list = temp_result_list, 
+                                                                m_diff_array=m_diff_array[,idx,])
+
+        }
+
+
+        return(m_result)
+
+      } else {
+
+        result  <- unscale_array_3d_from_2d_array(input_array=input_array, 
+                                       result_list=result_list, 
+                                       m_diff_array=m_diff_array)
+
+        return(result)
+
+      }
+
+
+    }
     
-    unscale_array_3d <- function(input_array, result_list, m_diff_array=NULL) {
+    unscale_array_3d_from_2d_array <- function(input_array, result_list, m_diff_array=NULL) {
       
       # browser()
       
@@ -103,6 +180,8 @@ MODULES_SCALE <- modules::module({
         if(!is.null(m_diff_array)) {
            # browser()
 
+          # if(length(m_diff_array) == 2) {}
+
           m_result[i,,]  <- m_diff_array - m_result[i,,]
         }
         
@@ -113,8 +192,51 @@ MODULES_SCALE <- modules::module({
       
     }
     
+    unscale_cumsum  <- function(input_array, result_list, start_event= 0, m_diff_array=NULL) {
+
+      if(result_list$is_3d) {
+
+
+        m_result <- array(NA_real_, dim=dim(input_array)) |> keep::as.karray()
+
+        indexer <- dim(input_array)[3]
+
+        for(idx in 1:indexer) {
+
+
+            temp_result_list  <- list(
+                'original_means' = result_list$original_means[idx,],
+                'original_scale' = result_list$original_scale[idx,]
+
+            )
+
+            m_result[,,idx,]  <- unscale_cumsum_from_2d_array(input_array = input_array[,,idx,], 
+                                                              result_list = temp_result_list, 
+                                                              start_event= start_event, 
+                                                              m_diff_array=m_diff_array[,idx,])
+
+        }
+
+
+        return(m_result)
+
+      } else {
+
+        result  <- unscale_cumsum_from_2d_array(input_array = input_array, 
+                                                result_list = result_list, 
+                                                start_event= start_event, 
+                                                m_diff_array=m_diff_array)
+
+        return(result)
+
+      }
+
+ 
+
+    }
+
     # input_array is in the original scale, 
-    unscale_cumsum  <-  function(input_array, result_list, start_event= 0, m_diff_array=NULL) {
+    unscale_cumsum_from_2d_array   <-  function(input_array, result_list, start_event= 0, m_diff_array=NULL) {
       
       # browser()
       

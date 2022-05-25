@@ -83,8 +83,17 @@ BaseImpactModel <- R6::R6Class('BaseImpactModel', public = list(
     private$.original_x  <- X_data
     private$.original_y  <- Y_data
 
-    private$.scaled_data_x  <- X_data |> MODULES_SCALE$scale_matrix()
-    private$.scaled_data_y  <- Y_data |> MODULES_SCALE$scale_matrix()
+    if( (dim(Y_data)[2]) == 1) {
+
+      private$.scaled_data_x  <- X_data |> MODULES_SCALE$scale_matrix()
+      private$.scaled_data_y  <- Y_data |> MODULES_SCALE$scale_matrix()
+
+    } else {
+
+      private$.scaled_data_x  <- X_data |> MODULES_SCALE$scale_3d_array()
+      private$.scaled_data_y  <- Y_data |> MODULES_SCALE$scale_3d_array()
+
+    }
 
     self$X_data <-  private$.scaled_data_x$scaled_matrix
     self$Y_data <-  private$.scaled_data_y$scaled_matrix
