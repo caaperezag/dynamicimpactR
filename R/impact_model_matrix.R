@@ -53,6 +53,10 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                                     dates=NULL) {
 
                                # browser()
+
+                               
+
+                               Y_data_temp  <- Y_data
                                                         
                                super$initialize(name=name, event_initial=event_initial,
                                                 X_data=X_data, Y_data=Y_data, vector_name=vector_name,
@@ -66,9 +70,14 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                
                                private$.share_cols_var = share_cols_var  |> as.integer()
 
+                               
+
+                               private$.N_sub_elem <- dim(private$.original_y)[2] # number of rows R
+                               private$.N_elem <- dim(private$.original_y)[3] # number of columns K
+                               # stan_data$P <- dim(X)[3] # number of regresors
 
                                private$.N_pred_var  <- dim(X_data)[3]
-                               private$.N_sub_elem  <- dim(Y_data)[3]
+                               # private$.N_sub_elem  <- dim(Y_data)[3]
 
                                private$.model_path <- stanmodels$model_matrix
                                private$.predict_model_path  <- stanmodels$model_matrix_predict
