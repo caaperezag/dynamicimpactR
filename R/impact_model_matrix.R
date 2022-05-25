@@ -34,7 +34,6 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                              #' @param  vector_name: name of the response variable (only used in plots).
                              #' @param  variables_names: name of each of the components of vector (only used in plots).
                              #' @param  confidence_level: level of the credible interval.
-                             #' @param  groups_names: name of each group of variables.
                              #' @param  n_simul: number of the iteration for MCMC, half of the iteration will be burned, default 2000.
                              #' @param  n_chains: number of chains for MCMC, default 4.
                              #' @param  n_cores: number of cores used in MCMC, if NA(default) the number of CPU cores will be used.
@@ -67,12 +66,12 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                
                                private$.share_cols_var = share_cols_var  |> as.integer()
 
+
+                               private$.N_pred_var  <- dim(X_data)[3]
+                               private$.N_sub_elem  <- dim(Y_data)[3]
+
                                private$.model_path <- stanmodels$model_matrix
                                private$.predict_model_path  <- stanmodels$model_matrix_predict
-
-
-
-
 
                              },
                              #' @details
@@ -181,22 +180,7 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                            ),
                            private = list(
                              .share_cols_var = NA,
-
-                             .summary_result = NA_real_,
-                             .stan_result = NA_real_,
-                             .predefined_cov_matrix = NA_real_,
-                             .use_predefined_stations_var = 0,
-                             .residuals = NA_real_,
-                             .model_path = NA_character_,
-                             .N_elem = NA_integer_,
-                             .N_time = NA_integer_,
-                             .extracted_data = NA_real_,
-                             .plot_df = NA,
-                             .plot_df_aggregate = NA,
-                             .scaled_data_x = NA_real_,
-                             .scaled_data_y = NA_real_,
-                             .predict_model_path = NA_character_,
-
+                             .N_sub_elem = NA_integer_,
 
                              .get_stan_data = function(event_initial) {
 
@@ -206,11 +190,13 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                  N = private$.N_time,
                                  N_before = event_initial,
                                  K = private$.N_elem,
-                                 P = private$.N_elem,
+                                 P = private$.N_pred_var,
                                  Y = self$Y_data,
                                  X = self$X_data,
                                  use_predefined_stations_var = private$.use_predefined_stations_var,
                                  predefined_stations_var = private$.predefined_cov_matrix,
+
+                                 R = private$.N_sub_elem,
 
                                  use_predefined_sensors_var = 0, # TODO no implement in the interface
                                  use_discount_factor = 0, # TODO no yet implemented

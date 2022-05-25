@@ -104,6 +104,8 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                  private$.N_elem <- dim(Y_data)[2]
                                }
 
+                               private$.N_pred_var <- dim(X_data)[2]
+
                                # private$.N_elem <- dim(Y_data)[3]
                                private$.N_time <- dim(Y_data)[1]
 
@@ -336,6 +338,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                            ),
                            private = list(
+                             .N_pred_var = NA_integer_,
                              .summary_result = NA_real_,
                              .stan_result = NA_real_,
                              .predefined_cov_matrix = NA_real_,
