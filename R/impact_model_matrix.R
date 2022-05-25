@@ -52,7 +52,7 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                                     share_cols_var= TRUE,
                                                     dates=NULL) {
 
-                               browser()
+                               # browser()
                                                         
                                super$initialize(name=name, event_initial=event_initial,
                                                 X_data=X_data, Y_data=Y_data, vector_name=vector_name,
@@ -183,6 +183,8 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                              .N_sub_elem = NA_integer_,
 
                              .get_stan_data = function(event_initial) {
+
+                               browser()
 
                                # TODO move to the initalize if implemented 
                                temp_predefined_sensors_var  <- diag(private$.N_sub_elem)
