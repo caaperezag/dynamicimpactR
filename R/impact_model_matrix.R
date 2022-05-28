@@ -383,8 +383,8 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                  m_df_real$upper_limit <- NA
                                  m_df_real$lower_limit <- NA
 
-                                  browser()
-                                 m_df_stan_error <- difference_unscaled[,m_index_grops,idx]  |>
+                                 # browser()
+                                 m_df_stan_error <- difference_unscaled[,,idx]  |>
                                    private$.get_ic_from_variable(global=is_global)
                                  m_df_stan_error$variable <- m_variable_name
                                  m_df_stan_error$type <- "error"
@@ -393,7 +393,7 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
 
 
                                  # m_df_stan_error <- private$.extracted_data$cumsum_only_after[,,idx] |>
-                                 m_df_stan_error_cusum <- cumsum_unscaled[,m_index_grops,idx] |>
+                                 m_df_stan_error_cusum <- cumsum_unscaled[,,idx] |>
                                    private$.get_ic_from_variable(global=is_global)
                                  m_df_stan_error_cusum$variable <- m_variable_name
                                  m_df_stan_error_cusum$type <- "cumsum"
