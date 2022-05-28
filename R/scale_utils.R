@@ -2,7 +2,7 @@ MODULES_SCALE <- modules::module({
   
     
     import('stats')
-    import("karray")
+    import("keep")
     
     
     scale_3d_array  <- function(input_array) {
