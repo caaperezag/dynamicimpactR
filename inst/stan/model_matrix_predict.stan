@@ -143,7 +143,9 @@ parameters {
   cov_matrix[use_predefined_sensors_var ? 0 : R]  sigma_entry_obs_sensores; // v_t
 
   cov_matrix[P] level_sigma_variables; // w_t
-  cov_matrix[share_stations_var ? 0 : K] level_sigma_stations;
+
+  // TODO mejorar esto para la prediccion
+  // cov_matrix[share_stations_var ? 0 : K] level_sigma_stations;
 
 
   vector[P*K] theta[N]; // theta is defined as vector, to use the multivariate normal distribution
