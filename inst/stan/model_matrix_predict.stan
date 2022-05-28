@@ -151,27 +151,6 @@ parameters {
 
 }
 
-
-transformed parameters {
-  vector[R*K]  mu[N_before];
-
-
-  // initilize mu.
-
-  // mu is also a vector to. Because X is matrix  theta is converted to matrix form
-  // before the multiplication, the result is then converted to a vector
-  mu[1] = to_vector( X[1] * to_matrix(theta[1], P, K) );
-
-   // repeat for all times before the intervention
-   for (t in 2:N_before) {
-
-      mu[t] =   to_vector( ( X[t] * to_matrix(theta[t], P, K)) );
-
-   }
-
-}
-
-
 // The model to be estimated. We model the output
 // 'y' to be normally distributed with mean 'mu'
 // and standard deviation 'sigma'.
@@ -181,6 +160,10 @@ model {
 
 
 generated quantities {
+
+  //moved from transformed parameters
+  vector[R*K]  mu[N_before];
+  //
 
   // these variables are computed after MCMC
   matrix[R, K] y_pred[N]; // matricial version of y
@@ -195,6 +178,18 @@ generated quantities {
   //vector[N] arco_only_after_aggregated;
 
 
+  // this was moved from transformed parameters
+
+  // mu is also a vector to. Because X is matrix  theta is converted to matrix form
+  // before the multiplication, the result is then converted to a vector
+  mu[1] = to_vector( X[1] * to_matrix(theta[1], P, K) );
+
+   // repeat for all times before the intervention
+   for (t in 2:N_before) {
+
+      mu[t] =   to_vector( ( X[t] * to_matrix(theta[t], P, K)) );
+
+   }
 
 
   // get all paramters in their correct dimension
