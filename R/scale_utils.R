@@ -137,7 +137,8 @@ MODULES_SCALE <- modules::module({
 
             temp_result_list  <- list(
                 'original_means' = result_list$original_means[idx,],
-                'original_scale' = result_list$original_scale[idx,]
+                'original_scale' = result_list$original_scale[idx,],
+                'is_3d' = FALSE
 
             )
 
@@ -206,7 +207,8 @@ MODULES_SCALE <- modules::module({
 
             temp_result_list  <- list(
                 'original_means' = result_list$original_means[idx,],
-                'original_scale' = result_list$original_scale[idx,]
+                'original_scale' = result_list$original_scale[idx,],
+                'is_3d' = FALSE
 
             )
 
