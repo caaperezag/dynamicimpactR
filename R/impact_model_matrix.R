@@ -193,7 +193,7 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
 
                              .get_stan_data = function(event_initial) {
 
-                               browser()
+                               # browser()
 
                                # TODO move to the initalize if implemented 
                                temp_predefined_sensors_var  <- diag(private$.N_sub_elem)

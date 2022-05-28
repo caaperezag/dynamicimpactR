@@ -93,8 +93,6 @@ This class is used to fit Bayesian model when the response is a vector.
 
 \item{\code{confidence_level:}}{level of the credible interval.}
 
-\item{\code{groups_names:}}{name of each group of variables.}
-
 \item{\code{n_simul:}}{number of the iteration for MCMC, half of the iteration will be burned, default 2000.}
 
 \item{\code{n_chains:}}{number of chains for MCMC, default 4.}
@@ -132,7 +130,7 @@ Create a new \code{StanModelVector} object.
 \if{html}{\out{</div>}}
 }
 \subsection{Details}{
-plot a single variable.
+plot a single variable..
 }
 
 \subsection{Returns}{
