@@ -168,7 +168,7 @@ generated quantities {
   //
 
   // these variables are computed after MCMC
-  matrix[R, K] y_pred[N]; // matricial version of y
+  matrix[R, K] Y_pred[N]; // matricial version of y
   matrix[P, K] theta_pred[N]; // matricial version of theta
   matrix[R, K] mu_pred[N]; // matricial version of mu
   matrix[R, K] difference[N]; // array of diference matrices
@@ -207,11 +207,11 @@ generated quantities {
 
       if(use_predefined_stations_var) {
 
-        y_pred[t] = to_matrix(multi_normal_rng(to_vector( mu_pred[t] ), kronecker_prod(predefined_stations_var, predefined_sensors_var)), R, K);
+        Y_pred[t] = to_matrix(multi_normal_rng(to_vector( mu_pred[t] ), kronecker_prod(predefined_stations_var, predefined_sensors_var)), R, K);
 
       } else {
 
-        y_pred[t] = to_matrix(multi_normal_rng(to_vector( mu_pred[t] ), kronecker_prod(sigma_entry_obs_stations, predefined_sensors_var)), R, K);
+        Y_pred[t] = to_matrix(multi_normal_rng(to_vector( mu_pred[t] ), kronecker_prod(sigma_entry_obs_stations, predefined_sensors_var)), R, K);
 
       }
 
@@ -220,18 +220,18 @@ generated quantities {
 
       if(use_predefined_stations_var) {
 
-        y_pred[t] = to_matrix(multi_normal_rng(to_vector( mu_pred[t] ), kronecker_prod(predefined_stations_var, sigma_entry_obs_sensores)), R, K);
+        Y_pred[t] = to_matrix(multi_normal_rng(to_vector( mu_pred[t] ), kronecker_prod(predefined_stations_var, sigma_entry_obs_sensores)), R, K);
 
       } else {
 
-        y_pred[t] = to_matrix(multi_normal_rng(to_vector( mu_pred[t] ), kronecker_prod(sigma_entry_obs_stations, sigma_entry_obs_sensores)), R, K);
+        Y_pred[t] = to_matrix(multi_normal_rng(to_vector( mu_pred[t] ), kronecker_prod(sigma_entry_obs_stations, sigma_entry_obs_sensores)), R, K);
 
       }
 
     }
 
     // diference variable
-    difference[t] = y[t] - y_pred[t];
+    difference[t] = y[t] - Y_pred[t];
     // the cumsum_only_after is the cero matrix for all times before the intervention
     cumsum_only_after[t] = to_matrix(rep_vector(0, R*K), R, K);
   }
@@ -272,11 +272,11 @@ generated quantities {
 
       if(use_predefined_stations_var) {
 
-        y_pred[t] = to_matrix(multi_normal_rng(to_vector( mu_pred[t] ), kronecker_prod(predefined_stations_var,  predefined_sensors_var)), R, K);
+        Y_pred[t] = to_matrix(multi_normal_rng(to_vector( mu_pred[t] ), kronecker_prod(predefined_stations_var,  predefined_sensors_var)), R, K);
 
       } else {
 
-        y_pred[t] = to_matrix(multi_normal_rng(to_vector( mu_pred[t] ), kronecker_prod(sigma_entry_obs_stations, predefined_sensors_var)), R, K);
+        Y_pred[t] = to_matrix(multi_normal_rng(to_vector( mu_pred[t] ), kronecker_prod(sigma_entry_obs_stations, predefined_sensors_var)), R, K);
 
       }
 
@@ -284,18 +284,18 @@ generated quantities {
 
       if(use_predefined_stations_var) {
 
-        y_pred[t] = to_matrix(multi_normal_rng(to_vector( mu_pred[t] ), kronecker_prod(predefined_stations_var,  sigma_entry_obs_sensores)), R, K);
+        Y_pred[t] = to_matrix(multi_normal_rng(to_vector( mu_pred[t] ), kronecker_prod(predefined_stations_var,  sigma_entry_obs_sensores)), R, K);
 
       } else {
 
-        y_pred[t] = to_matrix(multi_normal_rng(to_vector( mu_pred[t] ), kronecker_prod(sigma_entry_obs_stations, sigma_entry_obs_sensores)), R, K);
+        Y_pred[t] = to_matrix(multi_normal_rng(to_vector( mu_pred[t] ), kronecker_prod(sigma_entry_obs_stations, sigma_entry_obs_sensores)), R, K);
 
       }
 
     }
 
     // diference variable
-    difference[t] = y[t] - y_pred[t];
+    difference[t] = y[t] - Y_pred[t];
 
   }
 
