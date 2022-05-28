@@ -262,6 +262,8 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
 
                              .build_plot_df = function(event_initial=NULL) {
 
+                               browser()
+
                                event_initial = private$.get_event_initial(event_initial)
 
                                df_list <- list()
