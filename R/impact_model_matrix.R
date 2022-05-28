@@ -262,7 +262,7 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
 
                              .build_plot_df = function(event_initial=NULL) {
 
-                               browser()
+                               # browser()
 
                                event_initial = private$.get_event_initial(event_initial)
 
@@ -307,7 +307,7 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                    idx = m_index
                                    m_variable_name <-  self$variables_names[idx]
                                  }
-
+                                  browser()
 
                                  # m_df_stan_pred <- private$.extracted_data$Y_pred[,,idx]  |>
                                  m_df_stan_pred <- y_pred_unscaled[,m_index_grops,idx]  |>
