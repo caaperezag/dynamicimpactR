@@ -281,6 +281,8 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                                                                   start_event = event_initial,
                                                                                   m_diff_array = private$.original_y ) # TODO esto tiene que cambiar
 
+                              
+                               vector_name <- self$vector_name
 
                                for(m_index_grops  in 1:length(self$vector_name)) {
                                    
@@ -307,10 +309,10 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                    idx = m_index
                                    m_variable_name <-  self$variables_names[idx]
                                  }
-                                  browser()
+                                  # browser()
 
                                  # m_df_stan_pred <- private$.extracted_data$Y_pred[,,idx]  |>
-                                 m_df_stan_pred <- y_pred_unscaled[,m_index_grops,idx]  |>
+                                 m_df_stan_pred <- y_pred_unscaled[,,m_index_grops,idx]  |>
                                    private$.get_ic_from_variable(global=is_global)
                                  m_df_stan_pred$variable <- m_variable_name
                                  m_df_stan_pred$type <- "prediction"
@@ -381,7 +383,7 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                  m_df_real$upper_limit <- NA
                                  m_df_real$lower_limit <- NA
 
-
+                                  browser()
                                  m_df_stan_error <- difference_unscaled[,m_index_grops,idx]  |>
                                    private$.get_ic_from_variable(global=is_global)
                                  m_df_stan_error$variable <- m_variable_name
