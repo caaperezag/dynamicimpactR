@@ -61,7 +61,7 @@ MODULE_SUMMARY <- modules::module({
 
     }
 
-    if(is.null(dates_df)) {
+    if(!is.null(dates_df)) {
       
       result_df <- result_df |> left_join(dates_df, by="time_index")
       
@@ -226,7 +226,7 @@ MODULE_SUMMARY <- modules::module({
                               variables_names, dates_df = NULL, ci=0.9) {
 
 
-    browser()
+    # browser()
 
     N <- dim(m_model$X_data)[1]
     
