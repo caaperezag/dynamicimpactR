@@ -467,7 +467,8 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                       model=self,
                                       impact_list=dates_list,
                                       dates_df=dates_df,
-                                      ci=confidence_level
+                                      ci=confidence_level,
+                                      is_matrix_model = TRUE
                                 )
 
                                 return(private$.summary_result)

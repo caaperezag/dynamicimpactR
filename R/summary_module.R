@@ -221,6 +221,145 @@ MODULE_SUMMARY <- modules::module({
 
   }
  
+  # TODO mejorar esto, mucho codigo repetido
+  get_impact_stan_matrix  <- function(m_model, event_min, event_max, 
+                              variables_names, dates_df = NULL, ci=0.9) {
+
+
+    N <- dim(m_model$X_data)[1]
+    
+    if( (event_min < 1) |  (event_max < 1) ) {
+      stop("All the events times must be greater than zero")
+    }
+    
+    if(event_max < 0) {
+      stop("All the initial events times must be greater than zero")
+    }
+    
+    if(event_min >= event_max) {
+      stop("the initial time must be greater than the end time")
+    }
+    
+    m_model$predict(event_initial=event_min)
+
+    
+    
+   i_lower <- m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after[,event_min:event_max,,] |> 
+              apply(c(2,3,4), 
+                     function(x){  bayestestR::hdi(x, c=ci)$CI_low  }
+              )
+    UTILS$gc_quiet()
+   
+   i_upper <- m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after[,event_min:event_max,,] |> 
+              apply(c(2,3,4), 
+                    function(x){  
+                      bayestestR::hdi(x, c=ci)$CI_high  
+              })
+    UTILS$gc_quiet()
+   
+   
+   i_lower_arco <- m_model$.__enclos_env__$private$.extracted_data$arco_only_after[,event_min:event_max,,] |> 
+                   apply(c(2,3,4), 
+                         function(x){  bayestestR::hdi(x, c=ci)$CI_low  }
+                   )
+    UTILS$gc_quiet()
+   
+   i_upper_arco <- m_model$.__enclos_env__$private$.extracted_data$arco_only_after[,event_min:event_max,,] |> 
+                   apply(c(2,3,4), 
+                         function(x){  
+                           bayestestR::hdi(x, c=ci)$CI_high  
+                         })
+    UTILS$gc_quiet()
+
+
+    i_arco_quantile <- m_model$.__enclos_env__$private$.extracted_data$arco_only_after[,event_min:event_max,,] |> 
+                             apply(c(2,3,4), 
+                                  function(x){  
+                                   x |> quantile(ci) |> as.numeric() 
+                                  })
+    UTILS$gc_quiet()
+
+    i_cumsum_quantile <- m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after[,event_min:event_max,,] |> 
+                               apply(c(2,3,4), 
+                                    function(x){  
+                                     x |> quantile(ci) |> as.numeric() 
+                                    })
+    UTILS$gc_quiet()
+
+   
+
+   m_df_result_list  <- list()
+
+  #indexer = dim(m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after)[3]
+  indexer = length(m_model$vector_name)
+
+   for(idx in 1:indexer) {
+
+     i_quantile_arco_cumsum <- ics_to_data_frame(lower_matrix = i_arco_quantile[,idx,], 
+                                                upper_matrix = i_cumsum_quantile[,idx,], 
+                                                event_min = event_min, 
+                                                event_max = event_max, 
+                                                variables_names = variables_names, 
+                                                lower_limit_name=paste0("quantile_", ci, "_arco"),
+                                                upper_limit_name=paste0("quantile_", ci, "_cumsum")
+                                                )
+     
+     
+
+     data_frame_result_cumsum <- ics_to_data_frame(lower_matrix = i_lower[,idx,], 
+                                                 upper_matrix = i_upper[,idx,], 
+                                                 event_min = event_min, 
+                                                 event_max = event_max, 
+                                                 variables_names = variables_names, 
+                                                 lower_limit_name="cumsum_lower",
+                                                 upper_limit_name="cumsum_upper")
+   
+   
+    data_frame_result_arco <- ics_to_data_frame(lower_matrix = i_lower_arco[,idx,], 
+                                                upper_matrix = i_upper_arco[,idx,], 
+                                                event_min = event_min, 
+                                                event_max = event_max, 
+                                                variables_names = variables_names, 
+                                                lower_limit_name="lower_arco",
+                                                upper_limit_name="upper_arco")
+ 
+   
+    averange_df <-  get_averange_df(variable_array=m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after[,,idx,], 
+                                    event_min=event_min, 
+                                    event_max=event_max, 
+                                    variables_names=variables_names,
+                                    prefix ="cumsum_")
+   
+   
+    averange_arco_df <-  get_averange_df(variable_array=m_model$.__enclos_env__$private$.extracted_data$arco_only_after[,,idx,], 
+                                          event_min=event_min, 
+                                          event_max=event_max, 
+                                          variables_names=variables_names,
+                                          prefix = "arco_")
+
+    temp_result_df  <- merge_multiuples_df(list(
+      data_frame_result_cumsum,
+      data_frame_result_arco,
+      averange_df,
+      averange_arco_df,
+      i_quantile_arco_cumsum
+    ), dates_df=dates_df)
+
+    temp_result_df$vector  <- m_model$vector_name[idx]
+
+
+    m_df_result_list[[length(m_df_result_list) + 1]]  <- temp_result_df
+
+
+   }
+
+    result_df  <- m_df_result_list  |> bind_rows()
+
+    return(result_df)
+
+  }
+
+
   
   get_impact_stan <- function(m_model, event_min, event_max, 
                               variables_names, dates_df = NULL, ci=0.9) {
@@ -232,7 +371,7 @@ MODULE_SUMMARY <- modules::module({
     }
     
     if(event_max < 0) {
-      stop("All the initial evnets times must be greater than zero")
+      stop("All the initial events times must be greater than zero")
     }
     
     if(event_min >= event_max) {
@@ -434,7 +573,7 @@ MODULE_SUMMARY <- modules::module({
 
   }
   
-  get_get_multiple_impacts_stan <- function(model, impact_list, dates_df=NULL, ci=0.9) {
+  get_get_multiple_impacts_stan <- function(model, impact_list, dates_df=NULL, ci=0.9, is_matrix_model=FALSE) {
 
 
     UTILS$gc_quiet()
@@ -491,14 +630,34 @@ MODULE_SUMMARY <- modules::module({
                            current_event_max_date |> as.character(),
                            "]")
 
-      impact_df  <- get_impact_stan(
+
+      if(is_matrix_model) {
+
+        impact_df  <- get_impact_stan_matrix(
             m_model=model, 
             event_min=current_event_min, 
             event_max=current_event_max, 
             variables_names=model$variables_names, 
             dates_df = dates_df, 
             ci=ci
-      )
+        )
+
+
+
+      } else {
+
+        impact_df  <- get_impact_stan(
+            m_model=model, 
+            event_min=current_event_min, 
+            event_max=current_event_max, 
+            variables_names=model$variables_names, 
+            dates_df = dates_df, 
+            ci=ci
+        )
+
+      }
+
+      
 
       UTILS$gc_quiet()
 
