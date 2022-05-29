@@ -226,6 +226,8 @@ MODULE_SUMMARY <- modules::module({
                               variables_names, dates_df = NULL, ci=0.9) {
 
 
+    browser()
+
     N <- dim(m_model$X_data)[1]
     
     if( (event_min < 1) |  (event_max < 1) ) {
