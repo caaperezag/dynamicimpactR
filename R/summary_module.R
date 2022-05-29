@@ -277,14 +277,14 @@ MODULE_SUMMARY <- modules::module({
     i_arco_quantile <- m_model$.__enclos_env__$private$.extracted_data$arco_only_after[,event_min:event_max,,] |> 
                              apply(c(2,3,4), 
                                   function(x){  
-                                   x |> quantile(ci) |> as.numeric() 
+                                   x |> quantile(ci, na.rm=T) |> as.numeric() 
                                   })
     UTILS$gc_quiet()
 
     i_cumsum_quantile <- m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after[,event_min:event_max,,] |> 
                                apply(c(2,3,4), 
                                     function(x){  
-                                     x |> quantile(ci) |> as.numeric() 
+                                     x |> quantile(ci, na.rm=T) |> as.numeric() 
                                     })
     UTILS$gc_quiet()
 
@@ -415,14 +415,14 @@ MODULE_SUMMARY <- modules::module({
     i_arco_quantile <- m_model$.__enclos_env__$private$.extracted_data$arco_only_after[,event_min:event_max,] |> 
                              apply(c(2,3), 
                                   function(x){  
-                                   x |> quantile(ci) |> as.numeric() 
+                                   x |> quantile(ci, na.rm=T) |> as.numeric() 
                                   })
     UTILS$gc_quiet()
 
     i_cumsum_quantile <- m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after[,event_min:event_max,] |> 
                                apply(c(2,3), 
                                     function(x){  
-                                     x |> quantile(ci) |> as.numeric() 
+                                     x |> quantile(ci, na.rm=T) |> as.numeric() 
                                     })
     UTILS$gc_quiet()
 
