@@ -309,7 +309,7 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                    idx = m_index
                                    m_variable_name <-  self$variables_names[idx]
                                  }
-                                  browser()
+                                  # browser()
 
                                  # m_df_stan_pred <- private$.extracted_data$Y_pred[,,idx]  |>
                                  m_df_stan_pred <- y_pred_unscaled[,,m_index_grops,idx]  |>
