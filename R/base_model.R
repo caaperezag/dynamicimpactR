@@ -108,8 +108,12 @@ BaseImpactModel <- R6::R6Class('BaseImpactModel', public = list(
 
   get_dates_df = function() {
 
+    if(is.null(private$.dates_df)) {
+      return(NULL)
+    }
 
-    if( is.na(private$.dates_df) ) {
+
+    if( any(is.na(private$.dates_df)) ) {
       return(NULL)
     }
 
