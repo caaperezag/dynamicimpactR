@@ -75,7 +75,7 @@ BaseImpactModel <- R6::R6Class('BaseImpactModel', public = list(
       stop("The number of rows(second dim of X and Y) is diferent.")
     }
 
-    if(is.na(private$.original_variance)) {
+    if(!is.data.frame(private$.original_variance)) {
       private$.original_variance <- MODULE_IMPACT$estamate_ml_from_array( Y_data [1:event_initial,,] )$U
     }
 

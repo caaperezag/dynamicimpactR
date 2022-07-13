@@ -607,7 +607,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                 }
 
                                 if(is.na(confidence_level)) {
-                                  stop("The confidence leven can't be NA")
+                                  stop("The confidence level can't be NA")
                                 }
 
                                 dates_df  <- self$get_dates_df()
@@ -627,11 +627,11 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                                 can_plot = TRUE
 
-                                if(is.na(private$.plot_df)) {
+                                if(!is.data.frame(private$.plot_df)) {
                                   can_plot = FALSE
                                 }
 
-                                if(is.na(private$.plot_df_aggregate)) {
+                                if(!is.data.frame(private$.plot_df_aggregate)) {
                                   can_plot = FALSE
                                 }
 

@@ -479,11 +479,11 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
 
                                 can_plot = TRUE
 
-                                if(is.na(private$.plot_df)) {
+                                if(!is.data.frame(private$.plot_df)) {
                                   can_plot = FALSE
                                 }
 
-                                if(is.na(private$.plot_df_aggregate)) {
+                                if(!is.data.frame(private$.plot_df_aggregate)) {
                                   can_plot = FALSE
                                 }
 
