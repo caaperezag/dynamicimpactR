@@ -104,7 +104,8 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                  private$.N_elem <- dim(private$.original_y)[2]
                                }
 
-                               private$.N_pred_var <- dim(X_data)[2]
+                               # private$.N_pred_var <- dim(X_data)[2]
+                               private$.N_pred_var <- dim(X_data)[3]
 
                                # private$.N_elem <- dim(Y_data)[3]
                                private$.N_time <- dim(private$.original_y)[1]
