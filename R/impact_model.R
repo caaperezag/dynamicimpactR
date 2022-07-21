@@ -52,7 +52,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                                self$thin  <- thin
 
-                               browser()
+                               # browser()
 
                                # if(length(dim(Y_data)) == 2) {
                                #   Y_data <-  Y_data |> array(dim = c(dim(Y_data)[1], 1, dim(Y_data)[2]))
@@ -134,7 +134,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                                  if(is.null(predefined_cov_matrix)) {
 
-                                   predefined_cov_matrix_type  <- MODULE_IMPACT$get_variable_matrix(
+                                   predefined_cov_matrix  <- MODULE_IMPACT$get_variable_matrix(
                                      matrix_type=predefined_cov_matrix_type,
                                      Y_data=Y_data,
                                      event_initial=event_initial
