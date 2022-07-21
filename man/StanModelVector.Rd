@@ -32,28 +32,28 @@ This class is used to fit Bayesian model when the response is a vector.
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{StanModelVector$new()}}
-\item \href{#method-fit}{\code{StanModelVector$fit()}}
-\item \href{#method-predict}{\code{StanModelVector$predict()}}
-\item \href{#method-plot_individual}{\code{StanModelVector$plot_individual()}}
-\item \href{#method-plot_aggregate}{\code{StanModelVector$plot_aggregate()}}
-\item \href{#method-plot}{\code{StanModelVector$plot()}}
-\item \href{#method-plot_diagnosis}{\code{StanModelVector$plot_diagnosis()}}
-\item \href{#method-summary}{\code{StanModelVector$summary()}}
-\item \href{#method-clone}{\code{StanModelVector$clone()}}
+\item \href{#method-StanModelVector-new}{\code{StanModelVector$new()}}
+\item \href{#method-StanModelVector-fit}{\code{StanModelVector$fit()}}
+\item \href{#method-StanModelVector-predict}{\code{StanModelVector$predict()}}
+\item \href{#method-StanModelVector-plot_individual}{\code{StanModelVector$plot_individual()}}
+\item \href{#method-StanModelVector-plot_aggregate}{\code{StanModelVector$plot_aggregate()}}
+\item \href{#method-StanModelVector-plot}{\code{StanModelVector$plot()}}
+\item \href{#method-StanModelVector-plot_diagnosis}{\code{StanModelVector$plot_diagnosis()}}
+\item \href{#method-StanModelVector-summary}{\code{StanModelVector$summary()}}
+\item \href{#method-StanModelVector-clone}{\code{StanModelVector$clone()}}
 }
 }
-\if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_dates_df">}\href{../../dynamicimpact/html/BaseImpactModel.html#method-get_dates_df}{\code{dynamicimpact::BaseImpactModel$get_dates_df()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_end_time">}\href{../../dynamicimpact/html/BaseImpactModel.html#method-get_end_time}{\code{dynamicimpact::BaseImpactModel$get_end_time()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details open><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_dates_df"><a href='../../dynamicimpact/html/BaseImpactModel.html#method-BaseImpactModel-get_dates_df'><code>dynamicimpact::BaseImpactModel$get_dates_df()</code></a></li>
+<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_end_time"><a href='../../dynamicimpact/html/BaseImpactModel.html#method-BaseImpactModel-get_end_time'><code>dynamicimpact::BaseImpactModel$get_end_time()</code></a></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-StanModelVector-new"></a>}}
+\if{latex}{\out{\hypertarget{method-StanModelVector-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{StanModelVector$new(
@@ -112,8 +112,8 @@ Create a new \code{StanModelVector} object.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-fit"></a>}}
-\if{latex}{\out{\hypertarget{method-fit}{}}}
+\if{html}{\out{<a id="method-StanModelVector-fit"></a>}}
+\if{latex}{\out{\hypertarget{method-StanModelVector-fit}{}}}
 \subsection{Method \code{fit()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{StanModelVector$fit()}\if{html}{\out{</div>}}
@@ -125,8 +125,8 @@ Fit the model using MCMC.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-predict"></a>}}
-\if{latex}{\out{\hypertarget{method-predict}{}}}
+\if{html}{\out{<a id="method-StanModelVector-predict"></a>}}
+\if{latex}{\out{\hypertarget{method-StanModelVector-predict}{}}}
 \subsection{Method \code{predict()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{StanModelVector$predict(event_initial = NULL)}\if{html}{\out{</div>}}
@@ -145,8 +145,8 @@ make a prediction using MCMC.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plot_individual"></a>}}
-\if{latex}{\out{\hypertarget{method-plot_individual}{}}}
+\if{html}{\out{<a id="method-StanModelVector-plot_individual"></a>}}
+\if{latex}{\out{\hypertarget{method-StanModelVector-plot_individual}{}}}
 \subsection{Method \code{plot_individual()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{StanModelVector$plot_individual(plot_variable, event_initial = NULL)}\if{html}{\out{</div>}}
@@ -168,8 +168,8 @@ a ggplot object.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plot_aggregate"></a>}}
-\if{latex}{\out{\hypertarget{method-plot_aggregate}{}}}
+\if{html}{\out{<a id="method-StanModelVector-plot_aggregate"></a>}}
+\if{latex}{\out{\hypertarget{method-StanModelVector-plot_aggregate}{}}}
 \subsection{Method \code{plot_aggregate()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{StanModelVector$plot_aggregate(event_initial = NULL)}\if{html}{\out{</div>}}
@@ -184,8 +184,8 @@ a ggplot object.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plot"></a>}}
-\if{latex}{\out{\hypertarget{method-plot}{}}}
+\if{html}{\out{<a id="method-StanModelVector-plot"></a>}}
+\if{latex}{\out{\hypertarget{method-StanModelVector-plot}{}}}
 \subsection{Method \code{plot()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{StanModelVector$plot()}\if{html}{\out{</div>}}
@@ -200,8 +200,8 @@ a ggplot object.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plot_diagnosis"></a>}}
-\if{latex}{\out{\hypertarget{method-plot_diagnosis}{}}}
+\if{html}{\out{<a id="method-StanModelVector-plot_diagnosis"></a>}}
+\if{latex}{\out{\hypertarget{method-StanModelVector-plot_diagnosis}{}}}
 \subsection{Method \code{plot_diagnosis()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{StanModelVector$plot_diagnosis(
@@ -232,8 +232,8 @@ a ggplot object.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-summary"></a>}}
-\if{latex}{\out{\hypertarget{method-summary}{}}}
+\if{html}{\out{<a id="method-StanModelVector-summary"></a>}}
+\if{latex}{\out{\hypertarget{method-StanModelVector-summary}{}}}
 \subsection{Method \code{summary()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{StanModelVector$summary(dates_list, confidence_level = NA)}\if{html}{\out{</div>}}
@@ -241,8 +241,8 @@ a ggplot object.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-StanModelVector-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-StanModelVector-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

@@ -33,30 +33,30 @@ This class is used to fit Bayesian model when the response is a vector with asso
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{SpatialModel$new()}}
-\item \href{#method-fit}{\code{SpatialModel$fit()}}
-\item \href{#method-get_unscaled_centroids}{\code{SpatialModel$get_unscaled_centroids()}}
-\item \href{#method-plot_map}{\code{SpatialModel$plot_map()}}
-\item \href{#method-clone}{\code{SpatialModel$clone()}}
+\item \href{#method-SpatialVectorModel-new}{\code{SpatialModel$new()}}
+\item \href{#method-SpatialVectorModel-fit}{\code{SpatialModel$fit()}}
+\item \href{#method-SpatialVectorModel-get_unscaled_centroids}{\code{SpatialModel$get_unscaled_centroids()}}
+\item \href{#method-SpatialVectorModel-plot_map}{\code{SpatialModel$plot_map()}}
+\item \href{#method-SpatialVectorModel-clone}{\code{SpatialModel$clone()}}
 }
 }
-\if{html}{
-\out{<details ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_dates_df">}\href{../../dynamicimpact/html/BaseImpactModel.html#method-get_dates_df}{\code{dynamicimpact::BaseImpactModel$get_dates_df()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_end_time">}\href{../../dynamicimpact/html/BaseImpactModel.html#method-get_end_time}{\code{dynamicimpact::BaseImpactModel$get_end_time()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="plot">}\href{../../dynamicimpact/html/StanModelVector.html#method-plot}{\code{dynamicimpact::StanModelVector$plot()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="plot_aggregate">}\href{../../dynamicimpact/html/StanModelVector.html#method-plot_aggregate}{\code{dynamicimpact::StanModelVector$plot_aggregate()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="plot_diagnosis">}\href{../../dynamicimpact/html/StanModelVector.html#method-plot_diagnosis}{\code{dynamicimpact::StanModelVector$plot_diagnosis()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="plot_individual">}\href{../../dynamicimpact/html/StanModelVector.html#method-plot_individual}{\code{dynamicimpact::StanModelVector$plot_individual()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="predict">}\href{../../dynamicimpact/html/StanModelVector.html#method-predict}{\code{dynamicimpact::StanModelVector$predict()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="summary">}\href{../../dynamicimpact/html/StanModelVector.html#method-summary}{\code{dynamicimpact::StanModelVector$summary()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_dates_df"><a href='../../dynamicimpact/html/BaseImpactModel.html#method-BaseImpactModel-get_dates_df'><code>dynamicimpact::BaseImpactModel$get_dates_df()</code></a></li>
+<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_end_time"><a href='../../dynamicimpact/html/BaseImpactModel.html#method-BaseImpactModel-get_end_time'><code>dynamicimpact::BaseImpactModel$get_end_time()</code></a></li>
+<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="plot"><a href='../../dynamicimpact/html/StanModelVector.html#method-StanModelVector-plot'><code>dynamicimpact::StanModelVector$plot()</code></a></li>
+<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="plot_aggregate"><a href='../../dynamicimpact/html/StanModelVector.html#method-StanModelVector-plot_aggregate'><code>dynamicimpact::StanModelVector$plot_aggregate()</code></a></li>
+<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="plot_diagnosis"><a href='../../dynamicimpact/html/StanModelVector.html#method-StanModelVector-plot_diagnosis'><code>dynamicimpact::StanModelVector$plot_diagnosis()</code></a></li>
+<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="plot_individual"><a href='../../dynamicimpact/html/StanModelVector.html#method-StanModelVector-plot_individual'><code>dynamicimpact::StanModelVector$plot_individual()</code></a></li>
+<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="predict"><a href='../../dynamicimpact/html/StanModelVector.html#method-StanModelVector-predict'><code>dynamicimpact::StanModelVector$predict()</code></a></li>
+<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="summary"><a href='../../dynamicimpact/html/StanModelVector.html#method-StanModelVector-summary'><code>dynamicimpact::StanModelVector$summary()</code></a></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-SpatialVectorModel-new"></a>}}
+\if{latex}{\out{\hypertarget{method-SpatialVectorModel-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{SpatialModel$new(
@@ -118,8 +118,8 @@ Create a new \code{SpatialModel} object.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-fit"></a>}}
-\if{latex}{\out{\hypertarget{method-fit}{}}}
+\if{html}{\out{<a id="method-SpatialVectorModel-fit"></a>}}
+\if{latex}{\out{\hypertarget{method-SpatialVectorModel-fit}{}}}
 \subsection{Method \code{fit()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{SpatialModel$fit()}\if{html}{\out{</div>}}
@@ -131,8 +131,8 @@ Fit the model using MCMC.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_unscaled_centroids"></a>}}
-\if{latex}{\out{\hypertarget{method-get_unscaled_centroids}{}}}
+\if{html}{\out{<a id="method-SpatialVectorModel-get_unscaled_centroids"></a>}}
+\if{latex}{\out{\hypertarget{method-SpatialVectorModel-get_unscaled_centroids}{}}}
 \subsection{Method \code{get_unscaled_centroids()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{SpatialModel$get_unscaled_centroids()}\if{html}{\out{</div>}}
@@ -140,8 +140,8 @@ Fit the model using MCMC.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-plot_map"></a>}}
-\if{latex}{\out{\hypertarget{method-plot_map}{}}}
+\if{html}{\out{<a id="method-SpatialVectorModel-plot_map"></a>}}
+\if{latex}{\out{\hypertarget{method-SpatialVectorModel-plot_map}{}}}
 \subsection{Method \code{plot_map()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{SpatialModel$plot_map(base_shape = NA, coord_system)}\if{html}{\out{</div>}}
@@ -149,8 +149,8 @@ Fit the model using MCMC.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-SpatialVectorModel-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-SpatialVectorModel-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
