@@ -10,7 +10,7 @@ BaseImpactModel <- R6::R6Class('BaseImpactModel', public = list(
   confidence_level=0.9,
   initialize = function(name='model impact', event_initial=NULL, X_data, Y_data, vector_name, variables_names, confidence_level,log_x, log_y, dates=NULL) {
 
-    browser()
+    # browser()
 
     self$name <-  name
 
