@@ -129,42 +129,14 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                                self$n_cores <- n_cores
 
-                              private$.use_predefined_stations_var = 1
+                              
 
-                              #browser()
+                              private$.predefined_cov_matrix_type = match.arg(predefined_cov_matrix_type)
 
-                              predefined_cov_matrix_type = match.arg(predefined_cov_matrix_type)
-
-                               if(predefined_cov_matrix_type != "mcmc") {
-
-                                 if(is.null(predefined_cov_matrix)) {
-
-                                   predefined_cov_matrix  <- MODULE_IMPACT$get_variable_matrix(
-                                     matrix_type=predefined_cov_matrix_type,
-                                     Y_data=private$.original_y,
-                                     event_initial=event_initial
-                                   )
+                              private$.predefined_cov_matrix <-  predefined_cov_matrix
 
 
-                                 }
-
-
-                               }
-
-                               # browser()
-
-                               private$.predefined_cov_matrix <-  predefined_cov_matrix
-
-
-                               if(is.null(predefined_cov_matrix)) {
-
-                                 # in this case the matrix is not use in stan
-                                 private$.predefined_cov_matrix = matrix(0,
-                                                                         private$.N_elem,
-                                                                         private$.N_elem)
-                                 private$.use_predefined_stations_var = 0
-
-                               }
+                               
 
 
 
@@ -367,8 +339,47 @@ StanModelVector <- R6::R6Class('StanModelVector',
                              .scaled_data_x = NA_real_,
                              .scaled_data_y = NA_real_,
                              .predict_model_path = NA_character_,
+                             .predefined_cov_matrix_type = NA_real_,
+
+                             .get_predefined_cov_matrix  = function(event_initial) {
+
+                              event_initial = private$.get_event_initial(event_initial)
+                              private$.use_predefined_stations_var = 1
+
+                              predefined_cov_matrix  <- private$.predefined_cov_matrix
+
+                              if(private$.predefined_cov_matrix_type != "mcmc") {
+
+                                 if(!is.matrix(predefined_cov_matrix)) {
+
+                                   predefined_cov_matrix  <- MODULE_IMPACT$get_variable_matrix(
+                                     matrix_type=private$.predefined_cov_matrix_type,
+                                     Y_data=private$.scaled_data_y$scaled_matrix,
+                                     event_initial=event_initial
+                                   )
 
 
+                                 }
+
+                                 
+
+
+                              }
+
+                              if(is.null(predefined_cov_matrix)) {
+
+                                  # in this case the matrix is not use in stan
+                                  predefined_cov_matrix = matrix(0,
+                                                                 private$.N_elem,
+                                                                 private$.N_elem)
+
+                                  private$.use_predefined_stations_var = 0
+
+                              } 
+
+                              return(predefined_cov_matrix)
+
+                             },
 
                              .get_stan_data = function(event_initial) {
 
@@ -382,7 +393,8 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                  Y = self$Y_data[,1,],
                                  X = self$X_data[,1,],
                                  use_predefined_stations_var = private$.use_predefined_stations_var,
-                                 predefined_stations_var = private$.predefined_cov_matrix
+                                 #predefined_stations_var = private$.predefined_cov_matrix,
+                                 predefined_stations_var = private$.get_predefined_cov_matrix(event_initial)
                                )
 
                                return(stan_data)

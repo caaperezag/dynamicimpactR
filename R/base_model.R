@@ -104,8 +104,9 @@ BaseImpactModel <- R6::R6Class('BaseImpactModel', public = list(
     }
 
     if(!is.matrix(private$.original_variance)) {
-      # private$.original_variance <- MODULE_IMPACT$estamate_ml_from_array( Y_data [1:event_initial,,] )$U
-      private$.original_variance <- MODULE_IMPACT$estamate_ml_from_array(  private$.scaled_data_y [1:event_initial,] )$U
+      private$.original_variance <- MODULE_IMPACT$estamate_ml_from_array( Y_data [1:event_initial,,] )$U
+      
+      #private$.original_variance  <- MODULE_IMPACT$estamate_ml_from_array(private$.scaled_data_y$scaled_matrix[1:event_initial,,])$U
     }
 
     self$X_data <-  private$.scaled_data_x$scaled_matrix
