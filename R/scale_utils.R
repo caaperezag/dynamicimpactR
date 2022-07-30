@@ -53,7 +53,7 @@ MODULES_SCALE <- modules::module({
       }
 
       if(use_log) {
-        if(any(result_matrix <= 0) ) {
+        if(any(input_matrix <= 0) ) {
           stop("when using log elements must be positive")
         }
 
