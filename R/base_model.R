@@ -10,6 +10,8 @@ BaseImpactModel <- R6::R6Class('BaseImpactModel', public = list(
   confidence_level=0.9,
   initialize = function(name='model impact', event_initial=NULL, X_data, Y_data, vector_name, variables_names, confidence_level,log_x, log_y, dates=NULL) {
 
+    browser()
+
     self$name <-  name
 
     self$log_x <- log_x
@@ -87,9 +89,7 @@ BaseImpactModel <- R6::R6Class('BaseImpactModel', public = list(
       stop("The number of rows(second dim of X and Y) is diferent.")
     }
 
-    if(!is.data.frame(private$.original_variance)) {
-      private$.original_variance <- MODULE_IMPACT$estamate_ml_from_array( Y_data [1:event_initial,,] )$U
-    }
+    
 
 
     private$.original_x  <- X_data
@@ -105,6 +105,11 @@ BaseImpactModel <- R6::R6Class('BaseImpactModel', public = list(
       private$.scaled_data_x  <- X_data |> MODULES_SCALE$scale_3d_array(self$log_x)
       private$.scaled_data_y  <- Y_data |> MODULES_SCALE$scale_3d_array(self$log_y)
 
+    }
+
+    if(!is.matrix(private$.original_variance)) {
+      # private$.original_variance <- MODULE_IMPACT$estamate_ml_from_array( Y_data [1:event_initial,,] )$U
+      private$.original_variance <- MODULE_IMPACT$estamate_ml_from_array(  private$.scaled_data_y [1:event_initial,] )$U
     }
 
     self$X_data <-  private$.scaled_data_x$scaled_matrix

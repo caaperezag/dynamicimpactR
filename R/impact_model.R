@@ -51,7 +51,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                                     log_x=FALSE, log_y=FALSE,
                                                     dates=NULL) {
 
-                               browser()
+                               #browser()
 
                                self$thin  <- thin
 
