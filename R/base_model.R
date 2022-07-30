@@ -61,10 +61,6 @@ BaseImpactModel <- R6::R6Class('BaseImpactModel', public = list(
 
     temp_n_dim <- length(dim(Y_data))
 
-    if(temp_n_dim == 3) {
-      private$.original_variance <- MODULE_IMPACT$estamate_ml_from_array( Y_data [1:event_initial,,] )$U
-    }
-
     if(any(is.na(Y_data))) {
       stop("There should be no missing values in Y.")
     }
