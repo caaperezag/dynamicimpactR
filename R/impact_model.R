@@ -385,6 +385,8 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                                event_initial = private$.get_event_initial(event_initial)
 
+                               temp_predefined_var  <-  private$.get_predefined_cov_matrix(event_initial)
+
                                stan_data = list(
                                  N = private$.N_time,
                                  N_before = event_initial,
@@ -394,7 +396,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                  X = self$X_data[,1,],
                                  use_predefined_stations_var = private$.use_predefined_stations_var,
                                  #predefined_stations_var = private$.predefined_cov_matrix,
-                                 predefined_stations_var = private$.get_predefined_cov_matrix(event_initial)
+                                 predefined_stations_var = temp_predefined_var
                                )
 
                                return(stan_data)
