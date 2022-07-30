@@ -35,7 +35,7 @@ MODULES_SCALE <- modules::module({
         'original_scale' = scaled_array,
         'is_3d' = TRUE,
         'is_array' = TRUE,
-        "is_log" = use_log
+        "use_log" = use_log
       )
 
 
@@ -80,7 +80,7 @@ MODULES_SCALE <- modules::module({
         # 'is_3d' = is_3d,
         'is_3d' = FALSE, # this function is only when the original array is 2d an then reshaped to 3d.
         'is_array' = FALSE,
-        "is_log" = use_log
+        "use_log" = use_log
       )
 
 
@@ -155,7 +155,7 @@ MODULES_SCALE <- modules::module({
                 'original_means' = result_list$original_means[idx,],
                 'original_scale' = result_list$original_scale[idx,],
                 'is_3d' = FALSE,
-                "is_log" = result_list$use_log
+                "use_log" = result_list$use_log
 
             )
 
@@ -226,7 +226,7 @@ MODULES_SCALE <- modules::module({
                 'original_means' = result_list$original_means[idx,],
                 'original_scale' = result_list$original_scale[idx,],
                 'is_3d' = FALSE,
-                "is_log" = result_list$use_log
+                "use_log" = result_list$use_log
 
             )
 
