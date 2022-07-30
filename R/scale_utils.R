@@ -5,7 +5,7 @@ MODULES_SCALE <- modules::module({
     import("keep")
 
 
-    scale_3d_array  <- function(input_array) {
+    scale_3d_array  <- function(input_array, use_log) {
 
        result_array  <- array(NA_real_, dim=dim(input_array)) |> keep::as.karray()
 
@@ -20,7 +20,7 @@ MODULES_SCALE <- modules::module({
 
        for(idx in 1:indexer ) {
 
-        result_scale  <- scale_matrix(input_array[,idx,])
+        result_scale  <- scale_matrix(input_array[,idx,], use_log)
         result_array[,idx,]  <- result_scale$scaled_matrix
 
         scaled_array[idx,] <- result_scale$original_scale
@@ -34,14 +34,15 @@ MODULES_SCALE <- modules::module({
         'original_means' = center_array,
         'original_scale' = scaled_array,
         'is_3d' = TRUE,
-        'is_array' = TRUE
+        'is_array' = TRUE,
+        "is_log" = use_log
       )
 
 
 
     }
 
-    scale_matrix <- function(input_matrix) {
+    scale_matrix <- function(input_matrix, use_log) {
 
       is_3d  <-  length(dim(input_matrix)) == 3
 
@@ -49,6 +50,14 @@ MODULES_SCALE <- modules::module({
 
         input_matrix  <- input_matrix[,1,]
 
+      }
+
+      if(use_log) {
+        if(any(result_matrix <= 0) ) {
+          stop("when using log elements must be positive")
+        }
+
+        input_matrix  <- log(input_matrix)
       }
 
       result_matrix <- input_matrix |> scale()
@@ -70,7 +79,8 @@ MODULES_SCALE <- modules::module({
         'original_scale' = attr(result_matrix, "scaled:scale"),
         # 'is_3d' = is_3d,
         'is_3d' = FALSE, # this function is only when the original array is 2d an then reshaped to 3d.
-        'is_array' = FALSE
+        'is_array' = FALSE,
+        "is_log" = use_log
       )
 
 
@@ -120,6 +130,11 @@ MODULES_SCALE <- modules::module({
                                 dim(input_matrix)[2]))
       }
 
+      if(result_list$use_log) {
+
+        result_matrix  <- result_matrix  |> exp()
+      }
+
       return(result_matrix)
 
     }
@@ -139,7 +154,8 @@ MODULES_SCALE <- modules::module({
             temp_result_list  <- list(
                 'original_means' = result_list$original_means[idx,],
                 'original_scale' = result_list$original_scale[idx,],
-                'is_3d' = FALSE
+                'is_3d' = FALSE,
+                "is_log" = result_list$use_log
 
             )
 
@@ -209,7 +225,8 @@ MODULES_SCALE <- modules::module({
             temp_result_list  <- list(
                 'original_means' = result_list$original_means[idx,],
                 'original_scale' = result_list$original_scale[idx,],
-                'is_3d' = FALSE
+                'is_3d' = FALSE,
+                "is_log" = result_list$use_log
 
             )
 

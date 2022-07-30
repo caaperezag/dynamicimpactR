@@ -50,6 +50,7 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                                     stan_fit=NA_real_,
                                                     thin=1,
                                                     share_cols_var= TRUE,
+                                                    log_x=FALSE, log_y=FALSE,
                                                     dates=NULL) {
 
                                # browser()
@@ -66,6 +67,7 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                                 predefined_cov_matrix = predefined_cov_matrix,
                                                 stan_fit=stan_fit,
                                                 thin=thin,
+                                                log_x=log_x, log_y=log_y,
                                                 dates=dates)
                                
                                private$.share_cols_var = share_cols_var  |> as.integer()

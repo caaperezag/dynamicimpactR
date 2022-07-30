@@ -3,13 +3,25 @@ BaseImpactModel <- R6::R6Class('BaseImpactModel', public = list(
   event_initial = NA_integer_,
   X_data = NA_real_,
   Y_data = NA_real_,
+  log_x = FALSE, 
+  log_y = FALSE,
   vector_name = NA_character_,
   variables_names = NA_character_,
   confidence_level=0.9,
-  initialize = function(name='model impact', event_initial=NULL, X_data, Y_data, vector_name, variables_names, confidence_level, dates=NULL) {
+  initialize = function(name='model impact', event_initial=NULL, X_data, Y_data, vector_name, variables_names, confidence_level,log_x, log_y, dates=NULL) {
 
     self$name <-  name
 
+    self$log_x <- log_x
+    self$log_y <- log_y
+
+    if(any(X_data <= 0) ) {
+      stop("when using log elements of X must be positive")
+    }
+
+    if(any(Y_data <= 0) ) {
+      stop("when using log elements of Y must be positive")
+    }
 
     if(is.null(dim(Y_data))) {
       stop('Incorrect Y_data dimensions')
@@ -85,13 +97,13 @@ BaseImpactModel <- R6::R6Class('BaseImpactModel', public = list(
 
     if( (dim(Y_data)[2]) == 1) {
 
-      private$.scaled_data_x  <- X_data |> MODULES_SCALE$scale_matrix()
-      private$.scaled_data_y  <- Y_data |> MODULES_SCALE$scale_matrix()
+      private$.scaled_data_x  <- X_data |> MODULES_SCALE$scale_matrix(self$log_x)
+      private$.scaled_data_y  <- Y_data |> MODULES_SCALE$scale_matrix(self$log_y)
 
     } else {
 
-      private$.scaled_data_x  <- X_data |> MODULES_SCALE$scale_3d_array()
-      private$.scaled_data_y  <- Y_data |> MODULES_SCALE$scale_3d_array()
+      private$.scaled_data_x  <- X_data |> MODULES_SCALE$scale_3d_array(self$log_x)
+      private$.scaled_data_y  <- Y_data |> MODULES_SCALE$scale_3d_array(self$log_y)
 
     }
 

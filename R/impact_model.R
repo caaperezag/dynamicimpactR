@@ -48,7 +48,10 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                                     predefined_cov_matrix = NULL,
                                                     stan_fit=NA_real_,
                                                     thin=1,
+                                                    log_x=FALSE, log_y=FALSE,
                                                     dates=NULL) {
+
+                               browser()
 
                                self$thin  <- thin
 
@@ -64,9 +67,11 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                                # predefined_cov_matrix_type = match.arg(predefined_cov_matrix_type)
 
-                               super$initialize(name, event_initial, X_data, Y_data,
-                                                vector_name, variables_names,
-                                                confidence_level, dates)
+                               super$initialize(name=name, event_initial=event_initial, 
+                                                X_data=X_data, Y_data=Y_data,
+                                                vector_name=vector_name, variables_names=variables_names,
+                                                confidence_level=confidence_level, 
+                                                log_x=log_x, log_y=log_y, dates=dates)
 
                                if(!is.na(stan_fit)) {
                                  private$.stan_result <- stan_fit

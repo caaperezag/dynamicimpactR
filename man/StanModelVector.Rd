@@ -71,6 +71,8 @@ This class is used to fit Bayesian model when the response is a vector.
   predefined_cov_matrix = NULL,
   stan_fit = NA_real_,
   thin = 1,
+  log_x = FALSE,
+  log_y = FALSE,
   dates = NULL
 )}\if{html}{\out{</div>}}
 }

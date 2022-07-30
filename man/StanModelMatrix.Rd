@@ -72,6 +72,8 @@ This class is used to fit Bayesian model when the response is a vector.
   stan_fit = NA_real_,
   thin = 1,
   share_cols_var = TRUE,
+  log_x = FALSE,
+  log_y = FALSE,
   dates = NULL
 )}\if{html}{\out{</div>}}
 }
