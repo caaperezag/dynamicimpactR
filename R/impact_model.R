@@ -383,7 +383,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                              .get_stan_data = function(event_initial) {
 
-                              browser()
+                              #browser()
 
                                event_initial = private$.get_event_initial(event_initial)
 
@@ -457,6 +457,8 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
 
                              .build_plot_df = function(event_initial=NULL) {
+
+                              #browser()
 
                                event_initial = private$.get_event_initial(event_initial)
 
