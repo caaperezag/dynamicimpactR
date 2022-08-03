@@ -383,6 +383,8 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                              .get_stan_data = function(event_initial) {
 
+                              browser()
+
                                event_initial = private$.get_event_initial(event_initial)
 
                                temp_predefined_var  <-  private$.get_predefined_cov_matrix(event_initial)

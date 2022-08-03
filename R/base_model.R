@@ -85,7 +85,7 @@ BaseImpactModel <- R6::R6Class('BaseImpactModel', public = list(
       stop("The number of rows(second dim of X and Y) is diferent.")
     }
 
-    
+    browser()
 
 
     private$.original_x  <- X_data
