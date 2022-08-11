@@ -200,6 +200,8 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                # TODO move to the initalize if implemented 
                                temp_predefined_sensors_var  <- diag(private$.N_sub_elem)
 
+                               temp_predefined_var  <-  private$.get_predefined_cov_matrix(event_initial)
+
                                event_initial = private$.get_event_initial(event_initial)
 
                                stan_data = list(
@@ -210,7 +212,7 @@ StanModelMatrix <- R6::R6Class('StanModelMatrix',
                                  y = self$Y_data,
                                  X = self$X_data,
                                  use_predefined_stations_var = private$.use_predefined_stations_var,
-                                 predefined_stations_var = private$.predefined_cov_matrix,
+                                 predefined_stations_var = temp_predefined_var,
 
                                  R = private$.N_sub_elem,
 
