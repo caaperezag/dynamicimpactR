@@ -33,7 +33,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_model_matrix_predict");
-    reader.add_event(318, 316, "end", "model_model_matrix_predict");
+    reader.add_event(315, 313, "end", "model_model_matrix_predict");
     return reader;
 }
 template <typename T0__, typename T1__>
@@ -498,11 +498,11 @@ public:
             validate_non_negative_index("level_sigma_variables", "P", P);
             validate_non_negative_index("level_sigma_variables", "P", P);
             num_params_r__ += (P + ((P * (P - 1)) / 2));
-            current_statement_begin__ = 146;
+            current_statement_begin__ = 148;
             validate_non_negative_index("level_sigma_stations", "(share_stations_var ? 0 : K )", (share_stations_var ? 0 : K ));
             validate_non_negative_index("level_sigma_stations", "(share_stations_var ? 0 : K )", (share_stations_var ? 0 : K ));
             num_params_r__ += ((share_stations_var ? 0 : K ) + (((share_stations_var ? 0 : K ) * ((share_stations_var ? 0 : K ) - 1)) / 2));
-            current_statement_begin__ = 149;
+            current_statement_begin__ = 151;
             validate_non_negative_index("theta", "(P * K)", (P * K));
             validate_non_negative_index("theta", "N", N);
             num_params_r__ += ((P * K) * N);
@@ -586,7 +586,7 @@ public:
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(std::runtime_error(std::string("Error transforming variable level_sigma_variables: ") + e.what()), current_statement_begin__, prog_reader__());
         }
-        current_statement_begin__ = 146;
+        current_statement_begin__ = 148;
         if (!(context__.contains_r("level_sigma_stations")))
             stan::lang::rethrow_located(std::runtime_error(std::string("Variable level_sigma_stations missing")), current_statement_begin__, prog_reader__());
         vals_r__ = context__.vals_r("level_sigma_stations");
@@ -607,7 +607,7 @@ public:
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(std::runtime_error(std::string("Error transforming variable level_sigma_stations: ") + e.what()), current_statement_begin__, prog_reader__());
         }
-        current_statement_begin__ = 149;
+        current_statement_begin__ = 151;
         if (!(context__.contains_r("theta")))
             stan::lang::rethrow_located(std::runtime_error(std::string("Variable theta missing")), current_statement_begin__, prog_reader__());
         vals_r__ = context__.vals_r("theta");
@@ -677,14 +677,14 @@ public:
                 level_sigma_variables = in__.cov_matrix_constrain(P, lp__);
             else
                 level_sigma_variables = in__.cov_matrix_constrain(P);
-            current_statement_begin__ = 146;
+            current_statement_begin__ = 148;
             Eigen::Matrix<local_scalar_t__, Eigen::Dynamic, Eigen::Dynamic> level_sigma_stations;
             (void) level_sigma_stations;  // dummy to suppress unused var warning
             if (jacobian__)
                 level_sigma_stations = in__.cov_matrix_constrain((share_stations_var ? 0 : K ), lp__);
             else
                 level_sigma_stations = in__.cov_matrix_constrain((share_stations_var ? 0 : K ));
-            current_statement_begin__ = 149;
+            current_statement_begin__ = 151;
             std::vector<Eigen::Matrix<local_scalar_t__, Eigen::Dynamic, 1> > theta;
             size_t theta_d_0_max__ = N;
             theta.reserve(theta_d_0_max__);
@@ -693,42 +693,6 @@ public:
                     theta.push_back(in__.vector_constrain((P * K), lp__));
                 else
                     theta.push_back(in__.vector_constrain((P * K)));
-            }
-            // transformed parameters
-            current_statement_begin__ = 156;
-            validate_non_negative_index("mu", "(R * K)", (R * K));
-            validate_non_negative_index("mu", "N_before", N_before);
-            std::vector<Eigen::Matrix<local_scalar_t__, Eigen::Dynamic, 1> > mu(N_before, Eigen::Matrix<local_scalar_t__, Eigen::Dynamic, 1>((R * K)));
-            stan::math::initialize(mu, DUMMY_VAR__);
-            stan::math::fill(mu, DUMMY_VAR__);
-            // transformed parameters block statements
-            current_statement_begin__ = 163;
-            stan::model::assign(mu, 
-                        stan::model::cons_list(stan::model::index_uni(1), stan::model::nil_index_list()), 
-                        to_vector(multiply(get_base1(X, 1, "X", 1), to_matrix(get_base1(theta, 1, "theta", 1), P, K))), 
-                        "assigning variable mu");
-            current_statement_begin__ = 166;
-            for (int t = 2; t <= N_before; ++t) {
-                current_statement_begin__ = 168;
-                stan::model::assign(mu, 
-                            stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
-                            to_vector(multiply(get_base1(X, t, "X", 1), to_matrix(get_base1(theta, t, "theta", 1), P, K))), 
-                            "assigning variable mu");
-            }
-            // validate transformed parameters
-            const char* function__ = "validate transformed params";
-            (void) function__;  // dummy to suppress unused var warning
-            current_statement_begin__ = 156;
-            size_t mu_k_0_max__ = N_before;
-            size_t mu_j_1_max__ = (R * K);
-            for (size_t k_0__ = 0; k_0__ < mu_k_0_max__; ++k_0__) {
-                for (size_t j_1__ = 0; j_1__ < mu_j_1_max__; ++j_1__) {
-                    if (stan::math::is_uninitialized(mu[k_0__](j_1__))) {
-                        std::stringstream msg__;
-                        msg__ << "Undefined transformed parameter: mu" << "[" << k_0__ << "]" << "(" << j_1__ << ")";
-                        stan::lang::rethrow_located(std::runtime_error(std::string("Error initializing variable mu: ") + msg__.str()), current_statement_begin__, prog_reader__());
-                    }
-                }
             }
             // model body
         } catch (const std::exception& e) {
@@ -757,7 +721,7 @@ public:
         names__.push_back("level_sigma_stations");
         names__.push_back("theta");
         names__.push_back("mu");
-        names__.push_back("y_pred");
+        names__.push_back("Y_pred");
         names__.push_back("theta_pred");
         names__.push_back("mu_pred");
         names__.push_back("difference");
@@ -894,86 +858,58 @@ public:
         (void) DUMMY_VAR__;  // suppress unused var warning
         if (!include_tparams__ && !include_gqs__) return;
         try {
-            // declare and define transformed parameters
-            current_statement_begin__ = 156;
+            if (!include_gqs__ && !include_tparams__) return;
+            if (!include_gqs__) return;
+            // declare and define generated quantities
+            current_statement_begin__ = 167;
             validate_non_negative_index("mu", "(R * K)", (R * K));
             validate_non_negative_index("mu", "N_before", N_before);
             std::vector<Eigen::Matrix<double, Eigen::Dynamic, 1> > mu(N_before, Eigen::Matrix<double, Eigen::Dynamic, 1>((R * K)));
             stan::math::initialize(mu, DUMMY_VAR__);
             stan::math::fill(mu, DUMMY_VAR__);
-            // do transformed parameters statements
-            current_statement_begin__ = 163;
-            stan::model::assign(mu, 
-                        stan::model::cons_list(stan::model::index_uni(1), stan::model::nil_index_list()), 
-                        to_vector(multiply(get_base1(X, 1, "X", 1), to_matrix(get_base1(theta, 1, "theta", 1), P, K))), 
-                        "assigning variable mu");
-            current_statement_begin__ = 166;
-            for (int t = 2; t <= N_before; ++t) {
-                current_statement_begin__ = 168;
-                stan::model::assign(mu, 
-                            stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
-                            to_vector(multiply(get_base1(X, t, "X", 1), to_matrix(get_base1(theta, t, "theta", 1), P, K))), 
-                            "assigning variable mu");
-            }
-            if (!include_gqs__ && !include_tparams__) return;
-            // validate transformed parameters
-            const char* function__ = "validate transformed params";
-            (void) function__;  // dummy to suppress unused var warning
-            // write transformed parameters
-            if (include_tparams__) {
-                size_t mu_j_1_max__ = (R * K);
-                size_t mu_k_0_max__ = N_before;
-                for (size_t j_1__ = 0; j_1__ < mu_j_1_max__; ++j_1__) {
-                    for (size_t k_0__ = 0; k_0__ < mu_k_0_max__; ++k_0__) {
-                        vars__.push_back(mu[k_0__](j_1__));
-                    }
-                }
-            }
-            if (!include_gqs__) return;
-            // declare and define generated quantities
-            current_statement_begin__ = 186;
-            validate_non_negative_index("y_pred", "R", R);
-            validate_non_negative_index("y_pred", "K", K);
-            validate_non_negative_index("y_pred", "N", N);
-            std::vector<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic> > y_pred(N, Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>(R, K));
-            stan::math::initialize(y_pred, DUMMY_VAR__);
-            stan::math::fill(y_pred, DUMMY_VAR__);
-            current_statement_begin__ = 187;
+            current_statement_begin__ = 171;
+            validate_non_negative_index("Y_pred", "R", R);
+            validate_non_negative_index("Y_pred", "K", K);
+            validate_non_negative_index("Y_pred", "N", N);
+            std::vector<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic> > Y_pred(N, Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>(R, K));
+            stan::math::initialize(Y_pred, DUMMY_VAR__);
+            stan::math::fill(Y_pred, DUMMY_VAR__);
+            current_statement_begin__ = 172;
             validate_non_negative_index("theta_pred", "P", P);
             validate_non_negative_index("theta_pred", "K", K);
             validate_non_negative_index("theta_pred", "N", N);
             std::vector<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic> > theta_pred(N, Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>(P, K));
             stan::math::initialize(theta_pred, DUMMY_VAR__);
             stan::math::fill(theta_pred, DUMMY_VAR__);
-            current_statement_begin__ = 188;
+            current_statement_begin__ = 173;
             validate_non_negative_index("mu_pred", "R", R);
             validate_non_negative_index("mu_pred", "K", K);
             validate_non_negative_index("mu_pred", "N", N);
             std::vector<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic> > mu_pred(N, Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>(R, K));
             stan::math::initialize(mu_pred, DUMMY_VAR__);
             stan::math::fill(mu_pred, DUMMY_VAR__);
-            current_statement_begin__ = 189;
+            current_statement_begin__ = 174;
             validate_non_negative_index("difference", "R", R);
             validate_non_negative_index("difference", "K", K);
             validate_non_negative_index("difference", "N", N);
             std::vector<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic> > difference(N, Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>(R, K));
             stan::math::initialize(difference, DUMMY_VAR__);
             stan::math::fill(difference, DUMMY_VAR__);
-            current_statement_begin__ = 190;
+            current_statement_begin__ = 175;
             validate_non_negative_index("cumsum_difference", "R", R);
             validate_non_negative_index("cumsum_difference", "K", K);
             validate_non_negative_index("cumsum_difference", "N", N);
             std::vector<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic> > cumsum_difference(N, Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>(R, K));
             stan::math::initialize(cumsum_difference, DUMMY_VAR__);
             stan::math::fill(cumsum_difference, DUMMY_VAR__);
-            current_statement_begin__ = 191;
+            current_statement_begin__ = 176;
             validate_non_negative_index("cumsum_only_after", "R", R);
             validate_non_negative_index("cumsum_only_after", "K", K);
             validate_non_negative_index("cumsum_only_after", "N", N);
             std::vector<Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic> > cumsum_only_after(N, Eigen::Matrix<double, Eigen::Dynamic, Eigen::Dynamic>(R, K));
             stan::math::initialize(cumsum_only_after, DUMMY_VAR__);
             stan::math::fill(cumsum_only_after, DUMMY_VAR__);
-            current_statement_begin__ = 194;
+            current_statement_begin__ = 179;
             validate_non_negative_index("arco_only_after", "R", R);
             validate_non_negative_index("arco_only_after", "K", K);
             validate_non_negative_index("arco_only_after", "N", N);
@@ -981,166 +917,187 @@ public:
             stan::math::initialize(arco_only_after, DUMMY_VAR__);
             stan::math::fill(arco_only_after, DUMMY_VAR__);
             // generated quantities statements
-            current_statement_begin__ = 201;
+            current_statement_begin__ = 187;
+            stan::model::assign(mu, 
+                        stan::model::cons_list(stan::model::index_uni(1), stan::model::nil_index_list()), 
+                        to_vector(multiply(get_base1(X, 1, "X", 1), to_matrix(get_base1(theta, 1, "theta", 1), P, K))), 
+                        "assigning variable mu");
+            current_statement_begin__ = 190;
+            for (int t = 2; t <= N_before; ++t) {
+                current_statement_begin__ = 192;
+                stan::model::assign(mu, 
+                            stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
+                            to_vector(multiply(get_base1(X, t, "X", 1), to_matrix(get_base1(theta, t, "theta", 1), P, K))), 
+                            "assigning variable mu");
+            }
+            current_statement_begin__ = 198;
             for (int t = 1; t <= N_before; ++t) {
-                current_statement_begin__ = 203;
+                current_statement_begin__ = 200;
                 stan::model::assign(theta_pred, 
                             stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
                             to_matrix(get_base1(theta, t, "theta", 1), P, K), 
                             "assigning variable theta_pred");
-                current_statement_begin__ = 205;
+                current_statement_begin__ = 202;
                 stan::model::assign(mu_pred, 
                             stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
                             to_matrix(get_base1(mu, t, "mu", 1), R, K), 
                             "assigning variable mu_pred");
-                current_statement_begin__ = 209;
+                current_statement_begin__ = 206;
                 if (as_bool(use_predefined_sensors_var)) {
-                    current_statement_begin__ = 211;
+                    current_statement_begin__ = 208;
                     if (as_bool(use_predefined_stations_var)) {
-                        current_statement_begin__ = 213;
-                        stan::model::assign(y_pred, 
+                        current_statement_begin__ = 210;
+                        stan::model::assign(Y_pred, 
                                     stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
                                     to_matrix(multi_normal_rng(to_vector(get_base1(mu_pred, t, "mu_pred", 1)), kronecker_prod(predefined_stations_var, predefined_sensors_var, pstream__), base_rng__), R, K), 
-                                    "assigning variable y_pred");
+                                    "assigning variable Y_pred");
                     } else {
-                        current_statement_begin__ = 217;
-                        stan::model::assign(y_pred, 
+                        current_statement_begin__ = 214;
+                        stan::model::assign(Y_pred, 
                                     stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
                                     to_matrix(multi_normal_rng(to_vector(get_base1(mu_pred, t, "mu_pred", 1)), kronecker_prod(sigma_entry_obs_stations, predefined_sensors_var, pstream__), base_rng__), R, K), 
-                                    "assigning variable y_pred");
+                                    "assigning variable Y_pred");
                     }
                 } else {
-                    current_statement_begin__ = 224;
+                    current_statement_begin__ = 221;
                     if (as_bool(use_predefined_stations_var)) {
-                        current_statement_begin__ = 226;
-                        stan::model::assign(y_pred, 
+                        current_statement_begin__ = 223;
+                        stan::model::assign(Y_pred, 
                                     stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
                                     to_matrix(multi_normal_rng(to_vector(get_base1(mu_pred, t, "mu_pred", 1)), kronecker_prod(predefined_stations_var, sigma_entry_obs_sensores, pstream__), base_rng__), R, K), 
-                                    "assigning variable y_pred");
+                                    "assigning variable Y_pred");
                     } else {
-                        current_statement_begin__ = 230;
-                        stan::model::assign(y_pred, 
+                        current_statement_begin__ = 227;
+                        stan::model::assign(Y_pred, 
                                     stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
                                     to_matrix(multi_normal_rng(to_vector(get_base1(mu_pred, t, "mu_pred", 1)), kronecker_prod(sigma_entry_obs_stations, sigma_entry_obs_sensores, pstream__), base_rng__), R, K), 
-                                    "assigning variable y_pred");
+                                    "assigning variable Y_pred");
                     }
                 }
-                current_statement_begin__ = 237;
+                current_statement_begin__ = 234;
                 stan::model::assign(difference, 
                             stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
-                            subtract(get_base1(y, t, "y", 1), get_base1(y_pred, t, "y_pred", 1)), 
+                            subtract(get_base1(y, t, "y", 1), get_base1(Y_pred, t, "Y_pred", 1)), 
                             "assigning variable difference");
-                current_statement_begin__ = 239;
+                current_statement_begin__ = 236;
                 stan::model::assign(cumsum_only_after, 
                             stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
                             to_matrix(rep_vector(0, (R * K)), R, K), 
                             "assigning variable cumsum_only_after");
             }
-            current_statement_begin__ = 243;
+            current_statement_begin__ = 240;
             for (int t = (N_before + 1); t <= N; ++t) {
-                current_statement_begin__ = 246;
+                current_statement_begin__ = 243;
                 if (as_bool(keep_theta_static_for_prediction)) {
-                    current_statement_begin__ = 249;
+                    current_statement_begin__ = 246;
                     stan::model::assign(theta_pred, 
                                 stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
                                 get_base1(theta_pred, N_before, "theta_pred", 1), 
                                 "assigning variable theta_pred");
                 } else {
-                    current_statement_begin__ = 253;
+                    current_statement_begin__ = 250;
                     if (as_bool(share_stations_var)) {
-                        current_statement_begin__ = 255;
+                        current_statement_begin__ = 252;
                         if (as_bool(use_predefined_stations_var)) {
-                            current_statement_begin__ = 257;
+                            current_statement_begin__ = 254;
                             stan::model::assign(theta_pred, 
                                         stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
                                         to_matrix(multi_normal_rng(to_vector(get_base1(theta_pred, (t - 1), "theta_pred", 1)), kronecker_prod(predefined_stations_var, level_sigma_variables, pstream__), base_rng__), P, K), 
                                         "assigning variable theta_pred");
                         } else {
-                            current_statement_begin__ = 261;
+                            current_statement_begin__ = 258;
                             stan::model::assign(theta_pred, 
                                         stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
                                         to_matrix(multi_normal_rng(to_vector(get_base1(theta_pred, (t - 1), "theta_pred", 1)), kronecker_prod(sigma_entry_obs_stations, level_sigma_variables, pstream__), base_rng__), P, K), 
                                         "assigning variable theta_pred");
                         }
                     } else {
-                        current_statement_begin__ = 267;
+                        current_statement_begin__ = 264;
                         stan::model::assign(theta_pred, 
                                     stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
                                     to_matrix(multi_normal_rng(to_vector(get_base1(theta_pred, (t - 1), "theta_pred", 1)), kronecker_prod(level_sigma_stations, level_sigma_variables, pstream__), base_rng__), P, K), 
                                     "assigning variable theta_pred");
                     }
                 }
-                current_statement_begin__ = 271;
+                current_statement_begin__ = 268;
                 stan::model::assign(mu_pred, 
                             stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
                             multiply(get_base1(X, t, "X", 1), get_base1(theta_pred, t, "theta_pred", 1)), 
                             "assigning variable mu_pred");
-                current_statement_begin__ = 274;
+                current_statement_begin__ = 271;
                 if (as_bool(use_predefined_sensors_var)) {
-                    current_statement_begin__ = 276;
+                    current_statement_begin__ = 273;
                     if (as_bool(use_predefined_stations_var)) {
-                        current_statement_begin__ = 278;
-                        stan::model::assign(y_pred, 
+                        current_statement_begin__ = 275;
+                        stan::model::assign(Y_pred, 
                                     stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
                                     to_matrix(multi_normal_rng(to_vector(get_base1(mu_pred, t, "mu_pred", 1)), kronecker_prod(predefined_stations_var, predefined_sensors_var, pstream__), base_rng__), R, K), 
-                                    "assigning variable y_pred");
+                                    "assigning variable Y_pred");
                     } else {
-                        current_statement_begin__ = 282;
-                        stan::model::assign(y_pred, 
+                        current_statement_begin__ = 279;
+                        stan::model::assign(Y_pred, 
                                     stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
                                     to_matrix(multi_normal_rng(to_vector(get_base1(mu_pred, t, "mu_pred", 1)), kronecker_prod(sigma_entry_obs_stations, predefined_sensors_var, pstream__), base_rng__), R, K), 
-                                    "assigning variable y_pred");
+                                    "assigning variable Y_pred");
                     }
                 } else {
-                    current_statement_begin__ = 288;
+                    current_statement_begin__ = 285;
                     if (as_bool(use_predefined_stations_var)) {
-                        current_statement_begin__ = 290;
-                        stan::model::assign(y_pred, 
+                        current_statement_begin__ = 287;
+                        stan::model::assign(Y_pred, 
                                     stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
                                     to_matrix(multi_normal_rng(to_vector(get_base1(mu_pred, t, "mu_pred", 1)), kronecker_prod(predefined_stations_var, sigma_entry_obs_sensores, pstream__), base_rng__), R, K), 
-                                    "assigning variable y_pred");
+                                    "assigning variable Y_pred");
                     } else {
-                        current_statement_begin__ = 294;
-                        stan::model::assign(y_pred, 
+                        current_statement_begin__ = 291;
+                        stan::model::assign(Y_pred, 
                                     stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
                                     to_matrix(multi_normal_rng(to_vector(get_base1(mu_pred, t, "mu_pred", 1)), kronecker_prod(sigma_entry_obs_stations, sigma_entry_obs_sensores, pstream__), base_rng__), R, K), 
-                                    "assigning variable y_pred");
+                                    "assigning variable Y_pred");
                     }
                 }
-                current_statement_begin__ = 301;
+                current_statement_begin__ = 298;
                 stan::model::assign(difference, 
                             stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
-                            subtract(get_base1(y, t, "y", 1), get_base1(y_pred, t, "y_pred", 1)), 
+                            subtract(get_base1(y, t, "y", 1), get_base1(Y_pred, t, "Y_pred", 1)), 
                             "assigning variable difference");
             }
-            current_statement_begin__ = 306;
+            current_statement_begin__ = 303;
             stan::math::assign(cumsum_difference, cumsum_matrix(difference, pstream__));
-            current_statement_begin__ = 307;
+            current_statement_begin__ = 304;
             stan::model::assign(cumsum_only_after, 
                         stan::model::cons_list(stan::model::index_min_max((N_before + 1), N), stan::model::nil_index_list()), 
                         cumsum_matrix(stan::model::rvalue(difference, stan::model::cons_list(stan::model::index_min_max((N_before + 1), N), stan::model::nil_index_list()), "difference"), pstream__), 
                         "assigning variable cumsum_only_after");
-            current_statement_begin__ = 310;
+            current_statement_begin__ = 307;
             for (int t = (N_before + 1); t <= N; ++t) {
-                current_statement_begin__ = 312;
+                current_statement_begin__ = 309;
                 stan::model::assign(arco_only_after, 
                             stan::model::cons_list(stan::model::index_uni(t), stan::model::nil_index_list()), 
                             multiply((1.0 / (t - N_before)), get_base1(cumsum_only_after, t, "cumsum_only_after", 1)), 
                             "assigning variable arco_only_after");
             }
             // validate, write generated quantities
-            current_statement_begin__ = 186;
-            size_t y_pred_j_2_max__ = K;
-            size_t y_pred_j_1_max__ = R;
-            size_t y_pred_k_0_max__ = N;
-            for (size_t j_2__ = 0; j_2__ < y_pred_j_2_max__; ++j_2__) {
-                for (size_t j_1__ = 0; j_1__ < y_pred_j_1_max__; ++j_1__) {
-                    for (size_t k_0__ = 0; k_0__ < y_pred_k_0_max__; ++k_0__) {
-                        vars__.push_back(y_pred[k_0__](j_1__, j_2__));
+            current_statement_begin__ = 167;
+            size_t mu_j_1_max__ = (R * K);
+            size_t mu_k_0_max__ = N_before;
+            for (size_t j_1__ = 0; j_1__ < mu_j_1_max__; ++j_1__) {
+                for (size_t k_0__ = 0; k_0__ < mu_k_0_max__; ++k_0__) {
+                    vars__.push_back(mu[k_0__](j_1__));
+                }
+            }
+            current_statement_begin__ = 171;
+            size_t Y_pred_j_2_max__ = K;
+            size_t Y_pred_j_1_max__ = R;
+            size_t Y_pred_k_0_max__ = N;
+            for (size_t j_2__ = 0; j_2__ < Y_pred_j_2_max__; ++j_2__) {
+                for (size_t j_1__ = 0; j_1__ < Y_pred_j_1_max__; ++j_1__) {
+                    for (size_t k_0__ = 0; k_0__ < Y_pred_k_0_max__; ++k_0__) {
+                        vars__.push_back(Y_pred[k_0__](j_1__, j_2__));
                     }
                 }
             }
-            current_statement_begin__ = 187;
+            current_statement_begin__ = 172;
             size_t theta_pred_j_2_max__ = K;
             size_t theta_pred_j_1_max__ = P;
             size_t theta_pred_k_0_max__ = N;
@@ -1151,7 +1108,7 @@ public:
                     }
                 }
             }
-            current_statement_begin__ = 188;
+            current_statement_begin__ = 173;
             size_t mu_pred_j_2_max__ = K;
             size_t mu_pred_j_1_max__ = R;
             size_t mu_pred_k_0_max__ = N;
@@ -1162,7 +1119,7 @@ public:
                     }
                 }
             }
-            current_statement_begin__ = 189;
+            current_statement_begin__ = 174;
             size_t difference_j_2_max__ = K;
             size_t difference_j_1_max__ = R;
             size_t difference_k_0_max__ = N;
@@ -1173,7 +1130,7 @@ public:
                     }
                 }
             }
-            current_statement_begin__ = 190;
+            current_statement_begin__ = 175;
             size_t cumsum_difference_j_2_max__ = K;
             size_t cumsum_difference_j_1_max__ = R;
             size_t cumsum_difference_k_0_max__ = N;
@@ -1184,7 +1141,7 @@ public:
                     }
                 }
             }
-            current_statement_begin__ = 191;
+            current_statement_begin__ = 176;
             size_t cumsum_only_after_j_2_max__ = K;
             size_t cumsum_only_after_j_1_max__ = R;
             size_t cumsum_only_after_k_0_max__ = N;
@@ -1195,7 +1152,7 @@ public:
                     }
                 }
             }
-            current_statement_begin__ = 194;
+            current_statement_begin__ = 179;
             size_t arco_only_after_j_2_max__ = K;
             size_t arco_only_after_j_1_max__ = R;
             size_t arco_only_after_k_0_max__ = N;
@@ -1283,25 +1240,25 @@ public:
         }
         if (!include_gqs__ && !include_tparams__) return;
         if (include_tparams__) {
-            size_t mu_j_1_max__ = (R * K);
-            size_t mu_k_0_max__ = N_before;
-            for (size_t j_1__ = 0; j_1__ < mu_j_1_max__; ++j_1__) {
-                for (size_t k_0__ = 0; k_0__ < mu_k_0_max__; ++k_0__) {
-                    param_name_stream__.str(std::string());
-                    param_name_stream__ << "mu" << '.' << k_0__ + 1 << '.' << j_1__ + 1;
-                    param_names__.push_back(param_name_stream__.str());
-                }
-            }
         }
         if (!include_gqs__) return;
-        size_t y_pred_j_2_max__ = K;
-        size_t y_pred_j_1_max__ = R;
-        size_t y_pred_k_0_max__ = N;
-        for (size_t j_2__ = 0; j_2__ < y_pred_j_2_max__; ++j_2__) {
-            for (size_t j_1__ = 0; j_1__ < y_pred_j_1_max__; ++j_1__) {
-                for (size_t k_0__ = 0; k_0__ < y_pred_k_0_max__; ++k_0__) {
+        size_t mu_j_1_max__ = (R * K);
+        size_t mu_k_0_max__ = N_before;
+        for (size_t j_1__ = 0; j_1__ < mu_j_1_max__; ++j_1__) {
+            for (size_t k_0__ = 0; k_0__ < mu_k_0_max__; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "mu" << '.' << k_0__ + 1 << '.' << j_1__ + 1;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        size_t Y_pred_j_2_max__ = K;
+        size_t Y_pred_j_1_max__ = R;
+        size_t Y_pred_k_0_max__ = N;
+        for (size_t j_2__ = 0; j_2__ < Y_pred_j_2_max__; ++j_2__) {
+            for (size_t j_1__ = 0; j_1__ < Y_pred_j_1_max__; ++j_1__) {
+                for (size_t k_0__ = 0; k_0__ < Y_pred_k_0_max__; ++k_0__) {
                     param_name_stream__.str(std::string());
-                    param_name_stream__ << "y_pred" << '.' << k_0__ + 1 << '.' << j_1__ + 1 << '.' << j_2__ + 1;
+                    param_name_stream__ << "Y_pred" << '.' << k_0__ + 1 << '.' << j_1__ + 1 << '.' << j_2__ + 1;
                     param_names__.push_back(param_name_stream__.str());
                 }
             }
@@ -1418,25 +1375,25 @@ public:
         }
         if (!include_gqs__ && !include_tparams__) return;
         if (include_tparams__) {
-            size_t mu_j_1_max__ = (R * K);
-            size_t mu_k_0_max__ = N_before;
-            for (size_t j_1__ = 0; j_1__ < mu_j_1_max__; ++j_1__) {
-                for (size_t k_0__ = 0; k_0__ < mu_k_0_max__; ++k_0__) {
-                    param_name_stream__.str(std::string());
-                    param_name_stream__ << "mu" << '.' << k_0__ + 1 << '.' << j_1__ + 1;
-                    param_names__.push_back(param_name_stream__.str());
-                }
-            }
         }
         if (!include_gqs__) return;
-        size_t y_pred_j_2_max__ = K;
-        size_t y_pred_j_1_max__ = R;
-        size_t y_pred_k_0_max__ = N;
-        for (size_t j_2__ = 0; j_2__ < y_pred_j_2_max__; ++j_2__) {
-            for (size_t j_1__ = 0; j_1__ < y_pred_j_1_max__; ++j_1__) {
-                for (size_t k_0__ = 0; k_0__ < y_pred_k_0_max__; ++k_0__) {
+        size_t mu_j_1_max__ = (R * K);
+        size_t mu_k_0_max__ = N_before;
+        for (size_t j_1__ = 0; j_1__ < mu_j_1_max__; ++j_1__) {
+            for (size_t k_0__ = 0; k_0__ < mu_k_0_max__; ++k_0__) {
+                param_name_stream__.str(std::string());
+                param_name_stream__ << "mu" << '.' << k_0__ + 1 << '.' << j_1__ + 1;
+                param_names__.push_back(param_name_stream__.str());
+            }
+        }
+        size_t Y_pred_j_2_max__ = K;
+        size_t Y_pred_j_1_max__ = R;
+        size_t Y_pred_k_0_max__ = N;
+        for (size_t j_2__ = 0; j_2__ < Y_pred_j_2_max__; ++j_2__) {
+            for (size_t j_1__ = 0; j_1__ < Y_pred_j_1_max__; ++j_1__) {
+                for (size_t k_0__ = 0; k_0__ < Y_pred_k_0_max__; ++k_0__) {
                     param_name_stream__.str(std::string());
-                    param_name_stream__ << "y_pred" << '.' << k_0__ + 1 << '.' << j_1__ + 1 << '.' << j_2__ + 1;
+                    param_name_stream__ << "Y_pred" << '.' << k_0__ + 1 << '.' << j_1__ + 1 << '.' << j_2__ + 1;
                     param_names__.push_back(param_name_stream__.str());
                 }
             }

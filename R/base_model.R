@@ -17,14 +17,22 @@ BaseImpactModel <- R6::R6Class('BaseImpactModel', public = list(
     self$log_x <- log_x
     self$log_y <- log_y
 
-    if(any(X_data <= 0) ) {
-      stop("when using log elements of X must be positive")
+    if(self$log_x) {
+
+      if(any(X_data <= 0) ) {
+        stop("when using log elements of X must be positive")
+      }
+
     }
 
-    if(any(Y_data <= 0) ) {
-      stop("when using log elements of Y must be positive")
-    }
+    if(self$log_y) {
 
+      if(any(Y_data <= 0) ) {
+        stop("when using log elements of Y must be positive")
+      }
+
+    }
+    
     if(is.null(dim(Y_data))) {
       stop('Incorrect Y_data dimensions')
     }
