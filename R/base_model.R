@@ -199,6 +199,20 @@ private = list(
 
   },
 
+  .get_event_initial_or_end_time = function(event_initial=NULL) {
+
+    if(is.null(event_initial)) {
+      event_initial <- self$event_initial
+    }
+
+    if(is.null(event_initial)) {
+      event_initial <- self$get_end_time()
+    }
+
+    return(event_initial)
+
+  },
+
   .set_dates_df = function(X_data, dates) {
 
     if(is.null(dates)) {

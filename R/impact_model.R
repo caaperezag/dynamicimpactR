@@ -149,7 +149,8 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
 
                                stan_data = private$.get_stan_data(
-                                 self$get_end_time()
+                                 # self$get_end_time(),
+                                 private$.get_event_initial_or_end_time()
                                )
 
 
