@@ -101,7 +101,7 @@ SpatialModel <- R6::R6Class('SpatialVectorModel',
                                   }
 
                                   private$.coordiates = coordinates
-                                  private$.scaled_coordinates = private$.coordiates |> MODULES_SCALE$scale_matrix()
+                                  private$.scaled_coordinates = private$.coordiates |> MODULES_SCALE$scale_matrix(FALSE)
 
 
 
