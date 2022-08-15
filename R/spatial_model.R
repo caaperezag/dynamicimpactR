@@ -48,19 +48,22 @@ SpatialModel <- R6::R6Class('SpatialVectorModel',
                                                      n_spatial_kernels=2,
                                                      thin=1,
                                                      dates=NULL,
+                                                     log_x=FALSE, log_y=FALSE,
                                                      coordinates) {
 
 
                                   #self$thin  <- thin
 
-                                  super$initialize(name, event_initial,
-                                                   X_data, Y_data, vector_name,
-                                                   variables_names, confidence_level,
-                                                   n_simul, n_chains, n_cores,
-                                                   predefined_cov_matrix,
-                                                   stan_fit,
-                                                   thin,
-                                                   dates)
+                                  super$initialize(name=name, event_initial=event_initial,
+                                                   X_data=X_data, Y_data=Y_data, vector_name=vector_name,
+                                                   variables_names=variables_names, confidence_level=confidence_level,
+                                                   n_simul=n_simul, n_chains=n_chains, n_cores=n_cores,
+                                                   predefined_cov_matrix=predefined_cov_matrix,
+                                                   stan_fit=NA_real_,
+                                                   thin=thin,
+                                                   dates=dates,
+                                                   log_x=log_x, log_y=log_y
+                                                   )
 
 
 
@@ -106,32 +109,8 @@ SpatialModel <- R6::R6Class('SpatialVectorModel',
                               #' @details
                               #' Fit the model using MCMC.
                               fit = function() {
-
-
-                                stan_data = private$.get_stan_data()
-
-                                options(mc.cores = self$n_cores)
-
-
-                                # browser()
-
-                                if(is.na(private$.stan_result)) {
-
-                                  # browser()
-
-                                  private$.stan_result <- rstan::sampling(.model_path,
-                                                                          data = stan_data,
-                                                                          chains = self$n_chains,
-                                                                          iter=self$n_simul,
-                                                                          thin=self$thin
-                                                                          )
-
-                                }
-
-
-
-                                private$.extracted_data <- rstan::extract(private$.stan_result)
-
+                                
+                                super$fit()
 
                                 private$.unscaled_centroids  <- MODULES_SCALE$unscale_array_3d(input_array = private$.extracted_data$kernels,
                                                                                                result_list = private$.scaled_coordinates)
@@ -205,20 +184,24 @@ SpatialModel <- R6::R6Class('SpatialVectorModel',
                             .scaled_coordinates = NA_real_,
                             .unscaled_centroids = NA_real_,
 
-                            .get_stan_data = function() {
+                            .get_stan_data = function(event_initial) {
+
+                               event_initial = private$.get_event_initial(event_initial)
 
                                temp_coordinates_lower = min( private$.scaled_coordinates$scaled_matrix )
                                temp_coordinates_upper = max( private$.scaled_coordinates$scaled_matrix )
+
+                               temp_predefined_var  <-  private$.get_predefined_cov_matrix(event_initial)
 
                                 stan_data = list(
                                   N = private$.N_time,
                                   N_before = self$event_initial,
                                   K = private$.N_elem,
-                                  P = private$.N_elem,
+                                  P = private$.N_pred_var,
                                   Y = self$Y_data[,1,],
                                   X = self$X_data[,1,],
                                   use_predefined_stations_var = private$.use_predefined_stations_var,
-                                  predefined_stations_var = private$.predefined_cov_matrix,
+                                  predefined_stations_var = temp_predefined_var,
 
                                   J = self$n_spatial_kernels,
                                   COORDINATES = private$.scaled_coordinates$scaled_matrix,

@@ -55,18 +55,6 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                                self$thin  <- thin
 
-                               # browser()
-
-                               # if(length(dim(Y_data)) == 2) {
-                               #   Y_data <-  Y_data |> array(dim = c(dim(Y_data)[1], 1, dim(Y_data)[2]))
-                               # }
-
-                               # if(length(dim(X_data)) == 2) {
-                               #   X_data <-  X_data |> array(dim = c(dim(X_data)[1], 1, dim(X_data)[2]))
-                               # }
-
-                               # predefined_cov_matrix_type = match.arg(predefined_cov_matrix_type)
-
                                super$initialize(name=name, event_initial=event_initial, 
                                                 X_data=X_data, Y_data=Y_data,
                                                 vector_name=vector_name, variables_names=variables_names,
@@ -216,7 +204,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                                UTILS$gc_quiet()
 
-                               #return(extracted_data2)
+                               return(NULL)
 
                              },
 

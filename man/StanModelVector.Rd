@@ -27,7 +27,7 @@ This class is used to fit Bayesian model when the response is a vector.
 }
 
 \section{Super class}{
-\code{\link[dynamicimpact:BaseImpactModel]{dynamicimpact::BaseImpactModel}} -> \code{StanModelVector}
+\code{dynamicimpact::BaseImpactModel} -> \code{StanModelVector}
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -46,8 +46,8 @@ This class is used to fit Bayesian model when the response is a vector.
 \if{html}{\out{
 <details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_dates_df"><a href='../../dynamicimpact/html/BaseImpactModel.html#method-BaseImpactModel-get_dates_df'><code>dynamicimpact::BaseImpactModel$get_dates_df()</code></a></li>
-<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_end_time"><a href='../../dynamicimpact/html/BaseImpactModel.html#method-BaseImpactModel-get_end_time'><code>dynamicimpact::BaseImpactModel$get_end_time()</code></a></li>
+<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_dates_df"><a href='../../dynamicimpact/html/BaseImpactModel.html#method-BaseImpactModel-get_dates_df'><code>dynamicimpact::BaseImpactModel$get_dates_df()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_end_time"><a href='../../dynamicimpact/html/BaseImpactModel.html#method-BaseImpactModel-get_end_time'><code>dynamicimpact::BaseImpactModel$get_end_time()</code></a></span></li>
 </ul>
 </details>
 }}

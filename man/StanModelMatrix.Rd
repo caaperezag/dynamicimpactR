@@ -27,7 +27,7 @@ This class is used to fit Bayesian model when the response is a vector.
 }
 
 \section{Super classes}{
-\code{\link[dynamicimpact:BaseImpactModel]{dynamicimpact::BaseImpactModel}} -> \code{\link[dynamicimpact:StanModelVector]{dynamicimpact::StanModelVector}} -> \code{StanModelMatrix}
+\code{dynamicimpact::BaseImpactModel} -> \code{\link[dynamicimpact:StanModelVector]{dynamicimpact::StanModelVector}} -> \code{StanModelMatrix}
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -44,10 +44,10 @@ This class is used to fit Bayesian model when the response is a vector.
 \if{html}{\out{
 <details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_dates_df"><a href='../../dynamicimpact/html/BaseImpactModel.html#method-BaseImpactModel-get_dates_df'><code>dynamicimpact::BaseImpactModel$get_dates_df()</code></a></li>
-<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_end_time"><a href='../../dynamicimpact/html/BaseImpactModel.html#method-BaseImpactModel-get_end_time'><code>dynamicimpact::BaseImpactModel$get_end_time()</code></a></li>
-<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="fit"><a href='../../dynamicimpact/html/StanModelVector.html#method-StanModelVector-fit'><code>dynamicimpact::StanModelVector$fit()</code></a></li>
-<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="predict"><a href='../../dynamicimpact/html/StanModelVector.html#method-StanModelVector-predict'><code>dynamicimpact::StanModelVector$predict()</code></a></li>
+<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_dates_df"><a href='../../dynamicimpact/html/BaseImpactModel.html#method-BaseImpactModel-get_dates_df'><code>dynamicimpact::BaseImpactModel$get_dates_df()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_end_time"><a href='../../dynamicimpact/html/BaseImpactModel.html#method-BaseImpactModel-get_end_time'><code>dynamicimpact::BaseImpactModel$get_end_time()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="fit"><a href='../../dynamicimpact/html/StanModelVector.html#method-StanModelVector-fit'><code>dynamicimpact::StanModelVector$fit()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="predict"><a href='../../dynamicimpact/html/StanModelVector.html#method-StanModelVector-predict'><code>dynamicimpact::StanModelVector$predict()</code></a></span></li>
 </ul>
 </details>
 }}

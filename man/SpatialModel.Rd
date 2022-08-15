@@ -28,7 +28,7 @@ This class is used to fit Bayesian model when the response is a vector with asso
 }
 
 \section{Super classes}{
-\code{\link[dynamicimpact:BaseImpactModel]{dynamicimpact::BaseImpactModel}} -> \code{\link[dynamicimpact:StanModelVector]{dynamicimpact::StanModelVector}} -> \code{SpatialVectorModel}
+\code{dynamicimpact::BaseImpactModel} -> \code{\link[dynamicimpact:StanModelVector]{dynamicimpact::StanModelVector}} -> \code{SpatialVectorModel}
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -43,14 +43,14 @@ This class is used to fit Bayesian model when the response is a vector with asso
 \if{html}{\out{
 <details><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_dates_df"><a href='../../dynamicimpact/html/BaseImpactModel.html#method-BaseImpactModel-get_dates_df'><code>dynamicimpact::BaseImpactModel$get_dates_df()</code></a></li>
-<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_end_time"><a href='../../dynamicimpact/html/BaseImpactModel.html#method-BaseImpactModel-get_end_time'><code>dynamicimpact::BaseImpactModel$get_end_time()</code></a></li>
-<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="plot"><a href='../../dynamicimpact/html/StanModelVector.html#method-StanModelVector-plot'><code>dynamicimpact::StanModelVector$plot()</code></a></li>
-<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="plot_aggregate"><a href='../../dynamicimpact/html/StanModelVector.html#method-StanModelVector-plot_aggregate'><code>dynamicimpact::StanModelVector$plot_aggregate()</code></a></li>
-<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="plot_diagnosis"><a href='../../dynamicimpact/html/StanModelVector.html#method-StanModelVector-plot_diagnosis'><code>dynamicimpact::StanModelVector$plot_diagnosis()</code></a></li>
-<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="plot_individual"><a href='../../dynamicimpact/html/StanModelVector.html#method-StanModelVector-plot_individual'><code>dynamicimpact::StanModelVector$plot_individual()</code></a></li>
-<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="predict"><a href='../../dynamicimpact/html/StanModelVector.html#method-StanModelVector-predict'><code>dynamicimpact::StanModelVector$predict()</code></a></li>
-<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="summary"><a href='../../dynamicimpact/html/StanModelVector.html#method-StanModelVector-summary'><code>dynamicimpact::StanModelVector$summary()</code></a></li>
+<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_dates_df"><a href='../../dynamicimpact/html/BaseImpactModel.html#method-BaseImpactModel-get_dates_df'><code>dynamicimpact::BaseImpactModel$get_dates_df()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="BaseImpactModel" data-id="get_end_time"><a href='../../dynamicimpact/html/BaseImpactModel.html#method-BaseImpactModel-get_end_time'><code>dynamicimpact::BaseImpactModel$get_end_time()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="plot"><a href='../../dynamicimpact/html/StanModelVector.html#method-StanModelVector-plot'><code>dynamicimpact::StanModelVector$plot()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="plot_aggregate"><a href='../../dynamicimpact/html/StanModelVector.html#method-StanModelVector-plot_aggregate'><code>dynamicimpact::StanModelVector$plot_aggregate()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="plot_diagnosis"><a href='../../dynamicimpact/html/StanModelVector.html#method-StanModelVector-plot_diagnosis'><code>dynamicimpact::StanModelVector$plot_diagnosis()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="plot_individual"><a href='../../dynamicimpact/html/StanModelVector.html#method-StanModelVector-plot_individual'><code>dynamicimpact::StanModelVector$plot_individual()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="predict"><a href='../../dynamicimpact/html/StanModelVector.html#method-StanModelVector-predict'><code>dynamicimpact::StanModelVector$predict()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="dynamicimpact" data-topic="StanModelVector" data-id="summary"><a href='../../dynamicimpact/html/StanModelVector.html#method-StanModelVector-summary'><code>dynamicimpact::StanModelVector$summary()</code></a></span></li>
 </ul>
 </details>
 }}
@@ -75,6 +75,8 @@ This class is used to fit Bayesian model when the response is a vector with asso
   n_spatial_kernels = 2,
   thin = 1,
   dates = NULL,
+  log_x = FALSE,
+  log_y = FALSE,
   coordinates
 )}\if{html}{\out{</div>}}
 }
