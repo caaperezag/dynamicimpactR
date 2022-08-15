@@ -79,7 +79,7 @@ parameters {
   vector[P*K] theta_vec_no_espatial[N_before];
   cov_matrix[P*K] theta_vec_cov_matrix_no_spatial;
 
-  real scale_spatial_param;
+  real<lower=0, upper=1> scale_spatial_param;
 
 }
 

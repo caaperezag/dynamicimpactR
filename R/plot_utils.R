@@ -65,8 +65,8 @@ PLOT_UTILS <- modules::module({
 
     m_xintercep   <- dates_df  |> 
                      filter(time_index==event_initial)  |> 
-                     pull(Date)  |> 
-                     first()
+                     dplyr::pull(Date)  |> 
+                     dplyr::first()
 
     plot_df_individual <- plot_df |>
        dplyr::left_join(dates_df, by='time_index')  |>
@@ -167,8 +167,8 @@ PLOT_UTILS <- modules::module({
 
     m_xintercep   <- dates_df  |> 
                      filter(time_index==event_initial)  |> 
-                     pull(Date)  |> 
-                     first()
+                     dplyr::pull(Date)  |> 
+                     dplyr::first()
 
 
     m_plot <- plot_df_aggregate |>
