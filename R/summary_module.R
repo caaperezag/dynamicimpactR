@@ -469,7 +469,7 @@ MODULE_SUMMARY <- modules::module({
 
     i_cumsum_quantile_global <- m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after[,event_min:event_max,] |> 
                                apply(c(1, 2), function(x) {  mean(x, na.rm=T) } )  |> 
-                               apply(c(2,3), 
+                               apply(c(2), 
                                     function(x){  
                                      x |> quantile(ci, na.rm=T) |> as.numeric() 
                                     }) |>  matrix(ncol=1)
