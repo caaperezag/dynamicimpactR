@@ -204,7 +204,9 @@ MODULE_PLOT_EXTRA <- modules::module({
         # strip.text.x = element_blank()
       ) + ylab("")  + xlab("Fecha")
     
-    plot_result  <- (plot_result1/plot_result2) + plot_layout(guides = "collect") & theme(legend.position='bottom')
+    # plot_result  <- (plot_result1/plot_result2) + plot_layout(guides = "collect") & theme(legend.position='bottom')
+    plot_result  <- patchwork:::`/.ggplot`(plot_result1/plot_result2) + plot_layout(guides = "collect") & theme(legend.position='bottom')
+    
     
     return(plot_result)
     
