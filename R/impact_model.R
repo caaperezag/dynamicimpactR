@@ -254,10 +254,17 @@ StanModelVector <- R6::R6Class('StanModelVector',
                              },
 
                              #' @details
-                             #' same as plot_aggregate.
+                             #' default plot method
                              #' @return a ggplot object.
                              plot = function() {
-                              return(self$plot_aggregate())
+
+                              UTILS$gc_quiet()
+
+                              private$.can_plot(event_initial)
+
+                              current_plot  <-  MODULE_PLOT_EXTRA$plot_model(self, event_initial, "global")
+
+                              return(current_plot)
                              },
 
                              #' @details

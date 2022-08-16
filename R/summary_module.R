@@ -611,7 +611,8 @@ MODULE_SUMMARY <- modules::module({
                       # time_index, 
                       variable, 
                       lower_arco, upper_arco, arco_median, #arco_mean,
-                      cumsum_lower, cumsum_upper, cumsum_median #, cumsum_mean
+                      cumsum_lower, cumsum_upper, cumsum_median # cumsum_mean
+                      #tidyselect::starts_with("quantile")
                     
                     )  |> 
                     mutate_if(is.numeric, function(x){round(x,2)})  
