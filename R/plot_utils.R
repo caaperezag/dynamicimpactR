@@ -64,7 +64,7 @@ PLOT_UTILS <- modules::module({
     }
 
     m_xintercep   <- dates_df  |> 
-                     filter(time_index==event_initial)  |> 
+                     dplyr::filter(time_index==event_initial)  |> 
                      dplyr::pull(Date)  |> 
                      dplyr::first()
 
@@ -166,7 +166,7 @@ PLOT_UTILS <- modules::module({
     }
 
     m_xintercep   <- dates_df  |> 
-                     filter(time_index==event_initial)  |> 
+                     dplyr::filter(time_index==event_initial)  |> 
                      dplyr::pull(Date)  |> 
                      dplyr::first()
 
