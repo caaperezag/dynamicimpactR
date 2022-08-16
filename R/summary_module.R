@@ -26,13 +26,13 @@ MODULE_SUMMARY <- modules::module({
     # browser()
     
     m_df_lower <- m_df_lower |>
-      tibble::as.tibble()  |>
+      tibble::as_tibble()  |>
       mutate(time_index=current_time_index) |> 
       pivot_longer(-time_index, names_to="variable", values_to = lower_limit_name)
     
     
     m_df_upper <- m_df_upper |>
-      tibble::as.tibble()  |>
+      tibble::as_tibble()  |>
       mutate(time_index=current_time_index) |> 
       pivot_longer(-time_index, names_to="variable", values_to = upper_limit_name)
     
@@ -539,7 +539,7 @@ MODULE_SUMMARY <- modules::module({
 
 
     #arco_result  <- 
-    
+    temp_result  <- 
     result$impact_df |> 
                     dplyr::filter(time_index == result$event_max)  |> 
                     select(
@@ -549,8 +549,9 @@ MODULE_SUMMARY <- modules::module({
                       cumsum_lower, cumsum_upper, cumsum_median #, cumsum_mean
                     
                     )  |> 
-                    mutate_if(is.numeric, function(x){round(x,2)})  |> 
-                    stargazer::stargazer( type = 'text', summary = FALSE)
+                    mutate_if(is.numeric, function(x){round(x,2)})  
+    
+    stargazer::stargazer(temp_result, type = 'text', summary = FALSE)
 
     #stargazer::stargazer(arco_result,  type = 'text', summary = FALSE)
     #print(arco_result)
