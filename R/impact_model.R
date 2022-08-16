@@ -260,7 +260,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                               UTILS$gc_quiet()
 
-                              private$.can_plot(event_initial)
+                              private$.can_plot(private$.get_event_initial(NULL))
 
                               current_plot  <-  MODULE_PLOT_EXTRA$plot_model(self, event_initial, "global")
 
