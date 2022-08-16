@@ -367,6 +367,8 @@ MODULE_SUMMARY <- modules::module({
                               variables_names, dates_df = NULL, ci=0.9) {
     
     N <- dim(m_model$X_data)[1]
+
+    variables_names  <- c(variables_names, "global")
     
     if( (event_min < 1) |  (event_max < 1) ) {
       stop("All the events times must be greater than zero")
@@ -389,13 +391,29 @@ MODULE_SUMMARY <- modules::module({
                      function(x){  bayestestR::hdi(x, c=ci)$CI_low  }
               )
     UTILS$gc_quiet()
+
+    i_lower_global <- m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after[,event_min:event_max,] |> 
+              apply(c(1, 2), function(x) {  mean(x, na.rm=T) } )  |> 
+              apply(c(2), 
+                     function(x){  bayestestR::hdi(x, c=ci)$CI_low  }
+              )  |> matrix(ncol=1)
+
+    UTILS$gc_quiet()
    
    i_upper <- m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after[,event_min:event_max,] |> 
               apply(c(2,3), 
                     function(x){  
                       bayestestR::hdi(x, c=ci)$CI_high  
               })
+
     UTILS$gc_quiet()
+
+    i_upper_global <- m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after[,event_min:event_max,] |> 
+              apply(c(1, 2), function(x) {  mean(x, na.rm=T) } )  |> 
+              apply(c(2), 
+                    function(x){  
+                      bayestestR::hdi(x, c=ci)$CI_high  
+              })  |>  matrix(ncol=1)
    
    
    i_lower_arco <- m_model$.__enclos_env__$private$.extracted_data$arco_only_after[,event_min:event_max,] |> 
@@ -403,12 +421,27 @@ MODULE_SUMMARY <- modules::module({
                          function(x){  bayestestR::hdi(x, c=ci)$CI_low  }
                    )
     UTILS$gc_quiet()
+
+    i_lower_arco_global <- m_model$.__enclos_env__$private$.extracted_data$arco_only_after[,event_min:event_max,] |> 
+                   apply(c(1, 2), function(x) {  mean(x, na.rm=T) } )  |> 
+                   apply(c(2), 
+                         function(x){  bayestestR::hdi(x, c=ci)$CI_low  }
+                   )  |>  matrix(ncol=1)
+    UTILS$gc_quiet()
    
    i_upper_arco <- m_model$.__enclos_env__$private$.extracted_data$arco_only_after[,event_min:event_max,] |> 
                    apply(c(2,3), 
                          function(x){  
                            bayestestR::hdi(x, c=ci)$CI_high  
                          })
+    UTILS$gc_quiet()
+
+    i_upper_arco_global <- m_model$.__enclos_env__$private$.extracted_data$arco_only_after[,event_min:event_max,] |> 
+                   apply(c(1, 2), function(x) {  mean(x, na.rm=T) } )  |> 
+                   apply(c(2), 
+                         function(x){  
+                           bayestestR::hdi(x, c=ci)$CI_high  
+                         }) |>  matrix(ncol=1)
     UTILS$gc_quiet()
 
 
@@ -419,6 +452,14 @@ MODULE_SUMMARY <- modules::module({
                                   })
     UTILS$gc_quiet()
 
+    i_arco_quantile_global <- m_model$.__enclos_env__$private$.extracted_data$arco_only_after[,event_min:event_max,] |> 
+                             apply(c(1, 2), function(x) {  mean(x, na.rm=T) } )  |> 
+                             apply(c(2), 
+                                  function(x){  
+                                   x |> quantile(ci, na.rm=T) |> as.numeric() 
+                                  }) |>  matrix(ncol=1)
+    UTILS$gc_quiet()
+
     i_cumsum_quantile <- m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after[,event_min:event_max,] |> 
                                apply(c(2,3), 
                                     function(x){  
@@ -426,9 +467,17 @@ MODULE_SUMMARY <- modules::module({
                                     })
     UTILS$gc_quiet()
 
+    i_cumsum_quantile_global <- m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after[,event_min:event_max,] |> 
+                               apply(c(1, 2), function(x) {  mean(x, na.rm=T) } )  |> 
+                               apply(c(2,3), 
+                                    function(x){  
+                                     x |> quantile(ci, na.rm=T) |> as.numeric() 
+                                    }) |>  matrix(ncol=1)
+    UTILS$gc_quiet()
 
-    i_quantile_arco_cumsum <- ics_to_data_frame(lower_matrix = i_arco_quantile, 
-                                                upper_matrix = i_cumsum_quantile, 
+
+    i_quantile_arco_cumsum <- ics_to_data_frame(lower_matrix = cbind(i_arco_quantile, i_arco_quantile_global), 
+                                                upper_matrix = cbind(i_cumsum_quantile, i_cumsum_quantile_global), 
                                                 event_min = event_min, 
                                                 event_max = event_max, 
                                                 variables_names = variables_names, 
@@ -439,8 +488,8 @@ MODULE_SUMMARY <- modules::module({
     UTILS$gc_quiet()
    
     # browser()
-   data_frame_result_cumsum <- ics_to_data_frame(lower_matrix = i_lower, 
-                                                 upper_matrix = i_upper, 
+   data_frame_result_cumsum <- ics_to_data_frame(lower_matrix = cbind(i_lower, i_lower_global), 
+                                                 upper_matrix = cbind(i_upper, i_upper_global), 
                                                  event_min = event_min, 
                                                  event_max = event_max, 
                                                  variables_names = variables_names, 
@@ -448,23 +497,39 @@ MODULE_SUMMARY <- modules::module({
                                                  upper_limit_name="cumsum_upper")
    
    
-   data_frame_result_arco <- ics_to_data_frame(lower_matrix = i_lower_arco, 
-                                               upper_matrix = i_upper_arco, 
+   data_frame_result_arco <- ics_to_data_frame(lower_matrix = cbind(i_lower_arco, i_lower_arco_global), 
+                                               upper_matrix = cbind(i_upper_arco, i_upper_arco_global), 
                                                event_min = event_min, 
                                                event_max = event_max, 
                                                variables_names = variables_names, 
                                                lower_limit_name="lower_arco",
                                                upper_limit_name="upper_arco")
  
-   
-   averange_df <-  get_averange_df(variable_array=m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after, 
+   temp_dim  <- m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after  |>  dim()
+   temp_dim[3]  <- 1
+
+   averange_df <-  get_averange_df(variable_array=
+                                   abind::abind(
+                                    m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after,
+                                    m_model$.__enclos_env__$private$.extracted_data$cumsum_only_after  |> 
+                                    apply(c(1, 2), function(x) {  mean(x, na.rm=T) } )  |> 
+                                    array(dim = temp_dim),
+                                    along=length(temp_dim)
+                                   ), 
                                    event_min=event_min, 
                                    event_max=event_max, 
                                    variables_names=variables_names,
                                    prefix ="cumsum_")
    
    
-   averange_arco_df <-  get_averange_df(variable_array=m_model$.__enclos_env__$private$.extracted_data$arco_only_after, 
+   averange_arco_df <-  get_averange_df(variable_array=
+                                        abind::abind(
+                                          m_model$.__enclos_env__$private$.extracted_data$arco_only_after, 
+                                          m_model$.__enclos_env__$private$.extracted_data$arco_only_after  |> 
+                                          apply(c(1, 2), function(x) {  mean(x, na.rm=T) } )  |> 
+                                          array(dim = temp_dim),
+                                          along=length(temp_dim)
+                                        ),
                                         event_min=event_min, 
                                         event_max=event_max, 
                                         variables_names=variables_names,
