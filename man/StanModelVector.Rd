@@ -194,7 +194,7 @@ a ggplot object.
 }
 
 \subsection{Details}{
-same as plot_aggregate.
+default plot method
 }
 
 \subsection{Returns}{

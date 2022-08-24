@@ -34,7 +34,8 @@ Imports:
     MixMatrix (>= 0.2.6),
     bayestestR (>= 0.11.5),
     lubridate (>= 1.8.0),
-    stargazer (>= 5.2.3)
+    stargazer (>= 5.2.3),
+    patchwork (>= 1.1.2)
 LinkingTo: 
     BH (>= 1.66.0),
     Rcpp (>= 0.12.0),
@@ -43,3 +44,4 @@ LinkingTo:
     rstan (>= 2.18.1),
     StanHeaders (>= 2.18.0)
 SystemRequirements: GNU make
+LazyData: true

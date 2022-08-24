@@ -70,6 +70,7 @@ This class is used to fit Bayesian model when the response is a vector with asso
   n_simul = 20000,
   n_chains = 4,
   n_cores = NA,
+  predefined_cov_matrix_type = c("mcmc", "ml", "identity"),
   predefined_cov_matrix = NULL,
   stan_fit = NA_real_,
   n_spatial_kernels = 2,
