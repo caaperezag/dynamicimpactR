@@ -260,7 +260,9 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                               UTILS$gc_quiet()
 
-                              private$.can_plot(private$.get_event_initial(NULL))
+                              event_initial  <- private$.get_event_initial_or_end_time(NULL)
+
+                              private$.can_plot(event_initial)
 
                               current_plot  <-  MODULE_PLOT_EXTRA$plot_model(self, event_initial, "global")
 
@@ -468,7 +470,8 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                difference_unscaled <- private$.extracted_data$difference  |> 
                                  MODULES_SCALE$unscale_array_3d(
                                    result_list = private$.scaled_data_y,
-                                   m_diff_array = private$.original_y[,1,]
+                                   m_diff_array = NULL
+                                   # m_diff_array = private$.original_y[,1,]
                                  )
 
 
@@ -477,7 +480,9 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                cumsum_unscaled <- private$.extracted_data$difference |>
                                  MODULES_SCALE$unscale_cumsum(result_list = private$.scaled_data_y,
                                                               start_event = event_initial,
-                                                              m_diff_array = private$.original_y[,1,] )
+                                                             # m_diff_array = private$.original_y[,1,] 
+                                                              m_diff_array = NULL
+                                                              )
 
 
 
