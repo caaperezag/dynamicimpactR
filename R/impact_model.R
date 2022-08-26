@@ -465,7 +465,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                  MODULES_SCALE$unscale_array_3d(result_list = private$.scaled_data_y)
 
                                #difference_unscaled <- private$.extracted_data$Y_pred |>
-                               difference_unscaled <- private$.extracted_data$difference
+                               difference_unscaled <- private$.extracted_data$difference  |> 
                                  MODULES_SCALE$unscale_array_3d(
                                    result_list = private$.scaled_data_y,
                                    m_diff_array = private$.original_y[,1,]
