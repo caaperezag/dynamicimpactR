@@ -466,22 +466,22 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                y_pred_unscaled <- private$.extracted_data$Y_pred |>
                                  MODULES_SCALE$unscale_array_3d(result_list = private$.scaled_data_y)
 
-                               #difference_unscaled <- private$.extracted_data$Y_pred |>
-                               difference_unscaled <- private$.extracted_data$difference  |> 
+                               difference_unscaled <- private$.extracted_data$Y_pred |>
+                               #difference_unscaled <- -private$.extracted_data$difference  |> 
                                  MODULES_SCALE$unscale_array_3d(
                                    result_list = private$.scaled_data_y,
-                                   m_diff_array = NULL
-                                   # m_diff_array = private$.original_y[,1,]
+                                   m_diff_array = private$.original_y[,1,]
+                                   #m_diff_array = NULL
                                  )
 
 
 
-                               #cumsum_unscaled <- private$.extracted_data$Y_pred |>
-                               cumsum_unscaled <- private$.extracted_data$difference |>
+                               cumsum_unscaled <- private$.extracted_data$Y_pred |>
+                               # cumsum_unscaled <- private$.extracted_data$difference |>
                                  MODULES_SCALE$unscale_cumsum(result_list = private$.scaled_data_y,
                                                               start_event = event_initial,
-                                                             # m_diff_array = private$.original_y[,1,] 
-                                                              m_diff_array = NULL
+                                                              m_diff_array = private$.original_y[,1,] 
+                                                              #m_diff_array = NULL
                                                               )
 
 
