@@ -85,7 +85,8 @@ parameters {
 
 transformed parameters {
 
-  vector[K] pi_mixture[J];
+  //vector[K] pi_mixture[J]; # de esta forma no funciona
+  real pi_mixture[J];
 
 
 
@@ -94,7 +95,8 @@ transformed parameters {
 
       for(k in 1:K) {
 
-        pi_mixture[j][k] =  exp(multi_normal_lpdf( COORDINATES[k] | kernels[j], sigma_kernels));
+        //pi_mixture[j][k] =  exp(multi_normal_lpdf( COORDINATES[k] | kernels[j], sigma_kernels)); # de esta forma no funcioana
+        pi_mixture[j] =  pi_mixture[j] + multi_normal_lpdf( COORDINATES[k] | kernels[j], sigma_kernels);
 
       }
 
@@ -139,7 +141,8 @@ generated quantities {
 
     for(j in 1:J) {
 
-       mu[t] =  pi_mixture[j] .* ((to_matrix(theta_vec_pred[j, t], P, K)')*X[t]) ;
+      // mu[t] =  pi_mixture[j] .* ((to_matrix(theta_vec_pred[j, t], P, K)')*X[t]) ; // esta no funciono
+      mu[t] =  pi_mixture[j] * ((to_matrix(theta_vec[j, t], P, K)')*X[t]);
     }
 
 
