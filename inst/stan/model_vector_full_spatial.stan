@@ -87,7 +87,7 @@ parameters {
 transformed parameters {
 
   //vector[K] pi_mixture[J]; # de esta forma no funciona
-  vector[j] pi_mixture;
+  vector[J] pi_mixture;
 
 
   pi_mixture =   rep_vector(0, J) ;
