@@ -86,9 +86,9 @@ parameters {
 transformed parameters {
 
   //vector[K] pi_mixture[J]; # de esta forma no funciona
-  real pi_mixture[J];
+  vector[J] pi_mixture;
 
-
+  pi_mixture =   rep_vector(0, J) ;
 
 
     for(j in 1:J) {
