@@ -11,7 +11,7 @@ MODULE_IMPACT <-  modules::module(
     MATRIX_LIST <- c("ml", "identity")
 
     # DEFAULT_DISCOUNTS <- seq(from = 0.7, to = 0.97, length.out=100)
-    DEFAULT_DISCOUNTS <- seq(from = 0.7, to = 0.99, length.out=100)
+    DEFAULT_DISCOUNTS <- seq(from = 0, to = 1, length.out=1000)
 
     get_variable_matrix <- function(matrix_type, Y_data, event_initial= NULL) {
     

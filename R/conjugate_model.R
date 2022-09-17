@@ -3,9 +3,17 @@ ConjugateModel <- R6::R6Class('ConjugateModel',
                            inherit = BaseImpactModel,
                            public = list(
                              n_simul = 1000,
-                             initialize  = function(name='model impact', event_initial, X_data, Y_data, vector_name, variables_names, confidence_level, n_simul, dates=NULL) {
+                             initialize  = function(name='model impact', event_initial, X_data, Y_data, 
+                                                    vector_name, variables_names, confidence_level, 
+                                                    n_simul, dates=NULL, log_x=FALSE, log_y=FALSE) {
 
-                               super$initialize(name, event_initial, X_data, Y_data, vector_name, variables_names, confidence_level, dates)
+                               # super$initialize(name, event_initial, X_data, Y_data, vector_name, variables_names, confidence_level, dates)
+                               
+                               super$initialize(name=name, event_initial=event_initial, 
+                                                X_data=X_data, Y_data=Y_data,
+                                                vector_name=vector_name, variables_names=variables_names,
+                                                confidence_level=confidence_level, 
+                                                log_x=log_x, log_y=log_y, dates=dates)
 
                                self$n_simul <- n_simul
 
