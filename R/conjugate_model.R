@@ -1,8 +1,9 @@
 #' @export
 ConjugateModel <- R6::R6Class('ConjugateModel',
                            inherit = BaseImpactModel,
-                           discount_factor = NULL,
+                           
                            public = list(
+                             discount_factor = NULL,
                              n_simul = 1000,
                              initialize  = function(name='model impact', event_initial, X_data, Y_data, 
                                                     vector_name, variables_names, confidence_level, 
