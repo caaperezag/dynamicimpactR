@@ -147,15 +147,16 @@ MODULE_IMPACT <-  modules::module(
       data_list$Q <- dim(data_list_input$matrix_y)[2]
       
       
-      Y <- data_list_input$matrix_y[,1,]
-      X <- data_list_input$matrix_x[,1,]
+      # Y <- data_list_input$matrix_y[,1,]
+      # X <- data_list_input$matrix_x[,1,]
       
-      
+      Y <- data_list_input$matrix_y
+      X <- data_list_input$matrix_x
       
       
       # browser()
       
-      data_list$K <- dim(Y)[2]
+      data_list$K <- dim(Y)[3]
       
       
       
@@ -168,11 +169,11 @@ MODULE_IMPACT <-  modules::module(
       data_list$X <- karray(X, dim = dim(X))
       
       # browser()
-      data_list$X_before <- data_list$X[1:data_list$N_before,]
-      data_list$X_after  <- data_list$X[(data_list$N_before+1):data_list$N,]
+      data_list$X_before <- data_list$X[1:data_list$N_before,,]
+      data_list$X_after  <- data_list$X[(data_list$N_before+1):data_list$N,,]
       
-      data_list$y_before <- data_list$y[1:data_list$N_before,]
-      data_list$y_after  <- data_list$y[(data_list$N_before+1):data_list$N,]
+      data_list$y_before <- data_list$y[1:data_list$N_before,,]
+      data_list$y_after  <- data_list$y[(data_list$N_before+1):data_list$N,,]
       
       data_list$G_t  <- diag(data_list$P)
       
