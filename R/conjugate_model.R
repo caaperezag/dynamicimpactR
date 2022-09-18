@@ -19,7 +19,11 @@ ConjugateModel <- R6::R6Class('ConjugateModel',
 
                                self$n_simul <- n_simul
 
-                                if(is.null(discount_factor)) {
+                              if(length(discount_factor) > 1) {
+                                stop("The discount factor must an scalar")
+                              }
+
+                              if(!is.null(discount_factor)) {
 
                                 if( (discount_factor < 0) | (discount_factor > 1)  ) {
                                   stop("The discount factor must in (0, 1)") 
