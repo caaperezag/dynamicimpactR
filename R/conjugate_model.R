@@ -1,11 +1,12 @@
 #' @export
 ConjugateModel <- R6::R6Class('ConjugateModel',
                            inherit = BaseImpactModel,
+                           discount_factor = NULL,
                            public = list(
                              n_simul = 1000,
                              initialize  = function(name='model impact', event_initial, X_data, Y_data, 
                                                     vector_name, variables_names, confidence_level, 
-                                                    n_simul, dates=NULL, log_x=FALSE, log_y=FALSE) {
+                                                    n_simul, discount_factor=NULL, dates=NULL, log_x=FALSE, log_y=FALSE) {
 
                                # super$initialize(name, event_initial, X_data, Y_data, vector_name, variables_names, confidence_level, dates)
                                
@@ -17,6 +18,19 @@ ConjugateModel <- R6::R6Class('ConjugateModel',
 
                                self$n_simul <- n_simul
 
+                                if(is.null(discount_factor)) {
+
+                                if( (discount_factor < 0) | (discount_factor > 1)  ) {
+                                  stop("The discount factor must in (0, 1) ") 
+                                }
+
+                               }
+
+                               self$discount_factor  <- discount_factor
+
+                               
+
+                               
                              },
 
 
@@ -387,6 +401,11 @@ ConjugateModel <- R6::R6Class('ConjugateModel',
                              },
 
                              .fit  =  function(event_initial=NULL, discount=NULL) {
+
+
+                                if(is.null(discount)) {
+                                  discount = self$discount_factor
+                                }
 
 
                                 m_list <- private$.build_data_list(event_initial)

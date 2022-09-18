@@ -300,7 +300,7 @@ MODULE_IMPACT <-  modules::module(
       # browser()
       
       best_model <- get_best_models(model_list, score_variable='bayes')
-      print(best_model$discount)
+      # print(best_model$discount)
       best_model <- best_model$model
       
       return(best_model)
@@ -330,6 +330,7 @@ MODULE_IMPACT <-  modules::module(
       K <- data_list$K
       P <- data_list$P
       Q <- data_list$Q
+      R  <- Q
       
       inv_1_2_discount = NULL
       use_discount_factor = NULL
@@ -360,62 +361,47 @@ MODULE_IMPACT <-  modules::module(
       
       # browser()
       
-      F_t_before <- abind( array(NA_real_, dim = c(1, 
-                                                   dim(data_list$X_before)[2])), data_list$X_before, along = 1)
-      F_t_before <- karray(F_t_before, dim=dim(F_t_before))
-      
-      y_t_before <- abind( array(NA_real_, dim = c(1, 
-                                                   dim(data_list$y_before)[2])), data_list$y_before, along = 1)
-      y_t_before <- karray(y_t_before, dim=dim(y_t_before))
+      F_t_before <- abind(NA_real_ %>% array(dim = c(1, 
+                                                 dim(data_list$X_before)[2], 
+                                                 dim(data_list$X_before)[3])), data_list$X_before, along = 1)
+      F_t_before  <- karray(F_t_before, dim=dim(F_t_before))
+  
+      y_t_before <- abind(NA_real_ %>% array(dim = c(1, 
+                                                    dim(data_list$y_before)[2], 
+                                                    dim(data_list$y_before)[3])), data_list$y_before, along = 1)
+      y_t_before  <- karray(y_t_before, dim=dim(y_t_before))
       
       G_t <- abind(array(NA_real_, dim = c(1, dim(G_t)[2], dim(G_t)[3])), G_t, along = 1)
       G_t <- karray(G_t, dim=dim(G_t))
       
-      
-      # browser()
-      
-      #V_t <- abind(array(NA_real_, dim = c(1, dim(V_t)[2], dim(V_t)[3])), V_t, along = 1)
-      #V_t <- karray(V_t, dim=dim(V_t))
+      V_t <- abind(NA_real_ %>% array(dim = c(1, dim(V_t)[2], dim(V_t)[3])), V_t, along = 1)
+      V_t <- karray(V_t, dim=dim(V_t))
       
       W_t <- abind(array(NA_real_, dim = c(1, dim(W_t)[2], dim(W_t)[3])), W_t, along = 1)
       W_t <- karray(W_t, dim=dim(W_t))
       
-      # C_star_t <- karray(NA_real_, dim = c(N_before+N_after+1, P, P))
+      C_star_t <- karray(NA_real_, dim = c(N_before+N_after+1, P, P))
       C_t      <- karray(NA_real_, dim = c(N_before+N_after+1, P, P))
-      
-      # M_star_t <- karray(NA_real_, dim = c(N_before+N_after+1, K, P))
-      # M_t      <- karray(NA_real_, dim = c(N_before+N_after+1, K, P))
       
       M_star_t <- karray(NA_real_, dim = c(N_before+N_after+1, P, K))
       M_t      <- karray(NA_real_, dim = c(N_before+N_after+1, P, K))
       
-      Y_UP   <- karray(NA_real_, dim = c(N_before+N_after+1, K, Q))
-      
-      # Y_DOWN <- karray(NA_real_, dim = c(N_before+N_after+1)) # en este caso no es una matriz
-      # Y_DOWN <- karray(NA_real_, dim = c(N_before+N_after+1, dim(V_t)[2], dim(V_t)[3]))
-      Y_DOWN <- rep(NA_real_, N_before+N_after+1)
+      Y_UP   <- karray(NA_real_, dim = c(N_before+N_after+1, R, K))
+      Y_DOWN <- karray(NA_real_, dim = c(N_before+N_after+1, R, R))
      
+      A_t  <- karray(NA_real_, dim = c(N_before+N_after+1, P, R))
+      
+      E_UP <- karray(NA_real_, dim = c(N_before+N_after+1, R, K))
+      
+      S_t  <- karray(NA_real_, dim = c(N_before+N_after+1, R, R))
       
       
-      A_t  <- karray(NA_real_, dim = c(N_before+N_after+1, P, Q))
-      
-      E_UP <- karray(NA_real_, dim = c(N_before+N_after+1, K, Q))
-      
-      S_t  <- karray(NA_real_, dim = c(N_before+N_after+1, Q, Q))
-      S_t  <- karray(NA_real_, dim = c(N_before+N_after+1, K, K))
-      
-      
-      # browser()
       C_t[1,,] <- data_list$initial_ct # matriz con la diagonal con valores grandes, con cov cero
       M_t[1,,] <- data_list$initial_mt #|> t() # para que coicida conn quintana
-      #S_t[1,,] <- diag(100, K) # por ahora con esto basta
-      S_t[1,,] <- diag(10, K) # por ahora con esto basta
+
+      S_t[1,,] <- diag(10, R) # por ahora con esto basta
       
-      # browser()
-      
-      # print("calculo de n before")
-      # 
-      
+
       n_t <- 1
       
       B_t <- diag(discount**(-1/2), P)
@@ -426,44 +412,53 @@ MODULE_IMPACT <-  modules::module(
         # browser()
         
         
-        F_t <-  matrix(F_t_before[t,], ncol=1)
+        #F_t <-  matrix(F_t_before[t,], ncol=1)
+
+        temp_matrix <-  F_t_before[t,,]
         
 
-        W_t[t,,] <-  (B_t %*%  C_t[t-1,,]  %*%  B_t) - C_t[t-1,,]
+        C_star_t[t,,] <- update_C_t_star(G_t=G_t[t,,], 
+                                         C_t=C_t[t-1,,],
+                                         W_t= W_t[t,,], 
+                                         discount=discount, 
+                                         inv_1_2_discount=inv_1_2_discount, 
+                                         use_discount_factor=use_discount_factor)
+
+        # W_t[t,,] <-  (B_t %*%  C_t[t-1,,]  %*%  B_t) - C_t[t-1,,]
         
       
   
        
-        Y_DOWN[t] <- V_t[t] +   ( t(F_t) %*% (C_t[t-1,,] +  W_t[t,,]) %*% F_t )
+        M_star_t[t,,] <- G_t[t,,] %*% M_t[t-1,,]
         
+        Y_DOWN[t,,] <- V_t[t,,] +   (temp_matrix %*% C_star_t[t,,] %*% t(temp_matrix) )
+
+        Y_UP[t,,] <- temp_matrix %*% M_star_t[t,,] 
+
+        Y_DOWN_inverse <- matlib::inv(Y_DOWN[t,,])
+
+        A_t[t,,] <-  C_star_t[t,,]  %*% t(temp_matrix) %*% Y_DOWN_inverse
+
+        C_t[t,,] <- C_star_t[t,,] -  (A_t[t,,] %*% Y_DOWN[t,,] %*% t(A_t[t,,]))
 
         
         A_t[t,,] <- ((C_t[t-1,,] +  W_t[t,,])  %*% F_t) * (1/Y_DOWN[t])
         
         C_t[t,,] <- (C_t[t-1,,] +  W_t[t,,])  -  ( (A_t[t,,] %*% t(A_t[t,,])) * Y_DOWN[t] ) 
+
+        W_t[t,,] <-  (B_t %*%  C_t[t-1,,]  %*%  B_t) - C_t[t-1,,]
+
+        M_t[t,,] <- M_star_t[t,,] + (A_t[t,,] %*% E_UP[t,,])
+
         
-        Y_UP[t,,] <- t( t(F_t)  %*% M_t[t-1,,])
-        
-        # browser()
-        E_UP[t,,] <- matrix(y_t_before[t,], ncol = 1) -  Y_UP[t,,]
-        
-        # browser()
-        M_t[t,,] <- M_t[t-1,,] + (A_t[t,,] %*% t(E_UP[t,,]) )
         
         n_t_old <- n_t
         
-    
-        
-          # if(FALSE){
-          # browser()
-          # n_t <- (discount*n_t) + 1
-          
-          # browser()
-          
         n_t <- n_t + 1
         
-        # S_t[t,,] <- ((1/n_t)* (discount*n_t_old*S_t[t-1,,])) +  ( t(E_UP[t,,]) %*% temp_inv %*% E_UP[t,,] ) 
-        S_t[t,,] <- (1/n_t)* ( (n_t_old*S_t[t-1,,]) +  (( E_UP[t,,] %*%  t(E_UP[t,,]) ) *  (1/Y_DOWN[t]) ))
+        # S_t[t,,] <- ((1/n_t)* (discount*n_t_old*S_t[t-1,,])) +  ( t(E_UP[t,,]) %*% Y_DOWN_inverse %*% E_UP[t,,] ) 
+        S_t[t,,] <- (S_t[t-1,,]) +  ( t(E_UP[t,,]) %*% Y_DOWN_inverse %*% E_UP[t,,] ) 
+        #S_t[t,,] <- (1/n_t)* ( (n_t_old*S_t[t-1,,]) +  (( E_UP[t,,] %*%  t(E_UP[t,,]) ) *  (1/Y_DOWN[t]) ))
           
    
           
@@ -474,69 +469,62 @@ MODULE_IMPACT <-  modules::module(
       
       # browser()
       
-      F_t_before <- F_t_before[2:(N_before+1), ]
-      y_t_before <- y_t_before[2:(N_before+1), ]
+      F_t_before <- F_t_before[2:(N_before+1),, ]
+      y_t_before <- y_t_before[2:(N_before+1),, ]
       
-      G_t <- G_t[2:(N_before+N_after+1), ,]
-      # V_t <- V_t[2:(N_before+N_after+1), , ]
-      # W_t <- W_t[2:(N_before+N_after+1), ,]
+      G_t <- G_t[2:(N_before+N_after+1),,]
+      V_t <- V_t[2:(N_before+N_after+1),,]
+      W_t <- W_t[2:(N_before+N_after+1),,]
       
-      # C_star_t <- C_star_t[2:(N_before+N_after+1), ,]
+      C_star_t <- C_star_t[2:(N_before+N_after+1), ,]
       C_t      <- C_t[2:(N_before+N_after+1), ,]
       
       
-      # M_star_t <- M_star_t[2:(N_before+N_after+1), ,]
-      M_t      <- M_t[2:(N_before+N_after+1), ,]
+      M_star_t <- M_star_t[2:(N_before+N_after+1),,]
+      M_t      <- M_t[2:(N_before+N_after+1),,]
       
       
       Y_UP   <- Y_UP[2:(N_before+N_after+1),, ]
-      # Y_DOWN <- Y_DOWN[2:(N_before+N_after+1),,]
-      Y_DOWN <- Y_DOWN[2:(N_before+N_after+1)]
+      Y_DOWN <- Y_DOWN[2:(N_before+N_after+1),,]
       
       A_t <- A_t[2:(N_before+N_after+1),, ]
       
       
       E_UP <- E_UP[2:(N_before+N_after+1),, ]
       
-      # S_t <- S_t[2:(N_before+1),, ]
       S_t <- S_t[2:(N_before+N_after+1),, ]
       
       
       F_t_after <- data_list$X_after
       y_t_after <- data_list$y_after
       
-      
-      # browser()
-      
       for(t in 1:N_after) {
         
         # browser()
         
-        F_t <-  matrix(F_t_after[t,], ncol=1)
+        # W_t[t+N_before,,] <-  (B_t %*%  C_t[t+N_before-1,,]  %*%  B_t) - C_t[t+N_before-1,,]
         
+        Y_DOWN[N_before+t,,] <- V_t[N_before+t,,] +   F_t_after[t,,] %*% C_star_t[N_before,,] %*% t(F_t_after[t,,]) 
+    
+        Y_UP[N_before+t,,] <- F_t_after[t,,] %*% M_star_t[N_before,,] 
+        
+        Y_DOWN_inverse <- matlib::inv(Y_DOWN[t,,])
+
+        A_t[t+N_before,,] <-  C_star_t[N_before,,]  %*% t(F_t_after[t,,]) %*% Y_DOWN_inverse
+
+        C_t[t+N_before,,] <- C_star_t[N_before,,] -  A_t[t,,] %*% Y_DOWN[t,,] %*% t(A_t[t,,])
 
         W_t[t+N_before,,] <-  (B_t %*%  C_t[t+N_before-1,,]  %*%  B_t) - C_t[t+N_before-1,,]
-        
-        Y_DOWN[t+N_before] <- V_t[t+N_before] +   ( t(F_t) %*% (C_t[t+N_before-1,,] +  W_t[t+N_before,,]) %*% F_t )
-        
-        A_t[t+N_before,,] <- ((C_t[t+N_before-1,,] +  W_t[t+N_before,,])  %*% F_t) * (1/Y_DOWN[t+N_before])
-        
-        C_t[t+N_before,,] <- (C_t[t+N_before-1,,] +  W_t[t+N_before,,])  -  ( (A_t[t+N_before,,] %*% t(A_t[t+N_before,,])) * Y_DOWN[t+N_before] )
-        
-        M_t[N_before+t,,] = M_t[N_before,,]
-        M_star_t[N_before+t,,] = M_t[N_before+t,,]
 
-        Y_UP[t+N_before,,] <- t( t(F_t)  %*% M_t[N_before,,])
-        
+        E_UP[t+N_before,,] <- y_t_after[t,,] -  Y_UP[t+N_before,,]
 
-        
-        E_UP[t+N_before,,] <- matrix(y_t_after[t,], ncol=1) -  Y_UP[t+N_before,,]
-        
+        M_t[t+N_before,,] <- M_star_t[N_before,,] + A_t[t+N_before,,] %*% E_UP[t+N_before,,]
         
         n_t_old <- n_t
         n_t <- n_t + 1
-        S_t[t+N_before,,] <- (1/n_t)* ( (n_t_old*S_t[t+N_before-1,,]) + ((  E_UP[t+N_before,,] %*%  t(E_UP[t+N_before,,]))*(1/Y_DOWN[t+N_before]) ))
-        
+        #S_t[t+N_before,,] <- (1/n_t)* ( (n_t_old*S_t[t+N_before-1,,]) + ((  E_UP[t+N_before,,] %*%  t(E_UP[t+N_before,,]))*(1/Y_DOWN[t+N_before]) ))
+
+        S_t[t+N_before,,] <- (S_t[t-1,,]) +  ( t(E_UP[t+N_before,,]) %*% Y_DOWN_inverse %*% E_UP[t+N_before,,] ) 
       
         
         
@@ -569,9 +557,9 @@ MODULE_IMPACT <-  modules::module(
         M_star_t=M_t,
         #C_star_t=C_star_t,
         
-        y_t_before=y_t_before,
-        y_t_after=y_t_after,
-        y_t_full = rbind(y_t_before, y_t_after),
+        y_t_before = y_t_before,
+        y_t_after  = y_t_after,
+        y_t_full   = abind(y_t_before, y_t_after, along=1),
         S_t = S_t,
         discount = discount,
         n_t = n_t,
@@ -753,9 +741,9 @@ MODULE_IMPACT <-  modules::module(
         
           # print(t)
         
-        if(t == 2) {
+        #if(t == 2) {
           # browser()
-        }
+        #}
         
         if( !all ( is.na(model_result_list[[t]]) ) ) {
           
