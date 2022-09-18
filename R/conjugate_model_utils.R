@@ -434,7 +434,14 @@ MODULE_IMPACT <-  modules::module(
 
         Y_UP[t,,] <- temp_matrix %*% M_star_t[t,,] 
 
-        Y_DOWN_inverse <- matlib::inv(Y_DOWN[t,,])
+        if( ( (dim(Y_DOWN)[2]) == 1) | ( (dim(Y_DOWN)[3]) == 1)  ) {
+
+          Y_DOWN_inverse <- 1/(Y_DOWN[t,,])
+
+        } else {
+          Y_DOWN_inverse <- matlib::inv(Y_DOWN[t,,])
+        }
+        
 
         A_t[t,,] <-  C_star_t[t,,]  %*% t(temp_matrix) %*% Y_DOWN_inverse
 
@@ -505,7 +512,16 @@ MODULE_IMPACT <-  modules::module(
     
         Y_UP[N_before+t,,] <- F_t_after[t,,] %*% M_star_t[N_before,,] 
         
-        Y_DOWN_inverse <- matlib::inv(Y_DOWN[t,,])
+        # estaba de esta forma antes
+        # Y_DOWN_inverse <- matlib::inv(Y_DOWN[t,,])
+
+        if( ( (dim(Y_DOWN)[2]) == 1) | ( (dim(Y_DOWN)[3]) == 1)  ) {
+
+          Y_DOWN_inverse <- 1/(Y_DOWN[N_before+t,,])
+
+        } else {
+          Y_DOWN_inverse <- matlib::inv(Y_DOWN[N_before+t,,])
+        }
 
         A_t[t+N_before,,] <-  C_star_t[N_before,,]  %*% t(F_t_after[t,,]) %*% Y_DOWN_inverse
 
