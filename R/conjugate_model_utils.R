@@ -307,7 +307,7 @@ MODULE_IMPACT <-  modules::module(
     
     run_model_single <- function(data_list, discount=NULL) {
       
-      browser()
+      # browser()
       
       # print(update_C_t_star)
       
