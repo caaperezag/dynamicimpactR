@@ -393,13 +393,13 @@ MODULE_IMPACT <-  modules::module(
       
       E_UP <- karray(NA_real_, dim = c(N_before+N_after+1, R, K))
       
-      S_t  <- karray(NA_real_, dim = c(N_before+N_after+1, R, R))
+      S_t  <- karray(NA_real_, dim = c(N_before+N_after+1, K, K))
       
       
       C_t[1,,] <- data_list$initial_ct # matriz con la diagonal con valores grandes, con cov cero
       M_t[1,,] <- data_list$initial_mt #|> t() # para que coicida conn quintana
 
-      S_t[1,,] <- diag(10, R) # por ahora con esto basta
+      S_t[1,,] <- diag(10, K) # por ahora con esto basta
       
 
       n_t <- 1
