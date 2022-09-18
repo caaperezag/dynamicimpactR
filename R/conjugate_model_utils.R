@@ -361,12 +361,12 @@ MODULE_IMPACT <-  modules::module(
       
       # browser()
       
-      F_t_before <- abind(NA_real_ %>% array(dim = c(1, 
+      F_t_before <- abind(NA_real_ |> array(dim = c(1, 
                                                  dim(data_list$X_before)[2], 
                                                  dim(data_list$X_before)[3])), data_list$X_before, along = 1)
       F_t_before  <- karray(F_t_before, dim=dim(F_t_before))
   
-      y_t_before <- abind(NA_real_ %>% array(dim = c(1, 
+      y_t_before <- abind(NA_real_ |> array(dim = c(1, 
                                                     dim(data_list$y_before)[2], 
                                                     dim(data_list$y_before)[3])), data_list$y_before, along = 1)
       y_t_before  <- karray(y_t_before, dim=dim(y_t_before))
@@ -374,7 +374,7 @@ MODULE_IMPACT <-  modules::module(
       G_t <- abind(array(NA_real_, dim = c(1, dim(G_t)[2], dim(G_t)[3])), G_t, along = 1)
       G_t <- karray(G_t, dim=dim(G_t))
       
-      V_t <- abind(NA_real_ %>% array(dim = c(1, dim(V_t)[2], dim(V_t)[3])), V_t, along = 1)
+      V_t <- abind(NA_real_ |> array(dim = c(1, dim(V_t)[2], dim(V_t)[3])), V_t, along = 1)
       V_t <- karray(V_t, dim=dim(V_t))
       
       W_t <- abind(array(NA_real_, dim = c(1, dim(W_t)[2], dim(W_t)[3])), W_t, along = 1)
