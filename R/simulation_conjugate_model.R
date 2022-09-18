@@ -45,17 +45,22 @@ MODULES_IC_SIMULATION <- modules::module({
     
     make_theta_based <- function(model_result, n_simul, y_scaled_data=NULL, use_percent=TRUE, m_weights=NULL, MODULES_SCALE=NULL) {
       
+      browser()
+
       n_time <- dim(model_result$y_t_after)[1]
-      n_est <-  dim(model_result$y_t_after)[2]
-      n_pred_vars <- dim(model_result$E_UP)[3]
+      n_est  <-  dim(model_result$y_t_after)[3]
+      n_cont <-  dim(model_result$y_t_after)[2]
+      n_pred_vars <- dim(model_result$M_t)[2]
+
+
       
       N_before <- dim(model_result$y_t_before)[1]
       N_full <- dim(model_result$y_t_full)[1]
       
 
-      result_array <- karray(NA_real_, dim=c(n_simul, n_time, n_est))
-      percent_array <- karray(NA_real_, dim=c(n_simul, n_time, n_est))
-      error_array <- karray(NA_real_, dim=c(n_simul, n_time, n_est))
+      result_array <- karray(NA_real_, dim=c(n_simul, n_time, n_cont, n_est))
+      percent_array <- karray(NA_real_, dim=c(n_simul, n_time, n_cont, n_est))
+      error_array <- karray(NA_real_, dim=c(n_simul, n_time, n_cont, n_est))
       theta_array <- karray(NA_real_, dim=c(n_simul, n_time, dim(model_result$M_t)[2], dim(model_result$M_t)[3]))
       
       
@@ -69,7 +74,7 @@ MODULES_IC_SIMULATION <- modules::module({
       }
       
       if(use_percent) {
-        m_y <- model_result$E_UP[N_before:N_full,,]/model_result$y_t_full[N_before:N_full,]
+        m_y <- model_result$E_UP[N_before:N_full,,]/model_result$y_t_full[N_before:N_full,,]
       } else {
         m_y <- model_result$E_UP[N_before:N_full,,]
       }
@@ -97,7 +102,7 @@ MODULES_IC_SIMULATION <- modules::module({
 
         for(i in 1:n_simul) {
 
-          # browser()
+          browser()
 
           W_t <- (beta %*% model_result$C_t[N_before+t-1,,] %*% beta) - model_result$C_t[N_before+t-1,,]    
 
@@ -110,24 +115,25 @@ MODULES_IC_SIMULATION <- modules::module({
                                                         
           )
           
-          temp_matrix <-  matrix(model_result$X_t[N_before+t,], ncol=1)
+          # temp_matrix <-  matrix(model_result$X_t[N_before+t,], ncol=1)
           
+          temp_matrix <-  model_result$X_t[N_before+t,,]
 
           result_array[i,t,] <- MixMatrix::rmatrixnorm(n = 1, 
-                                                       mean =  ( t(temp_matrix) %*% theta_array[i,t,,] ),
+                                                       mean =  ( (temp_matrix) %*% theta_array[i,t,,] ),
                                                        #U = model_result$V_t[N_before+t] |> diag(1), #rows
-                                                       U =  diag(1), #rows
+                                                       U =  model_result$V_t, #rows
                                                        V = model_result$S_t[N_before+t,,] # cols
                                                        )
           
 
           
-          temp_real_y <- model_result$y_t_after[t,]
+          temp_real_y <- model_result$y_t_after[t,,]
           
 
           
-          percent_array[i, t, ] <- (result_array[i,t,] - temp_real_y)/temp_real_y
-          error_array[i, t, ] <-  (result_array[i,t,] - temp_real_y)
+          percent_array[i, t,, ] <- (result_array[i,t,,] - temp_real_y)/temp_real_y
+          error_array[i, t,, ] <-  (result_array[i,t,,] - temp_real_y)
 
 
           
@@ -136,14 +142,15 @@ MODULES_IC_SIMULATION <- modules::module({
 
       }
       
-      # browser()
+      browser()
       
       if(!is.null(y_scaled_data)) {
         
         for(i in 1:n_simul) {
 
-          error_array[i,, ] <- error_array[i,, ] |> 
-                               MODULES_SCALE$unscale_matrix(result_list=y_scaled_data)
+          error_array[i,,, ] <- error_array[i,,, ] |> 
+                               # MODULES_SCALE$unscale_matrix(result_list=y_scaled_data)
+                               MODULES_SCALE$unscale_array_3d(result_list=y_scaled_data)
           
         }
         

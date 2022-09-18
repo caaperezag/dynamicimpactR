@@ -326,9 +326,9 @@ MODULE_IMPACT <-  modules::module(
       N_before <- data_list$N_before
       N_after <- data_list$N_after
       
-      K <- data_list$K
-      P <- data_list$P
-      Q <- data_list$Q
+      K <- data_list$K # estaciones
+      P <- data_list$P # predictoras
+      Q <- data_list$Q # contaminates
       R  <- Q
       
       inv_1_2_discount = NULL
@@ -577,7 +577,7 @@ MODULE_IMPACT <-  modules::module(
         discount = discount,
         n_t = n_t,
         
-        X_t = data_list$X,
+        X_t = data_list$X  |> karray( dim = dim(data_list$X) ),
         
         # df_plot=df_plot
         # 
