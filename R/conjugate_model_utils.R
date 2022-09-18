@@ -494,7 +494,7 @@ MODULE_IMPACT <-  modules::module(
       F_t_after <- data_list$X_after
       y_t_after <- data_list$y_after
 
-      browser()
+      # browser()
       
       for(t in 1:N_after) {
         
@@ -522,7 +522,7 @@ MODULE_IMPACT <-  modules::module(
         n_t <- n_t + 1
         #S_t[t+N_before,,] <- (1/n_t)* ( (n_t_old*S_t[t+N_before-1,,]) + ((  E_UP[t+N_before,,] %*%  t(E_UP[t+N_before,,]))*(1/Y_DOWN[t+N_before]) ))
 
-        S_t[t+N_before,,] <- (S_t[t-1,,]) +  ( t(E_UP[t+N_before,,]) %*% Y_DOWN_inverse %*% E_UP[t+N_before,,] ) 
+        S_t[t+N_before,,] <- (S_t[t+N_before-1,,]) +  ( t(E_UP[t+N_before,,]) %*% Y_DOWN_inverse %*% E_UP[t+N_before,,] ) 
       
         
         
