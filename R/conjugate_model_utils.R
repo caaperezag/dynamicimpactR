@@ -493,6 +493,8 @@ MODULE_IMPACT <-  modules::module(
       
       F_t_after <- data_list$X_after
       y_t_after <- data_list$y_after
+
+      browser()
       
       for(t in 1:N_after) {
         
