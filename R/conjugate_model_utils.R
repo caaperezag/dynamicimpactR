@@ -441,15 +441,11 @@ MODULE_IMPACT <-  modules::module(
 
         C_t[t,,] <- C_star_t[t,,] -  (A_t[t,,] %*% Y_DOWN[t,,] %*% t(A_t[t,,]))
 
-        
-        A_t[t,,] <- ((C_t[t-1,,] +  W_t[t,,])  %*% F_t) * (1/Y_DOWN[t])
-        
-        C_t[t,,] <- (C_t[t-1,,] +  W_t[t,,])  -  ( (A_t[t,,] %*% t(A_t[t,,])) * Y_DOWN[t] ) 
+        E_UP[t,,] <- y_t_before[t,,] -  Y_UP[t,,]
 
         W_t[t,,] <-  (B_t %*%  C_t[t-1,,]  %*%  B_t) - C_t[t-1,,]
 
         M_t[t,,] <- M_star_t[t,,] + (A_t[t,,] %*% E_UP[t,,])
-
         
         
         n_t_old <- n_t
