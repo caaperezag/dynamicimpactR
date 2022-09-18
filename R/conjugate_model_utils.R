@@ -179,26 +179,18 @@ MODULE_IMPACT <-  modules::module(
       
       data_list$G_t  <- matrix_to_array_rep(data_list$G_t, m_size=data_list$N )
       
-      # browser()
+      browser()
       
-      # V_observation <- estamate_ml_from_array( data_list_input$matrix_y[1:data_list$N_before,,] )$U
-      # data_list$V_t <- matrix_to_array_rep(V_observation, m_size=data_list$N )
-      # data_list$V_t <- karray(data_list$V_t, dim=dim(data_list$V_t))
+       V_observation <- estamate_ml_from_array( data_list_input$matrix_y[1:data_list$N_before,,] )$U
+       data_list$V_t <- matrix_to_array_rep(V_observation, m_size=data_list$N )
+       data_list$V_t <- karray(data_list$V_t, dim=dim(data_list$V_t))
       
-      # if(dim(data_list_input$matrix_y)[2] > 1) {
-      #   V_observation <- estamate_ml_from_array( data_list_input$matrix_y[1:data_list$N_before,,] )$U
-      #   data_list$V_t <- matrix_to_array_rep(V_observation, m_size=data_list$N )
-      #   data_list$V_t <- karray(data_list$V_t, dim=dim(data_list$V_t))
-      # } else {
-      #   # V_observation <- estamate_ml_from_array( data_list_input$matrix_y[1:data_list$N_before,,] )$var
-      #   V_observation  <- 1
-      #   data_list$V_t <-  rep(V_observation, data_list$N)
-      #   
-      # }
+     
       
       # V_observation <-  estamate_ml_from_array( data_list_input$matrix_y[1:data_list$N_before,,] )$var
-      V_observation  <- 1
-      data_list$V_t <-  rep(V_observation, data_list$N)
+      #V_observation  <- 1
+
+      data_list$V_t <-  matrix_to_array_rep(data_list$V_t, m_size=data_list$N )
       
       # browser()
       
@@ -318,9 +310,9 @@ MODULE_IMPACT <-  modules::module(
       V_t <- data_list$V_t
       W_t <- data_list$W_t
       
-      if(is.null(V_t)) {
-        V_t <- 1
-      }
+      #if(is.null(V_t)) {
+      #  V_t <- 1
+      #}
       
       
       
