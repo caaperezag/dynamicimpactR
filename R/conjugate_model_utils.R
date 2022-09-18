@@ -278,7 +278,10 @@ MODULE_IMPACT <-  modules::module(
             temp_list <- list()
 
             
-            temp_list$model    <- run_model_single(data_list, m_discount)
+            temp_list$model    <- try(run_model_single(data_list, m_discount))
+
+            if ("try-error" %in% class(lm_result)) {next;}
+
             temp_list$error    <- temp_list$model$E_UP[1:N_before,,] |>   get_model_error_abs()
             temp_list$discount <- m_discount
             
