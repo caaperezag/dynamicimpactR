@@ -179,10 +179,11 @@ MODULE_IMPACT <-  modules::module(
       
       data_list$G_t  <- matrix_to_array_rep(data_list$G_t, m_size=data_list$N )
       
-      browser()
+      #browser()
       
        # V_observation <- estamate_ml_from_array( data_list_input$matrix_y[1:data_list$N_before,,] )$U
        V_observation <- estamate_ml_from_array( data_list_input$matrix_y[1:data_list$N_before,,] )$V
+       V_observation <- karray( V_observation, dim=dim(V_observation))
        data_list$V_t <- matrix_to_array_rep(V_observation, m_size=data_list$N )
        data_list$V_t <- karray(data_list$V_t, dim=dim(data_list$V_t))
       
@@ -303,7 +304,7 @@ MODULE_IMPACT <-  modules::module(
     
     run_model_single <- function(data_list, discount=NULL) {
       
-      # browser()
+      browser()
       
       # print(update_C_t_star)
       
