@@ -291,6 +291,7 @@ MODULE_IMPACT <-  modules::module(
         
       }
 
+      browser()
       # para agregar el factor de bayes
       model_list  <- model_list  |> compute_bayes_factor_for_model_list(y_before=data_list$y_before)
 
