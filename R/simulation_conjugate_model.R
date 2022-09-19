@@ -45,7 +45,7 @@ MODULES_IC_SIMULATION <- modules::module({
     
     make_theta_based <- function(model_result, n_simul, y_scaled_data=NULL, use_percent=TRUE, m_weights=NULL, MODULES_SCALE=NULL) {
       
-      browser()
+      # browser()
 
       n_time <- dim(model_result$y_t_after)[1]
       n_est  <-  dim(model_result$y_t_after)[3]
@@ -102,7 +102,7 @@ MODULES_IC_SIMULATION <- modules::module({
 
         for(i in 1:n_simul) {
 
-          browser()
+          # browser()
 
           W_t <- (beta %*% model_result$C_t[N_before+t-1,,] %*% beta) - model_result$C_t[N_before+t-1,,]    
 
@@ -119,7 +119,7 @@ MODULES_IC_SIMULATION <- modules::module({
           
           temp_matrix <-  model_result$X_t[N_before+t,,]
 
-          result_array[i,t,] <- MixMatrix::rmatrixnorm(n = 1, 
+          result_array[i,t,,] <- MixMatrix::rmatrixnorm(n = 1, 
                                                        mean =  ( (temp_matrix) %*% theta_array[i,t,,] ),
                                                        #U = model_result$V_t[N_before+t] |> diag(1), #rows
                                                        U =  model_result$V_t[N_before+t,,], #rows
