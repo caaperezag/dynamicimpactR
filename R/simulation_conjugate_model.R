@@ -240,7 +240,7 @@ MODULES_IC_SIMULATION <- modules::module({
 
         for(j in 1:n_cont) {
 
-          temp_result_ic <- simul_model_cumsum[,j,idx] |> apply(2, bayestestR::hdi, ci=m_confidence_level)
+          temp_result_ic <- simul_model_cumsum[,,j,idx] |> apply(2, bayestestR::hdi, ci=m_confidence_level)
         
           ic_result_lower[,j,idx] <- temp_result_ic |>  sapply(function(x){x$CI_low }, USE.NAMES = F, simplify = T)
           ic_result_upper[,j,idx] <- temp_result_ic |>  sapply(function(x){x$CI_high}, USE.NAMES = F, simplify = T)
