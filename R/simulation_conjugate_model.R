@@ -96,7 +96,7 @@ MODULES_IC_SIMULATION <- modules::module({
                                                
                                                    # U =  model_result$C_t[N_before+t-1,,], #rows
                                                    U =  W_t, #rows
-                                                   V = model_result$S_t[N_before+t-1,,] # cols
+                                                   V = model_result$S_t[N_before-1,,] # cols
                                                  
           )
 
