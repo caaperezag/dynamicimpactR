@@ -122,7 +122,7 @@ MODULES_IC_SIMULATION <- modules::module({
           result_array[i,t,] <- MixMatrix::rmatrixnorm(n = 1, 
                                                        mean =  ( (temp_matrix) %*% theta_array[i,t,,] ),
                                                        #U = model_result$V_t[N_before+t] |> diag(1), #rows
-                                                       U =  model_result$V_t, #rows
+                                                       U =  model_result$V_t[N_before+t,,], #rows
                                                        V = model_result$S_t[N_before+t,,] # cols
                                                        )
           
