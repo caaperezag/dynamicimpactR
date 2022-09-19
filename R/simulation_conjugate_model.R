@@ -106,6 +106,8 @@ MODULES_IC_SIMULATION <- modules::module({
 
           W_t <- (beta %*% model_result$C_t[N_before+t-1,,] %*% beta) - model_result$C_t[N_before+t-1,,]    
 
+          print(paste0("i:", i))
+
           theta_array[i,t,,] <-  MixMatrix::rmatrixnorm(n = 1, 
                                                         mean = theta_old[,,i] , 
                                                         # U =  model_result$C_t[N_before+t,,], #rows
