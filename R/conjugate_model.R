@@ -316,13 +316,26 @@ ConjugateModel <- R6::R6Class('ConjugateModel',
 
                              },
 
-                             .build_plot_df = function() {
+                             .build_plot_df = function(event_initial=NULL) {
+
+                              browser()
 
                                df_list <- list()
+                               df_list_aggregate <- list()
 
+                               event_initial = private$.get_event_initial(event_initial)
+
+                               difference_unscaled_all <- private$.extracted_data$Y_pred |>
+                                                        MODULES_SCALE$unscale_array_3d(
+                                                          result_list = private$.scaled_data_y,
+                                                          m_diff_array = private$.original_y 
+                              )
 
                                for(idx in 1:length(self$variables_names)) {
                                  # browser()
+
+                                 event_initial = private$.get_event_initial(event_initial)
+
                                  m_df <- data.frame(
 
                                    variable=self$variables_names[idx],

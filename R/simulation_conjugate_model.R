@@ -277,7 +277,7 @@ MODULES_IC_SIMULATION <- modules::module({
     
     make_sumation <- function(simul_model_raw, alpha, m_weights=NULL) {
       
-      browser()
+      #browser()
       
       n_simul <-  dim(simul_model_raw)[1]
       n_time  <-  dim(simul_model_raw)[2]
