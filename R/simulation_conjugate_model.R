@@ -226,21 +226,28 @@ MODULES_IC_SIMULATION <- modules::module({
       
       
       
-      n_time <- dim(simul_model_cumsum)[2]
-      n_est  <- dim(simul_model_cumsum)[3]
+      n_simul <-  dim(simul_model_cumsum)[1]
+      n_time  <-  dim(simul_model_cumsum)[2]
+      n_est   <-  dim(simul_model_cumsum)[4]
+      n_cont  <-  dim(simul_model_cumsum)[3]
       
-      ic_result_lower <- matrix(NA_real_, nrow=n_time, ncol=n_est)
-      ic_result_upper <- matrix(NA_real_, nrow=n_time, ncol=n_est)
+      ic_result_lower <- karray(NA_real_, dim=c(n_time, n_cont, n_est))
+      ic_result_upper <- karray(NA_real_, dim=c(n_time, n_cont, n_est))
       
       
       
       for(idx in 1:n_est) {
+
+        for(j in 1:n_cont) {
+
+          temp_result_ic <- simul_model_cumsum[,j,idx] |> apply(2, bayestestR::hdi, ci=m_confidence_level)
         
-        temp_result_ic <- simul_model_cumsum[,,idx] |> apply(2, bayestestR::hdi, ci=m_confidence_level)
+          ic_result_lower[,j,idx] <- temp_result_ic |>  sapply(function(x){x$CI_low }, USE.NAMES = F, simplify = T)
+          ic_result_upper[,j,idx] <- temp_result_ic |>  sapply(function(x){x$CI_high}, USE.NAMES = F, simplify = T)
+
+        }
         
-        ic_result_lower[,idx] <- temp_result_ic |>  sapply(function(x){x$CI_low }, USE.NAMES = F, simplify = T)
-        ic_result_upper[,idx] <- temp_result_ic |>  sapply(function(x){x$CI_high}, USE.NAMES = F, simplify = T)
-        
+
       }
       
       
