@@ -550,23 +550,23 @@ ConjugateModel <- R6::R6Class('ConjugateModel',
 
                                temp_fitted <- model
                                # browser()
-                               temp_fitted$Y_UP <- temp_fitted$Y_UP[,,1] |>
-                                 MODULES_SCALE$unscale_matrix(result_list=private$.scaled_data_y)
+                               temp_fitted$Y_UP <- temp_fitted$Y_UP |>
+                                 MODULES_SCALE$unscale_array_3d(result_list=private$.scaled_data_y)
 
-                               temp_fitted$E_UP <- temp_fitted$E_UP[,,1]  |>
-                                 MODULES_SCALE$unscale_matrix(result_list=private$.scaled_data_y)
+                               temp_fitted$E_UP <- temp_fitted$E_UP |>
+                                 MODULES_SCALE$unscale_array_3d(result_list=private$.scaled_data_y)
 
                                temp_fitted$y_t_before <- temp_fitted$y_t_before |>
-                                 MODULES_SCALE$unscale_matrix(result_list=private$.scaled_data_y)
+                                 MODULES_SCALE$unscale_array_3d(result_list=private$.scaled_data_y)
 
                                temp_fitted$y_t_after <- temp_fitted$y_t_after |>
-                                 MODULES_SCALE$unscale_matrix(result_list=private$.scaled_data_y)
+                                 MODULES_SCALE$unscale_array_3d(result_list=private$.scaled_data_y)
 
                                temp_fitted$y_t_full <- temp_fitted$y_t_full |>
-                                 MODULES_SCALE$unscale_matrix(result_list=private$.scaled_data_y)
+                                 MODULES_SCALE$unscale_array_3d(result_list=private$.scaled_data_y)
 
                                temp_fitted$X_t <- temp_fitted$X_t |>
-                                 MODULES_SCALE$unscale_matrix(result_list=private$.scaled_data_x)
+                                 MODULES_SCALE$unscale_array_3d(result_list=private$.scaled_data_x)
 
                                return(temp_fitted)
 
