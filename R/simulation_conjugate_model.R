@@ -148,7 +148,7 @@ MODULES_IC_SIMULATION <- modules::module({
 
       }
       
-      browser()
+      # browser()
       
       if(!is.null(y_scaled_data)) {
         
