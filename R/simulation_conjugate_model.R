@@ -175,17 +175,24 @@ MODULES_IC_SIMULATION <- modules::module({
     
     apply_across_time <-  function(simul_model_raw, m_fum) {
       
-      array_result <- array(NA_real_, dim = dim(simul_model_raw))
+      array_result <- karray(NA_real_, dim = dim(simul_model_raw))
       
-      n_simul      <-  dim(simul_model_raw)[1]
-      n_components <-  dim(simul_model_raw)[3]
+      n_simul <-  dim(simul_model_raw)[1]
+      n_time  <-  dim(simul_model_raw)[2]
+      n_est   <-  dim(simul_model_raw)[4]
+      n_cont  <-  dim(simul_model_raw)[3]
       
       for(idx in 1:n_simul) {
         
-        for(elem in 1:n_components) {
+        for(i in 1:n_est) {
+
+          for(j in 1:n_cont) {
+
+            array_result[idx,,j,i] <- simul_model_raw[idx,,j,i] |> m_fum()
+
+          }
           
-          array_result[idx,,elem] <- simul_model_raw[idx,,elem] |> 
-                                      m_fum()
+          
         }
         
         
@@ -263,11 +270,13 @@ MODULES_IC_SIMULATION <- modules::module({
     
     make_sumation <- function(simul_model_raw, alpha, m_weights=NULL) {
       
-      #browser()
+      browser()
       
       n_simul <-  dim(simul_model_raw)[1]
       n_time  <-  dim(simul_model_raw)[2]
-      n_est   <-  dim(simul_model_raw)[3]
+      n_est   <-  dim(simul_model_raw)[4]
+      n_cont  <-  dim(simul_model_raw)[3]
+      
     
       
       if(is.null(m_weights)) {
@@ -288,9 +297,9 @@ MODULES_IC_SIMULATION <- modules::module({
 
       hdi_ic <- simul_model_cumsum |> extract_ic(m_confidence_level)
 
-      mean_inter  <- simul_model_cumsum |> apply(c(2,3), mean)
-      median_inter  <- simul_model_cumsum |> apply(c(2,3), stats::median)
-      quantile_inter  <- simul_model_cumsum |> apply(c(2,3), function(x) {
+      mean_inter  <- simul_model_cumsum |> apply(c(2,3,4), mean)
+      median_inter  <- simul_model_cumsum |> apply(c(2,3,4), stats::median)
+      quantile_inter  <- simul_model_cumsum |> apply(c(2,3,4), function(x) {
         x  |> stats::quantile(probs=m_confidence_level)  |> as.numeric()
       } )
       lower_inter <- hdi_ic$lower
@@ -324,7 +333,7 @@ MODULES_IC_SIMULATION <- modules::module({
 
           cumsum_result = simul_model_cumsum,
           cumsum_aggregate = mean_simul_model_cumsum_raw,
-          t = 1:length(mean_aggregate),
+          t = 1:n_time,
           
           aggregate = data.frame(
             lower_limit = lower_aggregate,
@@ -332,7 +341,7 @@ MODULES_IC_SIMULATION <- modules::module({
             mean_aggregate = mean_aggregate,
             median_aggregate = median_aggregate,
             quantile_aggregate = quantile_aggregate,
-            t = 1:length(mean_aggregate)
+            t = 1:n_time
           )
           
         )
