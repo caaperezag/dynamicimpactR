@@ -407,14 +407,12 @@ ConjugateModel <- R6::R6Class('ConjugateModel',
                                     df_list_aggregate[[length(df_list_aggregate) + 1]] <- m_df_real_input
 
                                     df_list_aggregate[[length(df_list_aggregate) + 1]] <- m_df |>
-                                      private$.build_individual_ic(variable_name=self$variables_names[idx],
-                                                                   vector_name=self$vector_name[m_index_grops],
-                                                                   variable_type="prediction")
+                                      private$.build_aggregate_ic(variable_name=self$variables_names[idx]#, variable_type="prediction"
+                                                                   )
 
                                     df_list_aggregate[[length(df_list_aggregate) + 1]] <- m_df_error |>
-                                      private$.build_individual_ic(variable_name=self$variables_names[idx],
-                                                                   vector_name=self$vector_name[m_index_grops],
-                                                                   variable_type="error")  |>
+                                      private$.build_aggregate_ic(variable_name=self$variables_names[idx]#,variable_type="error"
+                                      )  |>
                                       private$.add_cumsum_to_df()
 
                                  } else {
@@ -424,10 +422,12 @@ ConjugateModel <- R6::R6Class('ConjugateModel',
 
                                   df_list[[length(df_list) + 1]] <- m_df |>
                                     private$.build_individual_ic(variable_name=self$variables_names[idx],
+                                                                  vector_name=self$vector_name[m_index_grops],
                                                                   variable_type="prediction")
 
                                   df_list[[length(df_list) + 1]] <- m_df_error |>
                                     private$.build_individual_ic(variable_name=self$variables_names[idx],
+                                                                  vector_name=self$vector_name[m_index_grops],
                                                                   variable_type="error")  |>
                                     private$.add_cumsum_to_df()
                                   
