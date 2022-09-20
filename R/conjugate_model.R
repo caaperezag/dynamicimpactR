@@ -124,7 +124,7 @@ ConjugateModel <- R6::R6Class('ConjugateModel',
                                return(m_list)
 
                              },
-                             .build_individual_ic = function(plot_df, variable_name, variable_type) {
+                             .build_individual_ic = function(plot_df, variable_name, vector_name, variable_type) {
 
                                alpha <- 1-self$confidence_level
 
@@ -134,7 +134,8 @@ ConjugateModel <- R6::R6Class('ConjugateModel',
 
 
                                result_df <-  plot_df |>
-                                 dplyr::filter(variable==variable_name)
+                                 dplyr::filter(variable==variable_name)  |> 
+                                 dplyr::filter(vector == vector_name)
 
                                N <- plot_df$time_index |> unique() |> length()
 
@@ -407,11 +408,13 @@ ConjugateModel <- R6::R6Class('ConjugateModel',
 
                                     df_list_aggregate[[length(df_list_aggregate) + 1]] <- m_df |>
                                       private$.build_individual_ic(variable_name=self$variables_names[idx],
-                                                                    variable_type="prediction")
+                                                                   vector_name=self$vector_name[m_index_grops],
+                                                                   variable_type="prediction")
 
                                     df_list_aggregate[[length(df_list_aggregate) + 1]] <- m_df_error |>
                                       private$.build_individual_ic(variable_name=self$variables_names[idx],
-                                                                    variable_type="error")  |>
+                                                                   vector_name=self$vector_name[m_index_grops],
+                                                                   variable_type="error")  |>
                                       private$.add_cumsum_to_df()
 
                                  } else {
@@ -522,12 +525,12 @@ ConjugateModel <- R6::R6Class('ConjugateModel',
 
 
                                m_variable <- (variable_name == self$variables_names)  |> as.numeric()  |> which.max()
-                               m_vector   <- (vector_name == self$vector)             |> as.numeric()  |> which.max()
+                               m_vector   <- (vector_name   == self$vector_name)      |> as.numeric()  |> which.max()
 
 
                                print('*******************************')
                                print(variable_name)
-                               print(m_variable)
+                               print(vector_name)
                                print('*******************************')
 
                                # browser()
