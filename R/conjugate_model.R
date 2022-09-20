@@ -347,7 +347,7 @@ ConjugateModel <- R6::R6Class('ConjugateModel',
                                    value = private$.fitted_model$Y_UP[,m_index_grops,idx],
                                    type = "prediction",
                                    class = "prediction",
-                                   vector = vector_name[m_index_grops]
+                                   vector = self$vector_name[m_index_grops]
 
                                  )
 
@@ -358,7 +358,7 @@ ConjugateModel <- R6::R6Class('ConjugateModel',
                                    value = private$.fitted_model$y_t_full[, m_index_grops, idx],
                                    type = "prediction",
                                    class = 'real',
-                                   vector = vector_name[m_index_grops]
+                                   vector = self$vector_name[m_index_grops]
 
                                  )
 
@@ -369,7 +369,7 @@ ConjugateModel <- R6::R6Class('ConjugateModel',
                                    value = private$.original_x[,m_index_grops, idx],
                                    type = "prediction",
                                    class = 'input',
-                                   vector = vector_name[m_index_grops]
+                                   vector = self$vector_name[m_index_grops]
 
                                  )
 
@@ -390,7 +390,7 @@ ConjugateModel <- R6::R6Class('ConjugateModel',
                                    value =  private$.fitted_model$y_t_full[, m_index_grops, idx] - private$.fitted_model$Y_UP[, m_index_grops, idx],
                                    type = "error",
                                    class = 'error',
-                                   vector = vector_name[m_index_grops]
+                                   vector = self$vector_name[m_index_grops]
 
                                  )
 
