@@ -517,10 +517,12 @@ ConjugateModel <- R6::R6Class('ConjugateModel',
                                  dplyr::filter(is_impact)
 
                                variable_name <- result_df$variable |> dplyr::first()
+                               vector_name   <- result_df$vector |> dplyr::first()
 
 
 
                                m_variable <- (variable_name == self$variables_names)  |> as.numeric()  |> which.max()
+                               m_vector   <- (vector_name == self$vector)             |> as.numeric()  |> which.max()
 
 
                                print('*******************************')
@@ -532,16 +534,17 @@ ConjugateModel <- R6::R6Class('ConjugateModel',
 
                                cumsum_df <- data.frame(
                                  variable = variable_name,
+                                 vector   = m_vector,
                                  time_index = (self$event_initial+1):(dim(private$.simul_sumation$mean_inter)[1] + self$event_initial ),
-                                 value = -private$.simul_sumation$mean_inter[, m_variable],
+                                 value = -private$.simul_sumation$mean_inter[, m_vector, m_variable],
                                  type = 'cumsum',
                                  class = 'error',
                                  is_impact = TRUE,
                                  var_estimation=NA_real_,
                                  # upper_limit = -private$.simul_sumation$upper_limit[, m_variable],
                                  # lower_limit = -private$.simul_sumation$lower_limit[, m_variable],
-                                 upper_limit = -private$.simul_sumation$lower_limit[, m_variable],
-                                 lower_limit = -private$.simul_sumation$upper_limit[, m_variable]
+                                 upper_limit = -private$.simul_sumation$lower_limit[, m_vector, m_variable],
+                                 lower_limit = -private$.simul_sumation$upper_limit[, m_vector, m_variable]
                                )
 
                                # result_df <- rbind(result_df, plot_df)
