@@ -325,44 +325,51 @@ ConjugateModel <- R6::R6Class('ConjugateModel',
 
                                event_initial = private$.get_event_initial(event_initial)
 
-                               difference_unscaled_all <- private$.extracted_data$Y_pred |>
-                                                        MODULES_SCALE$unscale_array_3d(
-                                                          result_list = private$.scaled_data_y,
-                                                          m_diff_array = private$.original_y 
-                              )
-
-                               for(idx in 1:length(self$variables_names)) {
+                               for(m_index_grops  in 1:length(self$vector_name)) {
                                  # browser()
 
-                                 event_initial = private$.get_event_initial(event_initial)
+                                 for(m_index in 1:(length(self$variables_names)+1)) {
 
-                                 m_df <- data.frame(
+                                  is_global <- m_index > length(self$variables_names)
+
+                                  if(is_global) {
+                                   m_variable_name <-  'global'
+                                   idx = 1:length(self$variables_names)
+                                  } else {
+                                    idx = m_index
+                                    m_variable_name <-  self$variables_names[idx]
+                                  }
+
+                                  m_df <- data.frame(
 
                                    variable=self$variables_names[idx],
-                                   time_index = 1:dim(self$X_data)[1],
-                                   value = private$.fitted_model$Y_UP[,idx],
+                                   time_index = 1: (dim(self$X_data)[1]),
+                                   value = private$.fitted_model$Y_UP[,m_index_grops,idx],
                                    type = "prediction",
-                                   class = "prediction"
+                                   class = "prediction",
+                                   vector = vector_name[m_index_grops]
 
                                  )
 
                                  m_df_real <- data.frame(
 
                                    variable=self$variables_names[idx],
-                                   time_index = 1:dim(self$X_data)[1],
-                                   value = private$.fitted_model$y_t_full[, idx],
+                                   time_index = 1: (dim(self$X_data)[1]),
+                                   value = private$.fitted_model$y_t_full[, m_index_grops, idx],
                                    type = "prediction",
-                                   class = 'real'
+                                   class = 'real',
+                                   vector = vector_name[m_index_grops]
 
                                  )
 
                                  m_df_real_input <- data.frame(
 
                                    variable=self$variables_names[idx],
-                                   time_index = 1:dim(self$X_data)[1],
-                                   value = private$.original_x[,1, idx],
+                                   time_index = 1: (dim(self$X_data)[1]),
+                                   value = private$.original_x[,m_index_grops, idx],
                                    type = "prediction",
-                                   class = 'input'
+                                   class = 'input',
+                                   vector = vector_name[m_index_grops]
 
                                  )
 
@@ -379,10 +386,11 @@ ConjugateModel <- R6::R6Class('ConjugateModel',
                                  m_df_error <- data.frame(
 
                                    variable=self$variables_names[idx],
-                                   time_index = 1:dim(self$X_data)[1],
-                                   value =  private$.fitted_model$y_t_full[, idx] - private$.fitted_model$Y_UP[, idx],
+                                   time_index = 1: (dim(self$X_data)[1]),
+                                   value =  private$.fitted_model$y_t_full[, m_index_grops, idx] - private$.fitted_model$Y_UP[, m_index_grops, idx],
                                    type = "error",
-                                   class = 'error'
+                                   class = 'error',
+                                   vector = vector_name[m_index_grops]
 
                                  )
 
@@ -391,21 +399,43 @@ ConjugateModel <- R6::R6Class('ConjugateModel',
                                  m_df_real$is_impact        <- m_df_real$time_index  >= self$event_initial
                                  m_df_real_input$is_impact  <- m_df_real_input$time_index  >= self$event_initial
 
-                                 df_list[[length(df_list) + 1]] <- m_df_real
 
-                                 df_list[[length(df_list) + 1]] <- m_df_real_input
+                                 if(is_global) {
 
-                                 df_list[[length(df_list) + 1]] <- m_df |>
-                                   private$.build_individual_ic(variable_name=self$variables_names[idx],
-                                                                variable_type="prediction")
+                                    df_list_aggregate[[length(df_list_aggregate) + 1]] <- m_df_real
+                                    df_list_aggregate[[length(df_list_aggregate) + 1]] <- m_df_real_input
 
-                                 df_list[[length(df_list) + 1]] <- m_df_error |>
-                                   private$.build_individual_ic(variable_name=self$variables_names[idx],
-                                                                variable_type="error")  |>
-                                   private$.add_cumsum_to_df()
+                                    df_list_aggregate[[length(df_list_aggregate) + 1]] <- m_df |>
+                                      private$.build_individual_ic(variable_name=self$variables_names[idx],
+                                                                    variable_type="prediction")
+
+                                    df_list_aggregate[[length(df_list_aggregate) + 1]] <- m_df_error |>
+                                      private$.build_individual_ic(variable_name=self$variables_names[idx],
+                                                                    variable_type="error")  |>
+                                      private$.add_cumsum_to_df()
+
+                                 } else {
+
+                                  df_list[[length(df_list) + 1]] <- m_df_real
+                                  df_list[[length(df_list) + 1]] <- m_df_real_input
+
+                                  df_list[[length(df_list) + 1]] <- m_df |>
+                                    private$.build_individual_ic(variable_name=self$variables_names[idx],
+                                                                  variable_type="prediction")
+
+                                  df_list[[length(df_list) + 1]] <- m_df_error |>
+                                    private$.build_individual_ic(variable_name=self$variables_names[idx],
+                                                                  variable_type="error")  |>
+                                    private$.add_cumsum_to_df()
+                                  
+                                 }
 
 
 
+
+                                 }
+
+                                 
                                }
 
                                private$.plot_df <- do.call(rbind, df_list)
