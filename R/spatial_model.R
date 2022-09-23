@@ -111,7 +111,7 @@ SpatialModel <- R6::R6Class('SpatialVectorModel',
                               #' @details
                               #' Fit the model using MCMC.
                               fit = function() {
-                                
+
                                 super$fit()
 
                                 private$.unscaled_centroids  <- MODULES_SCALE$unscale_array_3d(input_array = private$.extracted_data$kernels,
@@ -197,7 +197,7 @@ SpatialModel <- R6::R6Class('SpatialVectorModel',
 
                                 stan_data = list(
                                   N = private$.N_time,
-                                  N_before = self$event_initial,
+                                  N_before = event_initial,
                                   K = private$.N_elem,
                                   P = private$.N_pred_var,
                                   Y = self$Y_data[,1,],

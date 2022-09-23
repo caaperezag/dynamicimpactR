@@ -319,7 +319,7 @@ ConjugateModel <- R6::R6Class('ConjugateModel',
 
                              .build_plot_df = function(event_initial=NULL) {
 
-                              browser()
+                              # browser()
 
                                df_list <- list()
                                df_list_aggregate <- list()
@@ -334,6 +334,7 @@ ConjugateModel <- R6::R6Class('ConjugateModel',
                                   is_global <- m_index > length(self$variables_names)
 
                                   if(is_global) {
+                                    browser()
                                    m_variable_name <-  'global'
                                    idx = 1:length(self$variables_names)
                                   } else {
