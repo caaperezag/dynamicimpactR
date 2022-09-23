@@ -61,7 +61,7 @@ SpatialModel <- R6::R6Class('SpatialVectorModel',
                                                    n_simul=n_simul, n_chains=n_chains, n_cores=n_cores,
                                                    predefined_cov_matrix=predefined_cov_matrix,
                                                    predefined_cov_matrix_type=predefined_cov_matrix_type,
-                                                   stan_fit=NA_real_,
+                                                   stan_fit=stan_fit,
                                                    thin=thin,
                                                    dates=dates,
                                                    log_x=log_x, log_y=log_y
