@@ -129,20 +129,28 @@ generated quantities {
 
   for(j in 1:J) {
        theta_vec_pred[j, 1:N_before]     = theta_vec[j, 1:N_before];
-       theta_vec_pred[j, (N_before+1):N] = multi_normal_rng(rep_array(theta_vec_pred[j, N_before], N_after),
-                                                            theta_vec_cov_matrix);
+       //theta_vec_pred[j, (N_before+1):N] = multi_normal_rng(rep_array(theta_vec_pred[j, N_before], N_after), theta_vec_cov_matrix);
   }
 
   theta_vec_pred_no_spatial[1:N_before]     = theta_vec_no_espatial[1:N_before];
-  theta_vec_pred_no_spatial[(N_before+1):N] = multi_normal_rng(rep_array(theta_vec_pred_no_spatial[N_before], N_after),
-                                                              theta_vec_cov_matrix_no_spatial);
+  //theta_vec_pred_no_spatial[(N_before+1):N] = multi_normal_rng(rep_array(theta_vec_pred_no_spatial[N_before], N_after), theta_vec_cov_matrix_no_spatial);
+
+  for (t in (N_before+1):N) {
+    theta_vec_pred_no_spatial[t] = theta_vec_no_espatial[N_before];
+
+    for(j in 1:J) {
+       theta_vec_pred[j, t]     = theta_vec[j, N_before];
+    }
+
+  }
+
 
   for (t in 1:N) {
 
     for(j in 1:J) {
 
       // mu[t] =  pi_mixture[j] .* ((to_matrix(theta_vec_pred[j, t], P, K)')*X[t]) ; // esta no funciono
-      mu[t] =  pi_mixture[j] * ((to_matrix(theta_vec[j, t], P, K)')*X[t]);
+      mu[t] =  pi_mixture[j] * ((to_matrix(theta_vec_pred[j, t], P, K)')*X[t]);
     }
 
 
