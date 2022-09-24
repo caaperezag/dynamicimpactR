@@ -77,7 +77,8 @@ parameters {
   vector[P*K] theta_vec_no_espatial[N];
   cov_matrix[P*K] theta_vec_cov_matrix_no_spatial;
 
-  vector[J] pi_mixture;
+  // vector[J] pi_mixture;
+  vector[K] pi_mixture[J];
   real<lower=0, upper=1> scale_spatial_param;
 
 }
@@ -148,8 +149,8 @@ generated quantities {
 
     for(j in 1:J) {
 
-      // mu[t] =  pi_mixture[j] .* ((to_matrix(theta_vec_pred[j, t], P, K)')*X[t]) ; // esta no funciono
-      mu[t] =  pi_mixture[j] * ((to_matrix(theta_vec_pred[j, t], P, K)')*X[t]);
+      mu[t] =  pi_mixture[j] .* ((to_matrix(theta_vec_pred[j, t], P, K)')*X[t]) ; // esta no funciono
+      // mu[t] =  pi_mixture[j] * ((to_matrix(theta_vec_pred[j, t], P, K)')*X[t]);
     }
 
 

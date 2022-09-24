@@ -88,18 +88,20 @@ parameters {
 
 transformed parameters {
 
-  //vector[K] pi_mixture[J]; # de esta forma no funciona
-  vector[J] pi_mixture;
+  vector[K] pi_mixture[J]; // de esta forma no funciona
+  // vector[J] pi_mixture;
 
 
-  pi_mixture =   rep_vector(0, J) ;
+  // pi_mixture =   rep_vector(0, J) ;
 
     for(j in 1:J) {
 
+
+
       for(k in 1:K) {
 
-        //pi_mixture[j][k] =  exp(multi_normal_lpdf( COORDINATES[k] | kernels[j], sigma_kernels)); # de esta forma no funcioana
-        pi_mixture[j] =  pi_mixture[j] + multi_normal_lpdf( COORDINATES[k] | kernels[j], sigma_kernels);
+        pi_mixture[j][k] =  exp(multi_normal_lpdf( COORDINATES[k] | kernels[j], sigma_kernels)); // de esta forma no funcioana
+        // pi_mixture[j] =  pi_mixture[j] + multi_normal_lpdf( COORDINATES[k] | kernels[j], sigma_kernels);
 
       }
 
@@ -147,8 +149,8 @@ model {
     // mu[t] = rep_vector(0, K);
     for(j in 1:J) {
 
-      // mu[t] =  pi_mixture[j] .* ((to_matrix(theta_vec[j, t], P, K)')*X[t]); // de esta froma no funciona para nada, absolutamente nada.
-      mu[t] =  pi_mixture[j] * ((to_matrix(theta_vec[j, t], P, K)')*X[t]);
+      mu[t] =  pi_mixture[j] .* ((to_matrix(theta_vec[j, t], P, K)')*X[t]); // de esta froma no funciona para nada, absolutamente nada.
+      // mu[t] =  pi_mixture[j] * ((to_matrix(theta_vec[j, t], P, K)')*X[t]);
     }
 
     // mu[t] =  (scale_spatial_param*mu[t]) + ((to_matrix(theta_vec_no_espatial[t], P, K)')*X[t]);
