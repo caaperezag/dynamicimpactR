@@ -77,31 +77,32 @@ parameters {
   vector[P*K] theta_vec_no_espatial[N];
   cov_matrix[P*K] theta_vec_cov_matrix_no_spatial;
 
+  vector[J] pi_mixture;
   real<lower=0, upper=1> scale_spatial_param;
 
 }
 
-transformed parameters {
-
-  //vector[K] pi_mixture[J]; # de esta forma no funciona
-  vector[J] pi_mixture;
-
-  pi_mixture =   rep_vector(0, J) ;
-
-
-    for(j in 1:J) {
-
-      for(k in 1:K) {
-
-        //pi_mixture[j][k] =  exp(multi_normal_lpdf( COORDINATES[k] | kernels[j], sigma_kernels)); # de esta forma no funcioana
-        pi_mixture[j] =  pi_mixture[j] + multi_normal_lpdf( COORDINATES[k] | kernels[j], sigma_kernels);
-
-      }
-
-    }
-
-
-}
+// transformed parameters {
+//
+//   //vector[K] pi_mixture[J]; # de esta forma no funciona
+//   vector[J] pi_mixture;
+//
+//   pi_mixture =   rep_vector(0, J) ;
+//
+//
+//     for(j in 1:J) {
+//
+//       for(k in 1:K) {
+//
+//         //pi_mixture[j][k] =  exp(multi_normal_lpdf( COORDINATES[k] | kernels[j], sigma_kernels)); # de esta forma no funcioana
+//         pi_mixture[j] =  pi_mixture[j] + multi_normal_lpdf( COORDINATES[k] | kernels[j], sigma_kernels);
+//
+//       }
+//
+//     }
+//
+//
+// }
 
 model {
 
