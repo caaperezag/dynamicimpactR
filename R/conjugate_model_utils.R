@@ -646,8 +646,19 @@ MODULE_IMPACT <-  modules::module(
       p = dim(y_real)[2] # K
       
       
+     if( (dim(U)[1]) == 1) {
+      inv_U <- 1/U
+     } else {
       inv_U <- matlib::inv(U)
+     }
+
+     if( (dim(V)[1]) == 1) {
+      inv_V  <- 1/V
+     } else {
       inv_V <- matlib::inv(V)
+     }
+      
+      
       
       det_U <- matlib::Det(U)
       det_V <- matlib::Det(V)
