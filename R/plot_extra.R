@@ -116,7 +116,7 @@ MODULE_PLOT_EXTRA <- modules::module({
         param = param   |> recode(real = "Y", 
                                   error = "Impact",
                                   # prediction = "Contra factual",
-                                  prediction = "Predicción",
+                                  prediction = "prediction",
                                   cumsum = "cumulative impact",
                                   ArCo = "ArCo",
                                   input = "X"
@@ -124,7 +124,7 @@ MODULE_PLOT_EXTRA <- modules::module({
       )   |>  
       mutate( face_break = 
                 case_when(
-                  param %in% c("Y","Predicción") ~ "Real series and prediction",
+                  param %in% c("Y","prediction") ~ "Real series and prediction",
                   param %in% c("Impact") ~ "Impact",
                   param %in% c("cumulative impact") ~ "cumulative impact",
                   param %in% c("ArCo") ~ "ArCo",
@@ -164,7 +164,7 @@ MODULE_PLOT_EXTRA <- modules::module({
       #scale_color_discrete(breaks = c("X", "Y", "Predicción"), values=c("#006666", "#ff7f00", "#ff7f00",  "#e41a1c") )+ 
       # "#3b80b9"
       # scale_colour_manual(values=c("#006666", "#ff7f00",  "#3b80b9",  "#ff7f00") )+ 
-      scale_colour_manual(breaks = c("X", "Y", "Predicción"), values=c("#006666", "#ff7f00",  "#3b80b9",  "#ff7f00"), na.value="#ff7f00" )+ 
+      scale_colour_manual(breaks = c("X", "Y", "prediction"), values=c("#006666", "#ff7f00",  "#3b80b9",  "#ff7f00"), na.value="#ff7f00" )+ 
       #scale_colour_manual(values=c("#006666", "#ff7f00", "#ff7f00",  "#e41a1c")) +
       # scale_x_continuous(breaks = break_dates ) +
       m_scale_break +
