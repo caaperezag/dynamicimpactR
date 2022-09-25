@@ -702,17 +702,17 @@ MODULE_IMPACT <-  modules::module(
       
       for(t in 1:N_BEOFRE) {
         
-        # log_likehood[t] <- log_matrix_variable_normal_density(y_est  = ml_result$mean, 
-        #                                                       y_real = y_t_before[t,,], 
-        #                                                       U      = ml_result$U, 
-        #                                                       V      = ml_result$V)
-        #                                                       
+        log_likehood[t] <- log_matrix_variable_normal_density (y_est  = ml_result$mean, 
+                                                               y_real = y_t_before[t,,], 
+                                                               U      = ml_result$U, 
+                                                               V      = ml_result$V)
+                                                               
         # browser()
-        log_likehood[t] <- MixMatrix::dmatrixnorm(x = ml_result$mean |>  matrix(ncol=1), 
-                                                  mean= y_t_before[t,] |>  matrix(ncol=1), 
-                                                  U = ml_result$U, #rows
-                                                  V = ml_result$V,
-                                                  log = TRUE) # cols
+        #log_likehood[t] <- MixMatrix::dmatrixnorm(x = ml_result$mean |>  matrix(ncol=1), 
+        #                                          mean= y_t_before[t,] |>  matrix(ncol=1), 
+        #                                          U = ml_result$U, #rows
+        #                                          V = ml_result$V,
+        #                                          log = TRUE) # cols
                                                               
       }
       

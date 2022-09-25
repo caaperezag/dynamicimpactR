@@ -70,6 +70,14 @@ ConjugateModel <- R6::R6Class('ConjugateModel',
 
                              },
 
+                             #' @details
+                             #' same as plot_aggregate.
+                             #' @return a ggplot object.
+                             plot = function() {
+
+                              return(self$plot_aggregate())
+                             },
+
                              plot_aggregate = function() {
 
                                plot_df_aggregate  <- PLOT_UTILS$plot_aggregate(
