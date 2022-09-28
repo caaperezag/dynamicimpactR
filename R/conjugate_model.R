@@ -610,7 +610,7 @@ ConjugateModel <- R6::R6Class('ConjugateModel',
                                # temp_fitted$y_t_full <- temp_fitted$y_t_full |>
                                #   MODULES_SCALE$unscale_array_3d(result_list=private$.scaled_data_y)
 
-                               temp_fitted$y_t_after  <- abind::abind(temp_fitted$y_t_before, temp_fitted$y_t_after, along=1)
+                               temp_fitted$y_t_full  <- abind::abind(temp_fitted$y_t_before, temp_fitted$y_t_after, along=1)
 
                                temp_fitted$X_t <- temp_fitted$X_t |>
                                  MODULES_SCALE$unscale_array_3d(result_list=private$.scaled_data_x)
