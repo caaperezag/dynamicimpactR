@@ -61,22 +61,29 @@ transformed data {
   vector[K] model_Y[N];
   vector[K] model_X[N];
 
-  if(use_log_y) {
 
-   model_Y = log(Y);
+  for(t in 1:N) {
 
-  } else {
-   model_Y = Y;
+    if(use_log_y) {
+
+    model_Y[t] = log(Y[t]);
+
+    } else {
+    model_Y[t] = Y[t];
+    }
+
+    if(use_log_x) {
+
+      model_X[t] = log(X[t]);
+
+    } else {
+      model_X[t] = X[t];
+
+    }
+
   }
 
-  if(use_log_x) {
 
-    model_X = log(X);
-
-  } else {
-    model_X = X;
-
-  }
 
 }
 
