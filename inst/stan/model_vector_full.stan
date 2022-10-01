@@ -49,13 +49,37 @@ data {
   matrix[K , K]  predefined_stations_var; // Rstan does not allow to leave this parameter empty, even when is not in use.
 
 
+  int<lower=0, upper=1> use_log_x;
+  int<lower=0, upper=1> use_log_y;
+
 }
 
 transformed data {
 
   int N_after = N - N_before; // number of times after the intervention
 
+  vector[K] model_Y[N];
+  vector[K] model_X[N];
+
+  if(use_log_y) {
+
+   model_Y = log(Y);
+
+  } else {
+   model_Y = Y;
+  }
+
+  if(use_log_x) {
+
+    model_X = log(X);
+
+  } else {
+    model_X = X;
+
+  }
+
 }
+
 
 // The parameters accepted by the model. Our model
 // accepts two parameters 'mu' and 'sigma'.
@@ -74,7 +98,7 @@ model {
 
   //  https://mc-stan.org/docs/2_22/stan-users-guide/multivariate-outcomes.html
   for (t in 1:N_before) {
-    mu[t] = (to_matrix(theta_vec[t], P, K)') * X[t]  ;
+    mu[t] = (to_matrix(theta_vec[t], P, K)') * model_X[t]  ;
   }
 
   if(use_predefined_stations_var == 0) {
@@ -88,11 +112,11 @@ model {
 
   if(use_predefined_stations_var) {
 
-     Y[1:N_before] ~ multi_normal(mu[1:N_before] , predefined_stations_var);
+     model_Y[1:N_before] ~ multi_normal(mu[1:N_before] , predefined_stations_var);
 
    } else {
 
-     Y[1:N_before] ~ multi_normal(mu[1:N_before] , sigma_entry_obs_stations);
+     model_Y[1:N_before] ~ multi_normal(mu[1:N_before] , sigma_entry_obs_stations);
 
    }
 }

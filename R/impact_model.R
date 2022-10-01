@@ -55,10 +55,10 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                                self$thin  <- thin
 
-                               super$initialize(name=name, event_initial=event_initial, 
+                               super$initialize(name=name, event_initial=event_initial,
                                                 X_data=X_data, Y_data=Y_data,
                                                 vector_name=vector_name, variables_names=variables_names,
-                                                confidence_level=confidence_level, 
+                                                confidence_level=confidence_level,
                                                 log_x=log_x, log_y=log_y, dates=dates)
 
                                if(!is.na(stan_fit)) {
@@ -117,14 +117,14 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                                self$n_cores <- n_cores
 
-                              
+
 
                               private$.predefined_cov_matrix_type = match.arg(predefined_cov_matrix_type)
 
                               private$.predefined_cov_matrix <-  predefined_cov_matrix
 
 
-                               
+
 
 
 
@@ -359,7 +359,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                                  }
 
-                                 
+
 
 
                               }
@@ -373,7 +373,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
 
                                   private$.use_predefined_stations_var = 0
 
-                              } 
+                              }
 
                               return(predefined_cov_matrix)
 
@@ -396,7 +396,9 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                  X = self$X_data[,1,],
                                  use_predefined_stations_var = private$.use_predefined_stations_var,
                                  #predefined_stations_var = private$.predefined_cov_matrix,
-                                 predefined_stations_var = temp_predefined_var
+                                 predefined_stations_var = temp_predefined_var,
+                                 use_log_x = 1,
+                                 use_log_y = 1
                                )
 
                                return(stan_data)
@@ -467,7 +469,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                  MODULES_SCALE$unscale_array_3d(result_list = private$.scaled_data_y)
 
                                difference_unscaled <- private$.extracted_data$Y_pred |>
-                               #difference_unscaled <- -private$.extracted_data$difference  |> 
+                               #difference_unscaled <- -private$.extracted_data$difference  |>
                                  MODULES_SCALE$unscale_array_3d(
                                    result_list = private$.scaled_data_y,
                                    m_diff_array = private$.original_y[,1,]
@@ -480,7 +482,7 @@ StanModelVector <- R6::R6Class('StanModelVector',
                                # cumsum_unscaled <- private$.extracted_data$difference |>
                                  MODULES_SCALE$unscale_cumsum(result_list = private$.scaled_data_y,
                                                               start_event = event_initial,
-                                                              m_diff_array = private$.original_y[,1,] 
+                                                              m_diff_array = private$.original_y[,1,]
                                                               #m_diff_array = NULL
                                                               )
 

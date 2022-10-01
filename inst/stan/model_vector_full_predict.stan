@@ -48,12 +48,34 @@ data {
   int<lower=0, upper=1> use_predefined_stations_var; // use a predefined (pass by the user) as the observation variance of stations
   matrix[K , K]  predefined_stations_var; // Rstan does not allow to leave this parameter empty, even when is not in use.
 
+  int<lower=0, upper=1> use_log_x;
+  int<lower=0, upper=1> use_log_y;
 
 }
 
 transformed data {
 
   int N_after = N - N_before; // number of times after the intervention
+
+  vector[K] model_Y[N];
+  vector[K] model_X[N];
+
+  if(use_log_y) {
+
+   model_Y = log(Y);
+
+  } else {
+   model_Y = Y;
+  }
+
+  if(use_log_x) {
+
+    model_X = log(X);
+
+  } else {
+    model_X = X;
+
+  }
 
 }
 
@@ -85,7 +107,7 @@ generated quantities {
   vector[N] arco_only_after_aggregated;
 
 
-  Y_pred[1:N_before] = Y[1:N_before];
+  Y_pred[1:N_before] = model_Y[1:N_before];
   theta_vec_pred[1:N_before] = theta_vec[1:N_before];
 
   for (t in (N_before+1):N) {
@@ -95,7 +117,7 @@ generated quantities {
   }
 
   for (t in 1:N) {
-    mu[t] = (to_matrix(theta_vec_pred[t], P, K)') * X[t]  ;
+    mu[t] = (to_matrix(theta_vec_pred[t], P, K)') * model_X[t]  ;
   }
 
   if(use_predefined_stations_var) {
@@ -104,6 +126,10 @@ generated quantities {
 
   } else {
     Y_pred = multi_normal_rng(mu, sigma_entry_obs_stations);
+  }
+
+  if(use_log_y) {
+    Y_pred = exp(Y_pred);
   }
 
   for (t in 1:N) {

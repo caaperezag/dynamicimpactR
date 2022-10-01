@@ -5,7 +5,7 @@
 \alias{Y_matrix}
 \title{Simulated response data.}
 \format{
-a matrix of 122 rows and 2 columns:
+a tensor of 122 x 2  x 2:
 }
 \usage{
 Y_matrix

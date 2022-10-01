@@ -5,7 +5,7 @@
 \alias{X_matrix}
 \title{Simulated input data.}
 \format{
-a matrix of 122 rows and 2 columns:
+a tensor of 122 x 2  x 2:
 }
 \usage{
 X_matrix
